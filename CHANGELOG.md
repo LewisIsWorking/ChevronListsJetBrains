@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.6.0] - 2026-05-17
+### Added
+- **`CL: Toggle Done`** action (`Ctrl+Alt+D`). Cycles the current chevron item between unchecked and checked:
+  - `>> - Task` → `>> - [x] Task`
+  - `>> - [x] Task` → `>> - [ ] Task`
+  - Works on bullet items (`>> -`) and numbered items (`>> 1.`)
+  - Works at any chevron depth (`>>`, `>>>`, `>>>>`)
+- Multi-line support: select multiple lines and `Ctrl+Alt+D` toggles every chevron item in the selection in one stroke. Non-item lines (headers, plain markdown) are silently skipped.
+- Action available under the editor right-click menu as well as the shortcut.
+- Pure `computeToggleDone` and `toggleCheckbox` functions in `ItemCommands.kt` with full plain-JUnit coverage (20 tests).
+
 ## [0.5.0] - 2026-05-17
 ### Added
 - **Auto-fix numbering as you type**. The plugin now watches all open `.md` files and silently renumbers numbered lists when sequences break. Typing `>> 2.` immediately after `>> 1. ... >> 2.` (a duplicate) automatically becomes `>> 3.`. Independent per section and per chevron depth — lists in different sections never collide.

@@ -33,5 +33,12 @@
                 description="Open the Chevron Lists settings panel">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.ToggleDone"
+                class="com.lewisisworking.chevronlists.ToggleDoneAction"
+                text="CL: Toggle Done"
+                description="Toggle the [x] done state of the current chevron item">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
+        </action>
     </actions>
 </idea-plugin>
