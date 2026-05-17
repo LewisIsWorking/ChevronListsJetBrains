@@ -18,6 +18,10 @@ class ChevronListsSettingsTest {
         assertEquals("unordered", ChevronListsSettings.State().defaultNewListType)
     }
 
+    @Test fun `default autoFixNumbering is true`() {
+        assertTrue(ChevronListsSettings.State().autoFixNumbering)
+    }
+
     @Test fun `state values are mutable`() {
         val s = ChevronListsSettings.State()
         s.listPrefix = "*"

@@ -22,8 +22,9 @@ class ChevronListsSettings : PersistentStateComponent<ChevronListsSettings.State
 
     /** Mutable data class - must be a `var` data class for XmlSerializer to round-trip values */
     data class State(
-        var listPrefix:         String = "-",
-        var defaultNewListType: String = "unordered"
+        var listPrefix:         String  = "-",
+        var defaultNewListType: String  = "unordered",
+        var autoFixNumbering:   Boolean = true
     )
 
     private var myState = State()

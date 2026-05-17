@@ -8,7 +8,9 @@ package com.lewisisworking.chevronlists
 
 import com.intellij.openapi.options.BoundConfigurable
 import com.intellij.openapi.ui.DialogPanel
+import com.intellij.ui.SimpleListCellRenderer
 import com.intellij.ui.dsl.builder.bindItem
+import com.intellij.ui.dsl.builder.bindSelected
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.builder.toNullableProperty
@@ -17,7 +19,18 @@ class ChevronListsConfigurable : BoundConfigurable("Chevron Lists") {
 
     private val state = ChevronListsSettings.getInstance().state
 
-    private val listTypeOptions = listOf("unordered", "ordered")
+    /**
+     * Internal stored values stay as "unordered"/"ordered" (consistent with the VS Code
+     * extension's config schema), but the dropdown shows clearer human-readable labels.
+     */
+    private val listTypeValues = listOf("unordered", "ordered")
+    private val listTypeRenderer = SimpleListCellRenderer.create<String?>("") {
+        when (it) {
+            "ordered"   -> "Numbered list (>> 1.)"
+            "unordered" -> "Bullet list (>> -)"
+            else        -> it ?: ""
+        }
+    }
 
     override fun createPanel(): DialogPanel = panel {
         group("List Behaviour") {
@@ -28,10 +41,16 @@ class ChevronListsConfigurable : BoundConfigurable("Chevron Lists") {
                              "Change to '*' for >> *, etc.")
             }
             row("Default new list type:") {
-                comboBox(listTypeOptions)
+                comboBox(listTypeValues, listTypeRenderer)
                     .bindItem(state::defaultNewListType.toNullableProperty())
-                    .comment("Inserted when pressing Enter on a `> Header` line. " +
-                             "'unordered' inserts '>> - ', 'ordered' inserts '>> 1. '.")
+                    .comment("Inserted when pressing Enter on a `> Header` line.")
+            }
+            row {
+                checkBox("Auto-fix numbering as you type")
+                    .bindSelected(state::autoFixNumbering)
+                    .comment("Automatically renumber items when sequences break " +
+                             "(e.g. two `>> 2.` items, or `>> 1.` followed by `>> 3.`). " +
+                             "Independent per section and per chevron depth.")
             }
         }
     }

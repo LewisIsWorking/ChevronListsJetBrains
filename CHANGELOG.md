@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.5.0] - 2026-05-17
+### Added
+- **Auto-fix numbering as you type**. The plugin now watches all open `.md` files and silently renumbers numbered lists when sequences break. Typing `>> 2.` immediately after `>> 1. ... >> 2.` (a duplicate) automatically becomes `>> 3.`. Independent per section and per chevron depth — lists in different sections never collide.
+- New `autoFixNumbering` setting under `Tools → Chevron Lists`, on by default. Toggle off if you want only the warning underlines without auto-edits.
+- Pure `computeAutoFixEdits` function in `Diagnostics.kt` with full plain-JUnit coverage (7 new tests).
+- Application-level `ChevronAutoFixListener` service with 250ms debounce, applied via `WriteCommandAction` so edits stack with the user's own undo history correctly.
+
+### Changed
+- The "Default new list type" dropdown now shows **Numbered list (>> 1.)** / **Bullet list (>> -)** for clarity. The underlying stored values remain `"ordered"` / `"unordered"` for cross-plugin consistency with the VS Code extension.
+
 ## [0.4.0] - 2026-05-17
 ### Added
 - **Settings panel**. New `Settings → Tools → Chevron Lists` panel with two configurable options:

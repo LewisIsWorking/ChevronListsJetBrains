@@ -89,4 +89,48 @@ class DiagnosticsTest {
     @Test fun `collectIssues returns empty list for a clean document`() {
         assertTrue(collectIssues(lines("> Alpha", ">> 1. a", ">> 2. b", "> Beta", ">> - x"), "-").isEmpty())
     }
+
+    // computeAutoFixEdits
+    private fun fixLines(vararg s: String): List<AutoFixLine> =
+        s.mapIndexed { i, t -> AutoFixLine(t, i) }
+
+    @Test fun `autoFix renumbers a duplicate number`() {
+        val edits = computeAutoFixEdits(fixLines("> H", ">> 1. a", ">> 2. b", ">> 2. dup"))
+        assertEquals(1, edits.size)
+        assertEquals(3, edits[0].lineIndex)
+        assertEquals(">> 3. dup", edits[0].newText)
+    }
+
+    @Test fun `autoFix renumbers a gap and everything after it`() {
+        val edits = computeAutoFixEdits(fixLines("> H", ">> 1. a", ">> 3. c", ">> 4. d"))
+        assertEquals(2, edits.size)
+        assertEquals(">> 2. c", edits[0].newText)
+        assertEquals(">> 3. d", edits[1].newText)
+    }
+
+    @Test fun `autoFix produces no edits for a clean sequence`() {
+        assertTrue(computeAutoFixEdits(fixLines("> H", ">> 1. a", ">> 2. b", ">> 3. c")).isEmpty())
+    }
+
+    @Test fun `autoFix does not touch lists in different sections`() {
+        // L2 starts at 1 - that's correct, do not renumber
+        val edits = computeAutoFixEdits(fixLines("> L1", ">> 1. a", ">> 2. b", "> L2", ">> 1. x", ">> 2. y"))
+        assertTrue(edits.isEmpty())
+    }
+
+    @Test fun `autoFix handles nested depth independently`() {
+        // Inner 1, 2 is fine even though outer is 1, 2
+        val edits = computeAutoFixEdits(fixLines("> H", ">> 1. a", ">>> 1. inner", ">>> 2. inner", ">> 2. b"))
+        assertTrue(edits.isEmpty())
+    }
+
+    @Test fun `autoFix preserves item content when renumbering`() {
+        val edits = computeAutoFixEdits(fixLines("> H", ">> 1. First task", ">> 1. Second task"))
+        assertEquals(1, edits.size)
+        assertEquals(">> 2. Second task", edits[0].newText)
+    }
+
+    @Test fun `autoFix returns empty list for documents with no numbered items`() {
+        assertTrue(computeAutoFixEdits(fixLines("> H", ">> - bullet", ">> - another")).isEmpty())
+    }
 }

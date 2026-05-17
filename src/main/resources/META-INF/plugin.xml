@@ -22,6 +22,8 @@
                    parentId="tools"
                    displayName="Chevron Lists"
                    instance="com.lewisisworking.chevronlists.ChevronListsConfigurable"/>
+        <postStartupActivity
+                   implementation="com.lewisisworking.chevronlists.ChevronAutoFixStartup"/>
     </extensions>
 
     <actions>

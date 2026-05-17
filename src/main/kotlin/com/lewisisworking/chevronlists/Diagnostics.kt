@@ -16,6 +16,12 @@ data class DiagnosticIssue(
 
 private val ITEM_LINE_REGEX = Regex("""^>{2,}\s""")
 
+/** Input for computeAutoFixEdits: a line of text and its 0-based line index */
+data class AutoFixLine(val text: String, val lineIndex: Int)
+
+/** An edit instruction: replace the given line entirely with newText */
+data class AutoFixEdit(val lineIndex: Int, val newText: String)
+
 /** Pure: returns all diagnostic issues in the document, sorted by line */
 fun collectIssues(lines: List<String>, prefix: String): List<DiagnosticIssue> {
     val all = mutableListOf<DiagnosticIssue>()
@@ -87,6 +93,47 @@ fun collectBadNumbering(lines: List<String>): List<DiagnosticIssue> {
         }
     }
     return out
+}
+
+/**
+ * Pure: computes the buffer edits needed to renumber broken numbered-list sequences.
+ * Mirrors the VS Code `computeAutoFixEdits` in patternsUtils.ts. Items are grouped by
+ * (section, chevron-depth) so lists in different sections never collide.
+ *
+ * For each group, the first item's number is taken as the start. The next items are
+ * expected to be sequential; once a break is detected, everything from that point on
+ * is renumbered.
+ */
+fun computeAutoFixEdits(lines: List<AutoFixLine>): List<AutoFixEdit> {
+    data class Item(val lineIndex: Int, val num: Int, val text: String)
+    val byKey = HashMap<String, MutableList<Item>>()
+    var currentSection = -1
+    for (l in lines) {
+        if (isHeader(l.text)) { currentSection = l.lineIndex; continue }
+        val n = parseNumbered(l.text) ?: continue
+        val key = "$currentSection::${n.chevrons}"
+        byKey.getOrPut(key) { mutableListOf() }.add(Item(l.lineIndex, n.num, l.text))
+    }
+
+    val edits = mutableListOf<AutoFixEdit>()
+    for ((_, items) in byKey) {
+        if (items.isEmpty()) continue
+        var lastNum: Int? = null
+        var breakIndex = -1
+        for ((i, item) in items.withIndex()) {
+            if (lastNum != null && item.num != lastNum + 1) { breakIndex = i; break }
+            lastNum = item.num
+        }
+        if (breakIndex < 0) continue
+        var counter = (lastNum ?: 0) + 1
+        for (j in breakIndex until items.size) {
+            val toFix = items[j]
+            val m     = parseNumbered(toFix.text) ?: continue
+            edits += AutoFixEdit(toFix.lineIndex, "${m.chevrons} $counter. ${m.content}")
+            counter++
+        }
+    }
+    return edits
 }
 
 /** Pure: flags any `> Section` that has no chevron item lines before the next section */
