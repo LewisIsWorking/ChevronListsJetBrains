@@ -1,0 +1,28 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <id>com.lewisisworking.chevronlists</id>
+    <name>Chevron Lists</name>
+    <vendor email="lewisisworking@users.noreply.github.com" url="https://github.com/LewisIsWorking">LewisIsWorking</vendor>
+    <description><![CDATA[
+        <p><b>Chevron Lists</b> brings the chevron-based markdown list manager from VS Code to JetBrains IDEs.</p>
+        <p>Use <code>&gt;</code>, <code>&gt;&gt;</code>, <code>&gt;&gt;&gt;</code> blockquote nesting to write sections, items, and sub-items in plain markdown. Get syntax highlighting, duplicate-header warnings, numbered-list integrity checks, and more — all without leaving your editor.</p>
+        <p>This is the official JetBrains port of the <a href="https://marketplace.visualstudio.com/items?itemName=lewisisworking.chevron-lists">VS Code extension</a>.</p>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.intellij.plugins.markdown</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <annotator language="Markdown"
+                   implementationClass="com.lewisisworking.chevronlists.ChevronListsAnnotator"/>
+    </extensions>
+
+    <actions>
+        <action id="ChevronLists.OpenSettings"
+                class="com.lewisisworking.chevronlists.OpenSettingsAction"
+                text="CL: Open Settings"
+                description="Open the Chevron Lists settings panel">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
