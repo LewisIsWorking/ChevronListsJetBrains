@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.0] - 2026-05-17
+### Added
+- **Enter-key list continuation**. Pressing Enter on a chevron line now auto-inserts the next item:
+  - On `> Header` → inserts `>> - ` (first item of a new list)
+  - On `>> - content` → inserts `>> - ` (next bullet)
+  - On `>> N. content` → inserts `>> N+1. ` (next number)
+  - On an empty list item → clears the line and falls through to default Enter (ends the list)
+- Pure logic in `EnterContinuation.kt` with full plain-JUnit coverage (18 tests).
+
 ## [0.2.0] - 2026-05-17
 ### Added
 - Bad-numbering diagnostic: flags numbered lists that break sequence (e.g. `>> 1.` followed by `>> 3.`) with a warning underline and a hover message showing the expected number. Independent per section and per chevron depth — lists in different sections never collide.

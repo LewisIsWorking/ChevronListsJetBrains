@@ -15,6 +15,8 @@
     <extensions defaultExtensionNs="com.intellij">
         <annotator language="Markdown"
                    implementationClass="com.lewisisworking.chevronlists.ChevronListsAnnotator"/>
+        <enterHandlerDelegate
+                   implementation="com.lewisisworking.chevronlists.ChevronEnterHandler"/>
     </extensions>
 
     <actions>
