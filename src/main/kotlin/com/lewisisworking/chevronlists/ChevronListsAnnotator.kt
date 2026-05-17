@@ -1,15 +1,16 @@
 /**
  * ChevronListsAnnotator.kt
- * Provides syntax highlighting and warning underlines for chevron-list markdown
- * files. Runs once per file (when element is PsiFile) and annotates each line.
+ * Bridges pure logic (Patterns.kt, Diagnostics.kt) to IntelliJ Platform.
+ * Performs syntax highlighting per line and creates warning annotations
+ * from collectIssues() results.
  */
 package com.lewisisworking.chevronlists
 
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
-import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
+import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
@@ -22,59 +23,51 @@ class ChevronListsAnnotator : Annotator {
         val HEADER_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
             "CHEVRON_LISTS_HEADER", DefaultLanguageHighlighterColors.MARKUP_TAG
         )
+        private val CHEVRON_PREFIX = Regex("""^(>+)""")
     }
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         if (element !is PsiFile) return
         if (!element.name.endsWith(".md")) return
 
-        val text  = element.text
-        val seenHeaders     = HashMap<String, Int>()
-        val seenSubheadings = HashMap<String, Int>()
-        var offset = 0
-        var lineNumber = 0
+        val text       = element.text
+        val lines      = text.split("\n")
+        val offsets    = computeLineOffsets(lines)
 
-        for (line in text.split("\n")) {
-            annotateChevrons(line, offset, holder)
-            checkDuplicateHeader(line, offset, lineNumber, seenHeaders, holder)
-            checkDuplicateSubheading(line, offset, lineNumber, seenSubheadings, holder)
-            offset += line.length + 1
-            lineNumber++
+        annotateSyntax(lines, offsets, holder)
+        annotateDiagnostics(lines, offsets, holder)
+    }
+
+    /** Highlights the chevron prefix on each line (single `>` as HEADER, `>>` or deeper as CHEVRON) */
+    private fun annotateSyntax(lines: List<String>, offsets: IntArray, holder: AnnotationHolder) {
+        for ((i, line) in lines.withIndex()) {
+            val m = CHEVRON_PREFIX.find(line) ?: continue
+            val range = TextRange(offsets[i], offsets[i] + m.value.length)
+            val key   = if (m.value.length == 1) HEADER_KEY else CHEVRON_KEY
+            holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+                .range(range).textAttributes(key).create()
         }
     }
 
-    private fun annotateChevrons(line: String, lineStart: Int, holder: AnnotationHolder) {
-        val match = Regex("""^(>+)""").find(line) ?: return
-        val range = TextRange(lineStart, lineStart + match.value.length)
-        holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
-            .range(range).textAttributes(if (match.value.length == 1) HEADER_KEY else CHEVRON_KEY).create()
-    }
-
-    private fun checkDuplicateHeader(line: String, lineStart: Int, lineNumber: Int,
-                                      seen: HashMap<String, Int>, holder: AnnotationHolder) {
-        val header = parseHeader(line) ?: return
-        val key    = header.content.trim().lowercase()
-        val first  = seen[key]
-        if (first != null) {
-            val msg = "Duplicate section name \"${header.content}\" (first at line ${first + 1})"
-            holder.newAnnotation(HighlightSeverity.WARNING, msg)
-                .range(TextRange(lineStart, lineStart + line.length)).create()
-        } else {
-            seen[key] = lineNumber
+    /** Creates warning annotations for every issue returned by the pure collectIssues() */
+    private fun annotateDiagnostics(lines: List<String>, offsets: IntArray, holder: AnnotationHolder) {
+        for (issue in collectIssues(lines, "-")) {
+            val line  = lines[issue.line]
+            val start = offsets[issue.line]
+            holder.newAnnotation(HighlightSeverity.WARNING, issue.message)
+                .range(TextRange(start, start + line.length))
+                .create()
         }
     }
 
-    private fun checkDuplicateSubheading(line: String, lineStart: Int, lineNumber: Int,
-                                          seen: HashMap<String, Int>, holder: AnnotationHolder) {
-        val sub = parseSubheading(line) ?: return
-        val key   = sub.content.lowercase()
-        val first = seen[key]
-        if (first != null) {
-            val msg = "Duplicate subheading \"${sub.content}\" (first at line ${first + 1})"
-            holder.newAnnotation(HighlightSeverity.WARNING, msg)
-                .range(TextRange(lineStart, lineStart + line.length)).create()
-        } else {
-            seen[key] = lineNumber
+    /** Pre-computes cumulative character offsets for each line so annotations can range cleanly */
+    private fun computeLineOffsets(lines: List<String>): IntArray {
+        val offsets = IntArray(lines.size)
+        var cursor  = 0
+        for ((i, line) in lines.withIndex()) {
+            offsets[i] = cursor
+            cursor += line.length + 1
         }
+        return offsets
     }
 }
