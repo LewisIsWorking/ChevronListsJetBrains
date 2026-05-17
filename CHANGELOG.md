@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0] - 2026-05-17
+### Added
+- **Settings panel**. New `Settings → Tools → Chevron Lists` panel with two configurable options:
+  - **List prefix** — the character used after `>>` for bullet items (default `-`, change to `*` for `>> *`, etc.).
+  - **Default new list type** — `unordered` inserts `>> - ` after Enter on a header (default), `ordered` inserts `>> 1. ` so headers start numbered lists by default.
+- Persistent settings stored in `chevronLists.xml` at the IDE config level, shared across all projects.
+- `ChevronEnterHandler` now reads both settings live — no IDE restart required when you change them.
+
 ## [0.3.0] - 2026-05-17
 ### Added
 - **Enter-key list continuation**. Pressing Enter on a chevron line now auto-inserts the next item:

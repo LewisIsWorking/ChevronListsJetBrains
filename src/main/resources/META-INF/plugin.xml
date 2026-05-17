@@ -17,6 +17,11 @@
                    implementationClass="com.lewisisworking.chevronlists.ChevronListsAnnotator"/>
         <enterHandlerDelegate
                    implementation="com.lewisisworking.chevronlists.ChevronEnterHandler"/>
+        <applicationConfigurable
+                   id="com.lewisisworking.chevronlists.settings"
+                   parentId="tools"
+                   displayName="Chevron Lists"
+                   instance="com.lewisisworking.chevronlists.ChevronListsConfigurable"/>
     </extensions>
 
     <actions>

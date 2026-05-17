@@ -34,12 +34,18 @@ class ChevronEnterHandler : EnterHandlerDelegate {
         val lineEnd    = document.getLineEndOffset(lineNumber)
         val lineText   = document.getText(TextRange(lineStart, lineEnd))
 
-        return when (val action = computeEnterAction(lineText, "-", "unordered")) {
+        return when (val action = computeEnterAction(lineText, settingsPrefix(), settingsListType())) {
             is EnterAction.Default  -> EnterHandlerDelegate.Result.Continue
             is EnterAction.EndList  -> handleEndList(file, editor, lineStart, offset)
             is EnterAction.Continue -> handleContinue(file, editor, offset, caretOffset, action.insert)
         }
     }
+
+    /** Reads the bullet prefix from persistent settings (default "-") */
+    private fun settingsPrefix(): String = ChevronListsSettings.getInstance().state.listPrefix
+
+    /** Reads the default new list type from persistent settings (default "unordered") */
+    private fun settingsListType(): String = ChevronListsSettings.getInstance().state.defaultNewListType
 
     /** Clear the empty list-item line, then let the default Enter handler add a fresh newline */
     private fun handleEndList(file: PsiFile, editor: Editor, lineStart: Int, caretOffset: Int): EnterHandlerDelegate.Result {
