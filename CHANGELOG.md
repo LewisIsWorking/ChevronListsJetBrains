@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0] - 2026-05-21
+### Added
+- **Plugin icon** — a native SVG reproduction of the VS Code plugin's logo (four chevron rows in purple/lime/blue/lavender on a `#12122A` background). Scales crisply from 16×16 in the plugin manager to 80×80+ on the Marketplace listing.
+- **Marketplace-ready description** — detailed feature list, code example, and link to the VS Code counterpart, rendered in the JetBrains Marketplace listing.
+- **Change notes** — versioned history surfaced in the plugin manager's "What's New" tab.
+- **Compatibility range** — `since-build="243"` (IntelliJ Platform 2024.3+); `until-build` left open so new IDE releases install without manual bumps.
+
 ## [0.7.0] - 2026-05-21
 ### Added
 - **`CL: Toggle Star`**  — toggles a ⭐ marker on the current item.
