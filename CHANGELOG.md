@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.0] - 2026-05-21
+### Added
+- **`CL: Toggle Star`**  — toggles a ⭐ marker on the current item.
+- **`CL: Toggle Pin`**   — toggles a 📌 marker.
+- **`CL: Toggle Flag`**  — toggles a 🚩 marker.
+- **`CL: Toggle Note`**  — toggles a 📝 marker.
+- All four available via the editor right-click menu and `Ctrl+Shift+A` action search. Markers can coexist: starring a flagged item yields `⭐ 🚩 Task` rather than replacing the flag. Multi-line selection toggles every item in the range in one stroke.
+- Pure `toggleMarker(content, marker)` and `computeToggleMarker(line, prefix, marker)` functions in `ItemCommands.kt`, with 17 new JUnit tests covering presence detection, removal at any position, marker coexistence, and edge cases (empty content, multiple internal spaces, depth/number preservation).
+
+### Changed
+- Extracted abstract `ChevronMarkerToggleAction` base class so each new marker action is a one-line subclass. Future markers (e.g. priority, colour label) add zero boilerplate.
+
 ## [0.6.0] - 2026-05-17
 ### Added
 - **`CL: Toggle Done`** action (`Ctrl+Alt+D`). Cycles the current chevron item between unchecked and checked:

@@ -40,5 +40,29 @@
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
         </action>
+        <action id="ChevronLists.ToggleStar"
+                class="com.lewisisworking.chevronlists.ToggleStarAction"
+                text="CL: Toggle Star"
+                description="Toggle the ⭐ marker on the current chevron item">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.TogglePin"
+                class="com.lewisisworking.chevronlists.TogglePinAction"
+                text="CL: Toggle Pin"
+                description="Toggle the 📌 marker on the current chevron item">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ToggleFlag"
+                class="com.lewisisworking.chevronlists.ToggleFlagAction"
+                text="CL: Toggle Flag"
+                description="Toggle the 🚩 marker on the current chevron item">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ToggleNote"
+                class="com.lewisisworking.chevronlists.ToggleNoteAction"
+                text="CL: Toggle Note"
+                description="Toggle the 📝 marker on the current chevron item">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>
