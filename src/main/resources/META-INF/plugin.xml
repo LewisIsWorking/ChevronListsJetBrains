@@ -84,6 +84,8 @@
                    instance="com.lewisisworking.chevronlists.ChevronListsConfigurable"/>
         <postStartupActivity
                    implementation="com.lewisisworking.chevronlists.ChevronAutoFixStartup"/>
+        <colorSettingsPage
+                   implementation="com.lewisisworking.chevronlists.ChevronListsColorSettingsPage"/>
     </extensions>
 
     <actions>

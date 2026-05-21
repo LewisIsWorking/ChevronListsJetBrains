@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.11.0] - 2026-05-21
+### Added
+- **Colour customisation UI**. Chevron Lists' seven highlight colours are now exposed under `Settings → Editor → Color Scheme → Chevron Lists`. Each entry shows a live preview of what the colour controls:
+  - Header chevron (`>`)
+  - Item chevrons (`>>`, `>>>`, ...)
+  - Tag (`#urgent`, `#blocked`)
+  - Priority high (`!!!`)
+  - Priority medium (`!!`)
+  - Priority low (`!`)
+  - Due date (`@YYYY-MM-DD`)
+- Demo text in the settings page renders a realistic standup-notes example so users can see exactly how their colour choices will look in real markdown files.
+- Colours respect the active editor colour scheme by default (Darcula, Light, High Contrast, etc.) and inherit appropriately from semantic IntelliJ defaults (METADATA, KEYWORD, NUMBER, STRING, etc.).
+
 ## [0.10.0] - 2026-05-21
 ### Added
 - **`CL: Promote Item`** — decreases the current item's chevron depth (`>>> - foo` → `>> - foo`). No-op at depth 2 since that's the minimum for an item.
