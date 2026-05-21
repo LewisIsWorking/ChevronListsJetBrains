@@ -4,9 +4,9 @@
     <name>Chevron Lists</name>
     <vendor email="lewisisworking@users.noreply.github.com" url="https://github.com/LewisIsWorking">LewisIsWorking</vendor>
 
-    <!-- Compatible with 2024.3+ (build 243). Until-build omitted so the plugin
-         continues to install on newer IDE versions until a real incompatibility forces a cap. -->
-    <idea-version since-build="243"/>
+    <!-- Compatibility range is set via the Gradle plugin (build.gradle.kts).
+         since-build: 243 (IntelliJ Platform 2024.3+)
+         until-build: open (no upper bound). -->
 
     <description><![CDATA[
         <p><b>Chevron Lists</b> turns your JetBrains IDE into a fully-featured task, notes, and project management system &mdash; without leaving markdown. It layers <code>&gt;</code>, <code>&gt;&gt;</code>, <code>&gt;&gt;&gt;</code> blockquote nesting onto plain <code>.md</code> files for clean, readable hierarchies that render the same everywhere markdown is supported.</p>

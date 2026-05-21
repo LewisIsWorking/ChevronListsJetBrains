@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.8.1] - 2026-05-21
+### Fixed
+- Plugin compatibility range was being auto-patched by the Gradle plugin to `since-build="252"` based on the compile target, which caused the JetBrains Marketplace to reject the upload as "Not compatible with the version of your running IDE (WebStorm 2026.1.2)". The compile target is now `intellijIdea("2026.1")` and the range is explicitly controlled via `intellijPlatform.pluginConfiguration.ideaVersion` (`since-build="243"`, `until-build` open).
+
 ## [0.8.0] - 2026-05-21
 ### Added
 - **Plugin icon** — a native SVG reproduction of the VS Code plugin's logo (four chevron rows in purple/lime/blue/lavender on a `#12122A` background). Scales crisply from 16×16 in the plugin manager to 80×80+ on the Marketplace listing.

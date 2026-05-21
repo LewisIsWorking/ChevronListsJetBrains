@@ -15,3 +15,17 @@ dependencies {
         testFramework(TestFrameworkType.Platform)
     }
 }
+
+// Explicitly control the plugin's compatibility range so the Gradle plugin doesn't
+// auto-patch it from the compile-target version (which would otherwise stamp
+// since-build="252" and cause the Marketplace to reject the upload on newer IDEs).
+// since-build is wide (243 = IntelliJ Platform 2024.3+); until-build = "999.*"
+// keeps the plugin installable on any future IDE version without manual bumps.
+intellijPlatform {
+    pluginConfiguration {
+        ideaVersion {
+            sinceBuild  = "243"
+            untilBuild  = "999.*"
+        }
+    }
+}
