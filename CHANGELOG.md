@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.9.0] - 2026-05-21
+### Added
+- **Inline syntax highlighting** — three new visual decorations applied to any markdown file (chevron items and plain paragraphs alike):
+  - **`#tags`** like `#urgent`, `#blocked`, `#in-progress` are highlighted using your IDE's metadata colour. Must start with a letter and may contain word characters and hyphens.
+  - **Priority markers** as standalone tokens:
+    - **`!!!`** (high) — KEYWORD colour
+    - **`!!`**  (medium) — NUMBER colour
+    - **`!`**   (low) — PREDEFINED_SYMBOL colour
+  - **Due dates** like `@2026-04-22` (ISO format) are highlighted using your STRING colour.
+- All five new `TextAttributesKey` constants (`CHEVRON_LISTS_TAG`, `..._PRIORITY_HIGH/MEDIUM/LOW`, `..._DATE`) are user-customisable via `Settings → Editor → Color Scheme → General`.
+- New pure `InlinePatterns.kt` module with `findTags`, `findPriorities`, `findDueDates` and `PriorityMatch` data class.
+- 22 new JUnit tests covering tag detection (word-boundary rules, allowed character sets, multi-tag lines), priority detection (level recognition, greedy capping at 3, standalone-token rules), and date format strictness.
+
 ## [0.8.1] - 2026-05-21
 ### Fixed
 - Plugin compatibility range was being auto-patched by the Gradle plugin to `since-build="252"` based on the compile target, which caused the JetBrains Marketplace to reject the upload as "Not compatible with the version of your running IDE (WebStorm 2026.1.2)". The compile target is now `intellijIdea("2026.1")` and the range is explicitly controlled via `intellijPlatform.pluginConfiguration.ideaVersion` (`since-build="243"`, `until-build` open).

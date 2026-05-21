@@ -23,6 +23,21 @@ class ChevronListsAnnotator : Annotator {
         val HEADER_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
             "CHEVRON_LISTS_HEADER", DefaultLanguageHighlighterColors.MARKUP_TAG
         )
+        val TAG_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+            "CHEVRON_LISTS_TAG", DefaultLanguageHighlighterColors.METADATA
+        )
+        val PRIORITY_HIGH_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+            "CHEVRON_LISTS_PRIORITY_HIGH", DefaultLanguageHighlighterColors.KEYWORD
+        )
+        val PRIORITY_MEDIUM_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+            "CHEVRON_LISTS_PRIORITY_MEDIUM", DefaultLanguageHighlighterColors.NUMBER
+        )
+        val PRIORITY_LOW_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+            "CHEVRON_LISTS_PRIORITY_LOW", DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL
+        )
+        val DATE_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+            "CHEVRON_LISTS_DATE", DefaultLanguageHighlighterColors.STRING
+        )
         private val CHEVRON_PREFIX = Regex("""^(>+)""")
     }
 
@@ -35,6 +50,7 @@ class ChevronListsAnnotator : Annotator {
         val offsets    = computeLineOffsets(lines)
 
         annotateSyntax(lines, offsets, holder)
+        annotateInline(lines, offsets, holder)
         annotateDiagnostics(lines, offsets, holder)
     }
 
@@ -58,6 +74,34 @@ class ChevronListsAnnotator : Annotator {
                 .range(TextRange(start, start + line.length))
                 .create()
         }
+    }
+
+    /** Applies inline highlights for tags, priority markers, and due dates per line */
+    private fun annotateInline(lines: List<String>, offsets: IntArray, holder: AnnotationHolder) {
+        for ((i, line) in lines.withIndex()) {
+            val lineStart = offsets[i]
+            for (range in findTags(line)) {
+                paint(holder, lineStart, range, TAG_KEY)
+            }
+            for (match in findPriorities(line)) {
+                val key = when (match.level) {
+                    3    -> PRIORITY_HIGH_KEY
+                    2    -> PRIORITY_MEDIUM_KEY
+                    else -> PRIORITY_LOW_KEY
+                }
+                paint(holder, lineStart, match.range, key)
+            }
+            for (range in findDueDates(line)) {
+                paint(holder, lineStart, range, DATE_KEY)
+            }
+        }
+    }
+
+    /** Helper: paint a single highlight for the given line-local IntRange */
+    private fun paint(holder: AnnotationHolder, lineStart: Int, localRange: IntRange, key: TextAttributesKey) {
+        val absRange = TextRange(lineStart + localRange.first, lineStart + localRange.last + 1)
+        holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+            .range(absRange).textAttributes(key).create()
     }
 
     /** Pre-computes cumulative character offsets for each line so annotations can range cleanly */
