@@ -17,15 +17,16 @@ dependencies {
 }
 
 // Explicitly control the plugin's compatibility range so the Gradle plugin doesn't
-// auto-patch it from the compile-target version (which would otherwise stamp
-// since-build="252" and cause the Marketplace to reject the upload on newer IDEs).
-// since-build is wide (243 = IntelliJ Platform 2024.3+); until-build = "999.*"
-// keeps the plugin installable on any future IDE version without manual bumps.
+// auto-patch it from the compile-target version. since-build = 243 (IntelliJ Platform
+// 2024.3+) for broad backwards compatibility. until-build = 261.* matches the latest
+// available IDE version at release time (WebStorm/IntelliJ 2026.1.x); the Marketplace
+// rejects "magic" placeholder values like 999.* and recommends setting this to the
+// actual latest IDE major. Bump this when a new IDE major (262/263/...) ships.
 intellijPlatform {
     pluginConfiguration {
         ideaVersion {
             sinceBuild  = "243"
-            untilBuild  = "999.*"
+            untilBuild  = "261.*"
         }
     }
 }

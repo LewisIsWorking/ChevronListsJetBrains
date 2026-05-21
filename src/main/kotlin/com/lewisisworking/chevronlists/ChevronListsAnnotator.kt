@@ -15,6 +15,8 @@ import com.intellij.openapi.editor.markup.TextAttributes
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import java.awt.Color
+import java.awt.Font
 
 class ChevronListsAnnotator : Annotator {
     companion object {
@@ -57,6 +59,7 @@ class ChevronListsAnnotator : Annotator {
 
         annotateSyntax(lines, offsets, holder, presetId)
         annotateInline(lines, offsets, holder)
+        annotateColourLabels(lines, offsets, holder)
         annotateDiagnostics(lines, offsets, holder)
     }
 
@@ -113,6 +116,24 @@ class ChevronListsAnnotator : Annotator {
             }
             for (range in findDueDates(line)) {
                 paint(holder, lineStart, range, DATE_KEY)
+            }
+        }
+    }
+
+    /**
+     * Applies hardcoded enforced colours to `{red}`/`{green}`/`{blue}`/`{yellow}`/
+     * `{orange}`/`{purple}` labels - users semantically expect `{red}` to look
+     * red so these are not customisable via the colour scheme.
+     */
+    private fun annotateColourLabels(lines: List<String>, offsets: IntArray, holder: AnnotationHolder) {
+        for ((i, line) in lines.withIndex()) {
+            val lineStart = offsets[i]
+            for ((range, label) in findColourLabels(line)) {
+                val color = try { Color.decode(label.hex) } catch (e: NumberFormatException) { continue }
+                val attrs = TextAttributes(color, null, null, null, Font.PLAIN)
+                val absRange = TextRange(lineStart + range.first, lineStart + range.last + 1)
+                holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+                    .range(absRange).enforcedTextAttributes(attrs).create()
             }
         }
     }

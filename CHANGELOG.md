@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.14.1] - 2026-05-21
+### Fixed
+- Marketplace rejected the v0.14.0 upload because `until-build="999.*"` is a "magic" placeholder value not permitted on plugins.jetbrains.com. `until-build` is now set to `261.*` (the actual latest IDE major, WebStorm/IntelliJ 2026.1.x). When new IDE majors ship (262, 263, ...), bump this attribute and release a patch.
+
+## [0.14.0] - 2026-05-21
+### Added
+- **Colour labels**, ported from the VS Code extension. Six fixed categorical labels can be applied to chevron items:
+  - `{red}`     - rendered in `#E06C75`
+  - `{green}`   - rendered in `#98C379`
+  - `{blue}`    - rendered in `#61AFEF`
+  - `{yellow}`  - rendered in `#E5C07B`
+  - `{orange}`  - rendered in `#FF9800`
+  - `{purple}`  - rendered in `#A052E5`
+- **`CL: Set Colour Label`** action - opens a popup listing all six choices, applies the chosen label to the current item or every selected item. Any existing colour label on the line is replaced.
+- **`CL: Remove Colour Label`** action - strips any colour label from the current item or every selected item. Lines without a colour label are skipped silently.
+- Annotator now highlights every `{colour}` token in any markdown file with its actual colour. Highlights use `enforcedTextAttributes` (hardcoded hex, not customisable) because users semantically expect `{red}` to look red.
+- Visual highlighting is a JetBrains enhancement over the VS Code extension which leaves labels uncoloured by default - markdown files written in either editor render the labels identically as text, and the JetBrains view adds the colour cue on top.
+- Pure `ColourLabels.kt` module with the `ColourLabel` enum and six pure functions (`parseColourLabel`, `setColourLabel`, `removeColourLabel`, `findColourLabels`, `computeSetColourLabel`, `computeRemoveColourLabel`). 28 new JUnit tests covering enum integrity, label replacement, multi-label stripping, marker preservation, and line-level no-op detection.
+
 ## [0.13.0] - 2026-05-21
 ### Added
 - **Colour presets**, ported from the VS Code extension. 13 co-ordinated palettes are available under `Settings → Tools → Chevron Lists → Colour preset`:

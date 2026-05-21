@@ -147,5 +147,17 @@
                 description="Toggle between bullet and numbered list type">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.SetColourLabel"
+                class="com.lewisisworking.chevronlists.SetColourLabelAction"
+                text="CL: Set Colour Label"
+                description="Apply a {red}/{green}/{blue}/{yellow}/{orange}/{purple} label to this item">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.RemoveColourLabel"
+                class="com.lewisisworking.chevronlists.RemoveColourLabelAction"
+                text="CL: Remove Colour Label"
+                description="Strip any {colour} label from this item">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>
