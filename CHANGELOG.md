@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.12.0] - 2026-05-21
+### Added
+- **Tag autocomplete**. Typing `#` and any letters in a markdown file, then pressing `Ctrl+Space` (or waiting for auto-popup), now suggests every existing `#tag` from the current document. Selecting a suggestion completes the rest of the tag in place.
+- Tag completion respects the same detection rules as the highlighter — a `#` must be at the start of the line or follow whitespace, and the first character after `#` must be a letter.
+- Pure `extractAllTags(text)` function in new `TagCompletion.kt`, with 8 new JUnit tests covering deduplication, hyphen/underscore tags, multi-line documents, and rejection of issue numbers like `#123`.
+
 ## [0.11.0] - 2026-05-21
 ### Added
 - **Colour customisation UI**. Chevron Lists' seven highlight colours are now exposed under `Settings → Editor → Color Scheme → Chevron Lists`. Each entry shows a live preview of what the colour controls:

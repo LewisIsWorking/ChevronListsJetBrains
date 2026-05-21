@@ -86,6 +86,9 @@
                    implementation="com.lewisisworking.chevronlists.ChevronAutoFixStartup"/>
         <colorSettingsPage
                    implementation="com.lewisisworking.chevronlists.ChevronListsColorSettingsPage"/>
+        <completion.contributor
+                   language="Markdown"
+                   implementationClass="com.lewisisworking.chevronlists.ChevronTagCompletionContributor"/>
     </extensions>
 
     <actions>
