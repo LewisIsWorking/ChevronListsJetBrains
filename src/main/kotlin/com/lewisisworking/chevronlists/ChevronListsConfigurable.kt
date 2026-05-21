@@ -32,6 +32,12 @@ class ChevronListsConfigurable : BoundConfigurable("Chevron Lists") {
         }
     }
 
+    private val presetIds = COLOUR_PRESETS.map { it.id }
+    private val presetRenderer = SimpleListCellRenderer.create<String?>("") { id ->
+        val preset = id?.let { findPreset(it) }
+        preset?.label ?: id ?: ""
+    }
+
     override fun createPanel(): DialogPanel = panel {
         group("List Behaviour") {
             row("List prefix:") {
@@ -51,6 +57,16 @@ class ChevronListsConfigurable : BoundConfigurable("Chevron Lists") {
                     .comment("Automatically renumber items when sequences break " +
                              "(e.g. two `>> 2.` items, or `>> 1.` followed by `>> 3.`). " +
                              "Independent per section and per chevron depth.")
+            }
+        }
+        group("Appearance") {
+            row("Colour preset:") {
+                comboBox(presetIds, presetRenderer)
+                    .bindItem(state::colourPreset.toNullableProperty())
+                    .comment("Co-ordinated colour palette for chevron syntax highlighting. " +
+                             "Choose 'Custom' to use per-scheme colours from " +
+                             "Settings → Editor → Color Scheme → Chevron Lists. " +
+                             "Re-open the markdown file to see preset changes take effect.")
             }
         }
     }

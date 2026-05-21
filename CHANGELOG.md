@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.13.0] - 2026-05-21
+### Added
+- **Colour presets**, ported from the VS Code extension. 13 co-ordinated palettes are available under `Settings → Tools → Chevron Lists → Colour preset`:
+  - **Default** — violet headers, slate prefixes, lime numbers (matches the plugin icon)
+  - **Classic** — amber/grey/blue (the original VS Code theme)
+  - **Ocean, Forest, Sunset, Monochrome, Midnight, Rose, Autumn, Arctic, Neon, Sepia**
+  - **Custom** — use per-scheme colours from `Settings → Editor → Color Scheme → Chevron Lists` (the escape hatch for users who want full per-scheme control).
+- New `CHEVRON_LISTS_NUMBER` colour for the digit token in numbered items (`1.`, `2.`, ...), driven by the active preset and customisable per-scheme.
+- Markdown files now render with co-ordinated colours that match the VS Code extension's palette identically.
+- Pure `ColourPresets.kt` and `ColourPresetApplier.kt` modules with 10 new JUnit tests covering preset lookup, custom fallback, attribute resolution, and palette completeness.
+
+### Changed
+- Annotator now applies preset colours via `enforcedTextAttributes()` when a named preset is active, falling back to scheme-aware `TextAttributesKey` lookup when `Custom` is selected. Both code paths remain testable through the pure `resolvePresetAttributes` function.
+
 ## [0.12.0] - 2026-05-21
 ### Added
 - **Tag autocomplete**. Typing `#` and any letters in a markdown file, then pressing `Ctrl+Space` (or waiting for auto-popup), now suggests every existing `#tag` from the current document. Selecting a suggestion completes the rest of the tag in place.

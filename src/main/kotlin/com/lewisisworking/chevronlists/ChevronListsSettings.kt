@@ -24,7 +24,8 @@ class ChevronListsSettings : PersistentStateComponent<ChevronListsSettings.State
     data class State(
         var listPrefix:         String  = "-",
         var defaultNewListType: String  = "unordered",
-        var autoFixNumbering:   Boolean = true
+        var autoFixNumbering:   Boolean = true,
+        var colourPreset:       String  = "default"
     )
 
     private var myState = State()

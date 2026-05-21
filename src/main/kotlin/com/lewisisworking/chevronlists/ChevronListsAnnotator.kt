@@ -11,6 +11,7 @@ import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
+import com.intellij.openapi.editor.markup.TextAttributes
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
@@ -38,30 +39,49 @@ class ChevronListsAnnotator : Annotator {
         val DATE_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
             "CHEVRON_LISTS_DATE", DefaultLanguageHighlighterColors.STRING
         )
-        private val CHEVRON_PREFIX = Regex("""^(>+)""")
+        val NUMBER_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
+            "CHEVRON_LISTS_NUMBER", DefaultLanguageHighlighterColors.NUMBER
+        )
+        private val CHEVRON_PREFIX  = Regex("""^(>+)""")
+        private val NUMBERED_PREFIX = Regex("""^(>+)\s+(\d+\.)""")
     }
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         if (element !is PsiFile) return
         if (!element.name.endsWith(".md")) return
 
-        val text       = element.text
-        val lines      = text.split("\n")
-        val offsets    = computeLineOffsets(lines)
+        val text      = element.text
+        val lines     = text.split("\n")
+        val offsets   = computeLineOffsets(lines)
+        val presetId  = ChevronListsSettings.getInstance().state.colourPreset
 
-        annotateSyntax(lines, offsets, holder)
+        annotateSyntax(lines, offsets, holder, presetId)
         annotateInline(lines, offsets, holder)
         annotateDiagnostics(lines, offsets, holder)
     }
 
-    /** Highlights the chevron prefix on each line (single `>` as HEADER, `>>` or deeper as CHEVRON) */
-    private fun annotateSyntax(lines: List<String>, offsets: IntArray, holder: AnnotationHolder) {
+    /**
+     * Highlights the chevron prefix on each line (single `>` as HEADER, `>>+` as CHEVRON)
+     * and the `N.` digit-token in numbered items. Each call uses the active colour preset
+     * to override the inherited scheme colours when applicable.
+     */
+    private fun annotateSyntax(lines: List<String>, offsets: IntArray,
+                                holder: AnnotationHolder, presetId: String) {
         for ((i, line) in lines.withIndex()) {
-            val m = CHEVRON_PREFIX.find(line) ?: continue
-            val range = TextRange(offsets[i], offsets[i] + m.value.length)
-            val key   = if (m.value.length == 1) HEADER_KEY else CHEVRON_KEY
-            holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
-                .range(range).textAttributes(key).create()
+            val chevronMatch = CHEVRON_PREFIX.find(line) ?: continue
+            val chevronRange = TextRange(offsets[i], offsets[i] + chevronMatch.value.length)
+
+            if (chevronMatch.value.length == 1) {
+                paintSyntax(holder, chevronRange, HEADER_KEY, presetId, PresetToken.HEADER)
+            } else {
+                paintSyntax(holder, chevronRange, CHEVRON_KEY, presetId, PresetToken.PREFIX)
+            }
+
+            val numMatch = NUMBERED_PREFIX.find(line) ?: continue
+            val numGroup = numMatch.groups[2] ?: continue
+            val numRange = TextRange(offsets[i] + numGroup.range.first,
+                                     offsets[i] + numGroup.range.last + 1)
+            paintSyntax(holder, numRange, NUMBER_KEY, presetId, PresetToken.NUMBER)
         }
     }
 
@@ -102,6 +122,19 @@ class ChevronListsAnnotator : Annotator {
         val absRange = TextRange(lineStart + localRange.first, lineStart + localRange.last + 1)
         holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
             .range(absRange).textAttributes(key).create()
+    }
+
+    /**
+     * Helper: paint a syntax-element highlight that respects the active colour preset.
+     * When the preset is "custom" the preset attributes are null so we fall back to the
+     * scheme-aware TextAttributesKey (preserving any ColorSettingsPage customisation).
+     */
+    private fun paintSyntax(holder: AnnotationHolder, range: TextRange,
+                             key: TextAttributesKey, presetId: String, token: PresetToken) {
+        val builder = holder.newSilentAnnotation(HighlightSeverity.INFORMATION).range(range)
+        val attrs: TextAttributes? = resolvePresetAttributes(presetId, token)
+        if (attrs != null) builder.enforcedTextAttributes(attrs).create()
+        else               builder.textAttributes(key).create()
     }
 
     /** Pre-computes cumulative character offsets for each line so annotations can range cleanly */

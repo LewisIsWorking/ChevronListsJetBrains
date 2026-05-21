@@ -22,6 +22,10 @@ class ChevronListsSettingsTest {
         assertTrue(ChevronListsSettings.State().autoFixNumbering)
     }
 
+    @Test fun `default colourPreset is default`() {
+        assertEquals("default", ChevronListsSettings.State().colourPreset)
+    }
+
     @Test fun `state values are mutable`() {
         val s = ChevronListsSettings.State()
         s.listPrefix = "*"
