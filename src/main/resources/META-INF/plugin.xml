@@ -124,5 +124,23 @@
                 description="Toggle the 📝 marker on the current chevron item">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.PromoteItem"
+                class="com.lewisisworking.chevronlists.PromoteItemAction"
+                text="CL: Promote Item"
+                description="Decrease this item's chevron depth">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.DemoteItem"
+                class="com.lewisisworking.chevronlists.DemoteItemAction"
+                text="CL: Demote Item"
+                description="Increase this item's chevron depth">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.CycleListType"
+                class="com.lewisisworking.chevronlists.CycleListTypeAction"
+                text="CL: Cycle List Type"
+                description="Toggle between bullet and numbered list type">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>

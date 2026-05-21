@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.10.0] - 2026-05-21
+### Added
+- **`CL: Promote Item`** — decreases the current item's chevron depth (`>>> - foo` → `>> - foo`). No-op at depth 2 since that's the minimum for an item.
+- **`CL: Demote Item`** — increases the current item's chevron depth (`>> - foo` → `>>> - foo`). No upper bound; items can be nested as deep as you want.
+- **`CL: Cycle List Type`** — toggles the current item between bullet and numbered form (`>> - foo` ↔ `>> 1. foo`). Auto-fix-numbering will then renumber any resulting sequence.
+- All three available via the editor right-click menu and `Ctrl+Shift+A` action search. Multi-line selection processes every item in the selection in one stroke. Markers and content (`⭐`, `#tags`, `@dates`, etc.) are fully preserved through the transformation.
+- Pure `computePromote`, `computeDemote`, `computeCycleListType` functions in new `ItemTransforms.kt`, with 22 new JUnit tests covering depth bounds, content preservation, number/prefix handling, and non-item rejection.
+
+### Changed
+- Extracted abstract `ChevronLineTransformAction` base class so each new line-transform action is a one-line subclass that delegates to a pure compute function. Future actions (e.g. cycle bullet prefix, normalise spacing) add zero boilerplate.
+
 ## [0.9.0] - 2026-05-21
 ### Added
 - **Inline syntax highlighting** — three new visual decorations applied to any markdown file (chevron items and plain paragraphs alike):
