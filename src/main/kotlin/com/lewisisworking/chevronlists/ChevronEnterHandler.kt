@@ -41,6 +41,25 @@ class ChevronEnterHandler : EnterHandlerDelegate {
         }
     }
 
+    /**
+     * Required by the extension point, and intentionally a no-op -- all of the
+     * chevron logic runs in [preprocessEnter].
+     *
+     * This must be implemented explicitly. On IntelliJ Platform 2025.2+ the
+     * interface supplies a default body, but on 2024.3 (243) and 2025.1 (251)
+     * `postProcessEnter` is still abstract. Compiling against 2025.2 therefore
+     * produced a plugin that passed the build but threw AbstractMethodError the
+     * first time a user pressed Enter in a markdown file on those older IDEs --
+     * which the plugin claims to support via since-build = 243. Returning
+     * `Continue` matches the newer platforms' default behaviour, so this is
+     * correct on every supported version.
+     */
+    override fun postProcessEnter(
+        file:        PsiFile,
+        editor:      Editor,
+        dataContext: DataContext
+    ): EnterHandlerDelegate.Result = EnterHandlerDelegate.Result.Continue
+
     /** Reads the bullet prefix from persistent settings (default "-") */
     private fun settingsPrefix(): String = ChevronListsSettings.getInstance().state.listPrefix
 

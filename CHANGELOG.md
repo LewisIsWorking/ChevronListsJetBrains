@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.15.0] - 2026-09-06
+### Fixed
+- **`until-build` is no longer capped, which was a delisting trap.** v0.14.1 pinned `until-build = "261.*"`. The current IDE release is build **262** (2026.2.2) with **263** already in EAP, so releasing 0.14.1 as-is would have hidden the plugin from the Marketplace for every user on 2026.2 or newer. The upper bound is now omitted entirely via `provider { null }`, matching the published 0.8.0 which stayed compatible across majors. New IDE majors no longer require a re-release to stay listed.
+- **The plugin crashed on Enter for every 2024.3 and 2025.1 user.** `ChevronEnterHandler` implemented only `preprocessEnter`. On IntelliJ Platform 2025.2+ the `EnterHandlerDelegate` interface gives `postProcessEnter` a default body, but on 243 and 251 it is still abstract — so a plugin compiled against 2025.2 built and passed tests, then threw `AbstractMethodError` the first time the user pressed Enter in a markdown file on the older IDEs the plugin claims to support via `since-build = 243`. `postProcessEnter` is now implemented explicitly, returning `Continue` to match the newer platforms' default. Caught by the IntelliJ Plugin Verifier, which reported the problem against IU-243 and IU-251 only.
+- **Auto-fix debounce could retain a closed project.** `ChevronAutoFixListener` is an application-level service, so its `Alarm` outlives any single project. The pending request captured the `Document` and `Project` strongly, so closing a project inside the 250ms debounce window kept it reachable until the request fired — and a retained `Project` pins its entire PSI tree and indices. The request now holds weak references and skips a disposed project, and `dispose()` cancels anything still pending.
+
+### Notes
+- Versions 0.9.0 through 0.14.1 were built but never published; the Marketplace has been serving 0.8.0 since 2026-05-21. This release carries all of that accumulated work: inline `#tag` / `!!!` priority / `@date` highlighting (0.9.0), Promote/Demote/Cycle List Type (0.10.0), the colour settings page (0.11.0), tag autocomplete (0.12.0), 13 colour presets (0.13.0), and colour labels (0.14.0).
+
 ## [0.14.1] - 2026-05-21
 ### Fixed
 - Marketplace rejected the v0.14.0 upload because `until-build="999.*"` is a "magic" placeholder value not permitted on plugins.jetbrains.com. `until-build` is now set to `261.*` (the actual latest IDE major, WebStorm/IntelliJ 2026.1.x). When new IDE majors ship (262, 263, ...), bump this attribute and release a patch.
