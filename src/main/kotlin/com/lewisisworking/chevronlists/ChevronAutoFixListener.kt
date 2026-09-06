@@ -22,6 +22,7 @@ import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectLocator
 import com.intellij.util.Alarm
+import java.lang.ref.WeakReference
 
 @Service(Service.Level.APP)
 class ChevronAutoFixListener : DocumentListener, Disposable {
@@ -33,7 +34,10 @@ class ChevronAutoFixListener : DocumentListener, Disposable {
         EditorFactory.getInstance().eventMulticaster.addDocumentListener(this, this)
     }
 
-    override fun dispose() {}
+    override fun dispose() {
+        // Drop any request still pending so it cannot fire after teardown
+        alarm.cancelAllRequests()
+    }
 
     override fun documentChanged(event: DocumentEvent) {
         if (applying) return
@@ -44,8 +48,30 @@ class ChevronAutoFixListener : DocumentListener, Disposable {
 
         val project = ProjectLocator.getInstance().guessProjectForFile(file) ?: return
 
+        scheduleFix(event.document, project)
+    }
+
+    /**
+     * Queues the debounced fix.
+     *
+     * The pending request is held by an application-level Alarm, which outlives
+     * any single project. Capturing the Document and Project strongly meant a
+     * project closed inside the debounce window stayed reachable from the Alarm
+     * until the request fired, and a leaked Project pins its whole PSI and index.
+     * Weak references let it be collected, and the disposed check stops a
+     * late-firing request from writing into a project that is closing.
+     */
+    private fun scheduleFix(document: Document, project: Project) {
+        val documentRef = WeakReference(document)
+        val projectRef  = WeakReference(project)
+
         alarm.cancelAllRequests()
-        alarm.addRequest({ runFix(event.document, project) }, DEBOUNCE_MS)
+        alarm.addRequest({
+            val doc  = documentRef.get()  ?: return@addRequest
+            val proj = projectRef.get()   ?: return@addRequest
+            if (proj.isDisposed) return@addRequest
+            runFix(doc, proj)
+        }, DEBOUNCE_MS)
     }
 
     private fun runFix(document: Document, project: Project) {
