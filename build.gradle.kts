@@ -6,12 +6,25 @@ plugins {
     id("org.jetbrains.changelog")
 }
 
+// Pin one JVM toolchain for both compileJava and compileKotlin. The IntelliJ
+// Platform Gradle Plugin derives the Kotlin jvmTarget from the target platform
+// (23 for 2026.2), while Java otherwise follows whatever JDK runs Gradle -- a
+// local JBR 25 produced "Inconsistent JVM-target compatibility (25 vs 23)".
+// Fixing the toolchain keeps local and CI builds identical.
+kotlin {
+    jvmToolchain(23)
+}
+
 dependencies {
     testImplementation("junit:junit:4.13.2")
 
     // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
     intellijPlatform {
-        intellijIdea("2025.2.6.2")
+        // Compile against the current IDE release. The Plugin Verifier in CI
+        // checks the whole declared range (243 through 263), which is what
+        // catches APIs that exist here but not on older supported IDEs --
+        // exactly how the EnterHandlerDelegate.postProcessEnter break surfaced.
+        intellijIdea("2026.2.2")
         testFramework(TestFrameworkType.Platform)
     }
 }
@@ -40,5 +53,19 @@ intellijPlatform {
             sinceBuild  = "243"
             untilBuild  = provider { null }
         }
+    }
+
+    // `.github/workflows/release.yml` passes these as environment variables, but
+    // the Gradle plugin does not pick them up on its own -- without this block
+    // `publishPlugin` fails with a missing token even when the repository
+    // secrets are set, so the automated release path had never been wired up.
+    signing {
+        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
+        privateKey       = providers.environmentVariable("PRIVATE_KEY")
+        password         = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
+    }
+
+    publishing {
+        token = providers.environmentVariable("PUBLISH_TOKEN")
     }
 }
