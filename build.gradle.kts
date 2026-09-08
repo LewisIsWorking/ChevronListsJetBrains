@@ -1,9 +1,14 @@
+import kotlinx.kover.gradle.plugin.dsl.AggregationType
+import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
     id("org.jetbrains.kotlin.jvm")
     id("org.jetbrains.intellij.platform")
     id("org.jetbrains.changelog")
+    // Coverage. Kover reports LINE and BRANCH natively for Kotlin, which is what
+    // the 100%-coverage policy requires.
+    id("org.jetbrains.kotlinx.kover")
 }
 
 // Pin one JVM toolchain for both compileJava and compileKotlin. The IntelliJ
@@ -67,5 +72,62 @@ intellijPlatform {
 
     publishing {
         token = providers.environmentVariable("PUBLISH_TOKEN")
+    }
+}
+
+// ---------------------------------------------------------------- coverage
+//
+// Policy is 100% coverage with no exclusions. These bounds are a RATCHET
+// towards it: `koverVerify` fails when coverage drops below the recorded floor,
+// so the numbers can only go up. Raise them as tests land; never lower them.
+//
+// Baseline recorded 2026-09-07, the first measurement of this plugin -- there
+// was no coverage tooling at all before. 28 of 58 classes were at 100% and the
+// other 30 at 0%, and the zero-coverage set is exactly the IntelliJ-platform
+// layer (annotator, actions, configurable, completion contributor, the
+// document listener). The pure logic modules were already fully covered.
+//
+// Kover reports LINE and BRANCH natively, so unlike the VS Code repo -- where
+// Bun emits no branch data and istanbul had to be bolted on -- both halves of
+// the policy are measurable out of the box.
+//
+// Kover's CoverageUnit exposes LINE, BRANCH and INSTRUCTION only -- there is no
+// METHOD unit, though the XML report does carry a METHOD counter (37.28% at
+// baseline) if it is ever wanted for reporting.
+//
+// TARGET for every bound: 100.
+val coverageFloorLine        = 42
+val coverageFloorBranch      = 45
+val coverageFloorInstruction = 50
+
+kover {
+    reports {
+        total {
+            verify {
+                // One rule per metric so a failure names the metric that
+                // regressed rather than just "a bound was violated".
+                rule("line coverage must not regress") {
+                    bound {
+                        minValue = coverageFloorLine
+                        coverageUnits = CoverageUnit.LINE
+                        aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                    }
+                }
+                rule("branch coverage must not regress") {
+                    bound {
+                        minValue = coverageFloorBranch
+                        coverageUnits = CoverageUnit.BRANCH
+                        aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                    }
+                }
+                rule("instruction coverage must not regress") {
+                    bound {
+                        minValue = coverageFloorInstruction
+                        coverageUnits = CoverageUnit.INSTRUCTION
+                        aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                    }
+                }
+            }
+        }
     }
 }
