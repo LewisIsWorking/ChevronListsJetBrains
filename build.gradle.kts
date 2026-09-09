@@ -4,6 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
     id("org.jetbrains.intellij.platform")
     id("org.jetbrains.changelog")
+    id("org.jetbrains.kotlinx.kover")
 }
 
 // Pin one JVM toolchain for both compileJava and compileKotlin. The IntelliJ
@@ -67,5 +68,37 @@ intellijPlatform {
 
     publishing {
         token = providers.environmentVariable("PUBLISH_TOKEN")
+    }
+}
+
+// Coverage policy: 100% line AND branch, no exclusions.
+//
+// These bounds are a RATCHET, not the target: they are the coverage measured
+// when Kover was introduced (2026-09-09). Raise them as tests land; never lower
+// them. `./gradlew koverVerify` fails the build below any bound, so the numbers
+// can only go up.
+//
+// Kover reports BRANCH natively, which is why the JetBrains side needs none of
+// the istanbul plumbing the VS Code repo does (Bun emits no branch data at all).
+//
+// TARGET: 100 for every bound.
+kover {
+    reports {
+        verify {
+            rule("Ratchet floor (raise as tests land; target is 100)") {
+                bound {
+                    minValue = 42
+                    coverageUnits = kotlinx.kover.gradle.plugin.dsl.CoverageUnit.LINE
+                }
+                bound {
+                    minValue = 45
+                    coverageUnits = kotlinx.kover.gradle.plugin.dsl.CoverageUnit.BRANCH
+                }
+                bound {
+                    minValue = 50
+                    coverageUnits = kotlinx.kover.gradle.plugin.dsl.CoverageUnit.INSTRUCTION
+                }
+            }
+        }
     }
 }
