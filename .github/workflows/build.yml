@@ -98,6 +98,23 @@ jobs:
       - name: Run Tests
         run: ./gradlew check
 
+      # Enforces the 100%-coverage policy as a ratchet: koverVerify fails if
+      # line, branch or instruction coverage drops below the floors in
+      # build.gradle.kts. Kover reports branch coverage natively.
+      - name: Coverage gate
+        run: ./gradlew koverVerify
+
+      - name: Coverage report
+        if: ${{ always() }}
+        run: ./gradlew koverXmlReport koverHtmlReport
+
+      - name: Upload coverage report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-report
+          path: ${{ github.workspace }}/build/reports/kover
+
       # Collect Tests Result of failed tests
       - name: Collect Tests Result
         if: ${{ failure() }}
