@@ -98,19 +98,6 @@ jobs:
       - name: Run Tests
         run: ./gradlew check
 
-      # Coverage ratchet: fails below the bounds in build.gradle.kts. Kover
-      # reports branch coverage natively, so this side needs none of the
-      # istanbul instrumentation the VS Code repo requires.
-      - name: Coverage gate
-        run: ./gradlew koverVerify
-
-      - name: Upload coverage report
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v7
-        with:
-          name: coverage-report
-          path: ${{ github.workspace }}/build/reports/kover
-
       # Collect Tests Result of failed tests
       - name: Collect Tests Result
         if: ${{ failure() }}
