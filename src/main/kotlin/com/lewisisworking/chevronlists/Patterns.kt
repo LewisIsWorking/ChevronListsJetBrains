@@ -8,7 +8,11 @@ package com.lewisisworking.chevronlists
 
 private val HEADER_REGEX   = Regex("""^> (.*)$""")
 private val BULLET_REGEX   = Regex("""^(>+)\s+(\S)\s+(.*)$""")
-private val NUMBERED_REGEX = Regex("""^(>+)\s+(\d+)\.\s*(.*)$""")
+// At most 9 digits, so the number and the next one (Enter, renumbering) always fit
+// in an Int. With \d+ a line such as ">> 99999999999. x" threw
+// NumberFormatException from toInt(), and the auto-fix listener parses every
+// markdown document on every edit. Longer numbers are plain text, not items.
+private val NUMBERED_REGEX = Regex("""^(>+)\s+(\d{1,9})\.\s*(.*)$""")
 private val SUBHEAD_REGEX  = Regex("""^(#{1,6})\s+(.+)$""")
 
 /** Result of parsing a chevron line */
