@@ -80,6 +80,13 @@ class ChevronListsConfigurable : BoundConfigurable("Chevron Lists") {
                              "(e.g. two `>> 2.` items, or `>> 1.` followed by `>> 3.`). " +
                              "Independent per section and per chevron depth.")
             }
+            row {
+                checkBox("Paste several lines as separate items")
+                    .bindSelected(state::pasteLinesAsItems)
+                    .comment("Pasting multi-line text into a chevron item puts each line on " +
+                             "its own item at the same depth. Numbered items keep counting " +
+                             "(with auto-fix on, the items after them are renumbered).")
+            }
         }
         group("Appearance") {
             row("Colour preset:") {

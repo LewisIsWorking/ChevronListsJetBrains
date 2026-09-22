@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.16.0] - 2026-09-22
+### Added
+- **Paste several lines as separate items.** Pasting multi-line text (a chat log, an e-mail, a list from elsewhere) into a chevron item now puts each line on its own item at the same depth. Blank lines are dropped, each line is trimmed, and lines that were already chevron items keep only their text. Numbered items keep counting, and with *Auto-fix numbering* on, the items after them are renumbered. A single line pastes as before. Turn it off under *Settings → Tools → Chevron Lists → Paste several lines as separate items*. Matches the VS Code extension's 26.7.0 behaviour.
+
+### Fixed
+- **An over-long item number no longer throws on every edit.** A line such as `>> 99999999999. item` threw `NumberFormatException` from the numbering auto-fix, which runs on every edit of every markdown file, and from the highlighter and the Enter handler. `>> 2147483647. x` did parse, and Enter then offered item -2147483648. Item numbers are now at most nine digits; longer ones are plain text.
+
 ## [0.15.0] - 2026-09-06
 ### Fixed
 - **`until-build` is no longer capped, which was a delisting trap.** v0.14.1 pinned `until-build = "261.*"`. The current IDE release is build **262** (2026.2.2) with **263** already in EAP, so releasing 0.14.1 as-is would have hidden the plugin from the Marketplace for every user on 2026.2 or newer. The upper bound is now omitted entirely via `provider { null }`, matching the published 0.8.0 which stayed compatible across majors. New IDE majors no longer require a re-release to stay listed.

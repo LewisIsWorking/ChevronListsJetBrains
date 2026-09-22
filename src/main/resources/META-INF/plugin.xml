@@ -86,6 +86,8 @@
                    implementation="com.lewisisworking.chevronlists.ChevronAutoFixStartup"/>
         <colorSettingsPage
                    implementation="com.lewisisworking.chevronlists.ChevronListsColorSettingsPage"/>
+        <copyPastePreProcessor
+                   implementation="com.lewisisworking.chevronlists.ChevronPasteItemsPreProcessor"/>
         <completion.contributor
                    language="Markdown"
                    implementationClass="com.lewisisworking.chevronlists.ChevronTagCompletionContributor"/>
