@@ -26,6 +26,10 @@ class ChevronListsSettingsTest {
         assertEquals("default", ChevronListsSettings.State().colourPreset)
     }
 
+    @Test fun `default pasteLinesAsItems is true`() {
+        assertTrue(ChevronListsSettings.State().pasteLinesAsItems)
+    }
+
     @Test fun `state values are mutable`() {
         val s = ChevronListsSettings.State()
         s.listPrefix = "*"
