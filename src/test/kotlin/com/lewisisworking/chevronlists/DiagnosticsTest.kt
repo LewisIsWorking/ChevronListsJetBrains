@@ -108,6 +108,13 @@ class DiagnosticsTest {
         assertEquals(">> 3. d", edits[1].newText)
     }
 
+    // The listener runs this on every edit of every .md file; a huge number used to throw
+    @Test fun `autoFix ignores a number too long for an Int instead of throwing`() {
+        val edits = computeAutoFixEdits(fixLines("> H", ">> 1. a", ">> 99999999999. huge", ">> 3. c"))
+        assertEquals(1, edits.size)
+        assertEquals(">> 2. c", edits[0].newText)
+    }
+
     @Test fun `autoFix produces no edits for a clean sequence`() {
         assertTrue(computeAutoFixEdits(fixLines("> H", ">> 1. a", ">> 2. b", ">> 3. c")).isEmpty())
     }

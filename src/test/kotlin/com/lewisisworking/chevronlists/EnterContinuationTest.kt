@@ -54,6 +54,11 @@ class EnterContinuationTest {
         val a = action(">> 42. Many") as EnterAction.Continue
         assertEquals(">> 43. ", a.insert)
     }
+    // Int.MAX_VALUE used to parse, and Enter then offered item -2147483648
+    @Test fun `enter on a ten-digit number is a plain newline`() =
+        assertEquals(EnterAction.Default, action(">> 2147483647. Last"))
+    @Test fun `enter on the largest nine-digit number continues without overflow`() =
+        assertEquals(">> 1000000000. ", (action(">> 999999999. Last") as EnterAction.Continue).insert)
     @Test fun `nested numbered item continues at correct depth`() {
         val a = action(">>> 5. Nested") as EnterAction.Continue
         assertEquals(">>> 6. ", a.insert)

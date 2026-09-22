@@ -35,6 +35,13 @@ class PatternsTest {
     }
     @Test fun `parseNumbered returns null for bullet`() = assertNull(parseNumbered(">> - Task"))
     @Test fun `parseNumbered handles multi-digit numbers`() = assertEquals(42, parseNumbered(">> 42. Item")?.num)
+    @Test fun `parseNumbered accepts the largest nine-digit number`() =
+        assertEquals(999_999_999, parseNumbered(">> 999999999. Item")?.num)
+    // Used to throw NumberFormatException, which the auto-fix listener hit on every edit
+    @Test fun `parseNumbered treats a number too long for an Int as text`() =
+        assertNull(parseNumbered(">> 99999999999. Item"))
+    @Test fun `parseNumbered treats a ten-digit number as text`() =
+        assertNull(parseNumbered(">> 2147483647. Item"))
     @Test fun `parseNumbered works at depth 3`() = assertEquals(">>>", parseNumbered(">>> 1. Nested")?.chevrons)
 
     // parseSubheading
