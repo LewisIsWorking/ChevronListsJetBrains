@@ -1,10 +1,10 @@
 # Chevron Lists for JetBrains IDEs
 
-A JetBrains port of the [Chevron Lists VS Code extension](https://marketplace.visualstudio.com/items?itemName=lewisisworking.chevron-lists) — a markdown-based task and project management plugin using `>`, `>>`, `>>>` blockquote nesting.
+A JetBrains port of the [Chevron Lists VS Code extension](https://marketplace.visualstudio.com/items?itemName=lewisisworking.chevron-lists) - a markdown-based task and project management plugin using `>`, `>>`, `>>>` blockquote nesting.
 
 ## Status
 
-**v0.1.0 — initial release.** Minimum viable feature set:
+**v0.1.0 - initial release.** Minimum viable feature set:
 - Syntax highlighting for chevron lines (`>`, `>>`, `>>>`) in markdown files
 - Warning underline for duplicate `> Section` headers
 - Warning underline for duplicate `## Subheading` markdown headings
