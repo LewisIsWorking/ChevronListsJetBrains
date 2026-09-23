@@ -143,6 +143,18 @@
                 description="Increase this item's chevron depth">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.JumpToNextHeader"
+                class="com.lewisisworking.chevronlists.JumpToNextHeaderAction"
+                text="CL: Jump to Next Header"
+                description="Move the caret to the next > section header">
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt DOWN"/>
+        </action>
+        <action id="ChevronLists.JumpToPreviousHeader"
+                class="com.lewisisworking.chevronlists.JumpToPreviousHeaderAction"
+                text="CL: Jump to Previous Header"
+                description="Move the caret to the previous > section header">
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt UP"/>
+        </action>
         <action id="ChevronLists.MoveItemUp"
                 class="com.lewisisworking.chevronlists.MoveItemUpAction"
                 text="CL: Move Item Up"
