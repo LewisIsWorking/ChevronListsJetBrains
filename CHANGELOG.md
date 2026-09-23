@@ -4,6 +4,8 @@
 ### Added
 - **Paste several lines as separate items.** Pasting multi-line text (a chat log, an e-mail, a list from elsewhere) into a chevron item now puts each line on its own item at the same depth. Blank lines are dropped, each line is trimmed, and lines that were already chevron items keep only their text. Numbered items keep counting, and with *Auto-fix numbering* on, the items after them are renumbered. A single line pastes as before. Turn it off under *Settings → Tools → Chevron Lists → Paste several lines as separate items*. Matches the VS Code extension's 26.7.0 behaviour.
 
+- **Move Item Up / Move Item Down** (`Ctrl+Alt+Shift+Up` / `Ctrl+Alt+Shift+Down`). An item swaps with the previous or next item at the same depth in its section, and anything nested under it travels with it, so a parent never lands below its own children. Items never cross a `> Header`. Numbered items are renumbered by the existing auto-fix.
+
 ### Fixed
 - **An over-long item number no longer throws on every edit.** A line such as `>> 99999999999. item` threw `NumberFormatException` from the numbering auto-fix, which runs on every edit of every markdown file, and from the highlighter and the Enter handler. `>> 2147483647. x` did parse, and Enter then offered item -2147483648. Item numbers are now at most nine digits; longer ones are plain text.
 

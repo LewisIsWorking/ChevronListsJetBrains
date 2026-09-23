@@ -143,6 +143,20 @@
                 description="Increase this item's chevron depth">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.MoveItemUp"
+                class="com.lewisisworking.chevronlists.MoveItemUpAction"
+                text="CL: Move Item Up"
+                description="Move this item above the previous item at the same depth, with anything nested under it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt shift UP"/>
+        </action>
+        <action id="ChevronLists.MoveItemDown"
+                class="com.lewisisworking.chevronlists.MoveItemDownAction"
+                text="CL: Move Item Down"
+                description="Move this item below the next item at the same depth, with anything nested under it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt shift DOWN"/>
+        </action>
         <action id="ChevronLists.CycleListType"
                 class="com.lewisisworking.chevronlists.CycleListTypeAction"
                 text="CL: Cycle List Type"
