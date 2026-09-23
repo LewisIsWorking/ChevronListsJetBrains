@@ -87,7 +87,7 @@ fun collectBadNumbering(lines: List<String>): List<DiagnosticIssue> {
         var expected = items.first().num
         for (item in items) {
             if (item.num != expected) {
-                out += DiagnosticIssue(item.lineIndex, "Numbering breaks here \u2014 expected $expected, got ${item.num}.", IssueKind.BAD_NUMBERING)
+                out += DiagnosticIssue(item.lineIndex, "Numbering breaks here: expected $expected, got ${item.num}.", IssueKind.BAD_NUMBERING)
             }
             expected = item.num + 1
         }
@@ -144,7 +144,7 @@ fun collectEmptySections(lines: List<String>): List<DiagnosticIssue> {
     for ((i, line) in lines.withIndex()) {
         if (isHeader(line)) {
             if (currentSection >= 0 && !hasContent) {
-                out += DiagnosticIssue(currentSection, "Empty section \u2014 no items.", IssueKind.EMPTY_SECTION)
+                out += DiagnosticIssue(currentSection, "Empty section: no items.", IssueKind.EMPTY_SECTION)
             }
             currentSection = i
             hasContent     = false

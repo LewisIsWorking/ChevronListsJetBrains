@@ -9,16 +9,16 @@
          until-build: open (no upper bound). -->
 
     <description><![CDATA[
-        <p><b>Chevron Lists</b> turns your JetBrains IDE into a fully-featured task, notes, and project management system &mdash; without leaving markdown. It layers <code>&gt;</code>, <code>&gt;&gt;</code>, <code>&gt;&gt;&gt;</code> blockquote nesting onto plain <code>.md</code> files for clean, readable hierarchies that render the same everywhere markdown is supported.</p>
+        <p><b>Chevron Lists</b> turns your JetBrains IDE into a fully-featured task, notes, and project management system - without leaving markdown. It layers <code>&gt;</code>, <code>&gt;&gt;</code>, <code>&gt;&gt;&gt;</code> blockquote nesting onto plain <code>.md</code> files for clean, readable hierarchies that render the same everywhere markdown is supported.</p>
 
         <h3>Features</h3>
         <ul>
-          <li><b>Syntax highlighting</b> &mdash; chevron prefixes are coloured so section structure stands out at a glance.</li>
-          <li><b>Live diagnostics</b> &mdash; duplicate <code>&gt; Section</code> headers, duplicate <code>##</code> markdown subheadings, broken numbered-list sequences, and empty sections all get warning underlines with helpful hover messages.</li>
-          <li><b>Smart Enter key</b> &mdash; pressing Enter on a chevron line continues the list automatically (<code>&gt;&gt; - </code> after a bullet, <code>&gt;&gt; 2. </code> after <code>&gt;&gt; 1.</code>, etc.). Empty list items break out of the list.</li>
-          <li><b>Auto-fix numbering</b> &mdash; broken sequences like <code>&gt;&gt; 1.</code>, <code>&gt;&gt; 2.</code>, <code>&gt;&gt; 2.</code> renumber themselves silently as you type. Lists in different sections stay independent.</li>
-          <li><b>Item actions</b> &mdash; toggle done (<code>Ctrl+Alt+D</code>), star (⭐), pin (📌), flag (🚩), and note (📝) on a single item or across a multi-line selection. Right-click in the editor or use <code>Ctrl+Shift+A</code> &rarr; <code>CL:</code>.</li>
-          <li><b>Settings panel</b> &mdash; under <code>Settings &rarr; Tools &rarr; Chevron Lists</code> you can choose the bullet character (<code>-</code>, <code>*</code>, etc.), make new lists default to numbered, and toggle auto-fix.</li>
+          <li><b>Syntax highlighting</b> - chevron prefixes are coloured so section structure stands out at a glance.</li>
+          <li><b>Live diagnostics</b> - duplicate <code>&gt; Section</code> headers, duplicate <code>##</code> markdown subheadings, broken numbered-list sequences, and empty sections all get warning underlines with helpful hover messages.</li>
+          <li><b>Smart Enter key</b> - pressing Enter on a chevron line continues the list automatically (<code>&gt;&gt; - </code> after a bullet, <code>&gt;&gt; 2. </code> after <code>&gt;&gt; 1.</code>, etc.). Empty list items break out of the list.</li>
+          <li><b>Auto-fix numbering</b> - broken sequences like <code>&gt;&gt; 1.</code>, <code>&gt;&gt; 2.</code>, <code>&gt;&gt; 2.</code> renumber themselves silently as you type. Lists in different sections stay independent.</li>
+          <li><b>Item actions</b> - toggle done (<code>Ctrl+Alt+D</code>), star (⭐), pin (📌), flag (🚩), and note (📝) on a single item or across a multi-line selection. Right-click in the editor or use <code>Ctrl+Shift+A</code> &rarr; <code>CL:</code>.</li>
+          <li><b>Settings panel</b> - under <code>Settings &rarr; Tools &rarr; Chevron Lists</code> you can choose the bullet character (<code>-</code>, <code>*</code>, etc.), make new lists default to numbered, and toggle auto-fix.</li>
         </ul>
 
         <h3>Example</h3>
@@ -31,7 +31,7 @@
 &gt;&gt; - 📌 Team retro on Friday at 14:00</pre>
 
         <h3>About</h3>
-        <p>This is the official JetBrains port of the <a href="https://marketplace.visualstudio.com/items?itemName=lewisisworking.chevron-lists">Chevron Lists VS Code extension</a>. Markdown files written in either editor render identically in the other &mdash; both plugins share the same syntax and conventions.</p>
+        <p>This is the official JetBrains port of the <a href="https://marketplace.visualstudio.com/items?itemName=lewisisworking.chevron-lists">Chevron Lists VS Code extension</a>. Markdown files written in either editor render identically in the other - both plugins share the same syntax and conventions.</p>
 
         <p>Source code, issue tracker, and contributions: <a href="https://github.com/LewisIsWorking/ChevronListsJetBrains">github.com/LewisIsWorking/ChevronListsJetBrains</a></p>
     ]]></description>

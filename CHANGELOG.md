@@ -12,16 +12,16 @@
 ## [0.15.0] - 2026-09-06
 ### Fixed
 - **`until-build` is no longer capped, which was a delisting trap.** v0.14.1 pinned `until-build = "261.*"`. The current IDE release is build **262** (2026.2.2) with **263** already in EAP, so releasing 0.14.1 as-is would have hidden the plugin from the Marketplace for every user on 2026.2 or newer. The upper bound is now omitted entirely via `provider { null }`, matching the published 0.8.0 which stayed compatible across majors. New IDE majors no longer require a re-release to stay listed.
-- **The plugin crashed on Enter for every 2024.3 and 2025.1 user.** `ChevronEnterHandler` implemented only `preprocessEnter`. On IntelliJ Platform 2025.2+ the `EnterHandlerDelegate` interface gives `postProcessEnter` a default body, but on 243 and 251 it is still abstract — so a plugin compiled against 2025.2 built and passed tests, then threw `AbstractMethodError` the first time the user pressed Enter in a markdown file on the older IDEs the plugin claims to support via `since-build = 243`. `postProcessEnter` is now implemented explicitly, returning `Continue` to match the newer platforms' default. Caught by the IntelliJ Plugin Verifier, which reported the problem against IU-243 and IU-251 only.
-- **Auto-fix debounce could retain a closed project.** `ChevronAutoFixListener` is an application-level service, so its `Alarm` outlives any single project. The pending request captured the `Document` and `Project` strongly, so closing a project inside the 250ms debounce window kept it reachable until the request fired — and a retained `Project` pins its entire PSI tree and indices. The request now holds weak references and skips a disposed project, and `dispose()` cancels anything still pending.
+- **The plugin crashed on Enter for every 2024.3 and 2025.1 user.** `ChevronEnterHandler` implemented only `preprocessEnter`. On IntelliJ Platform 2025.2+ the `EnterHandlerDelegate` interface gives `postProcessEnter` a default body, but on 243 and 251 it is still abstract - so a plugin compiled against 2025.2 built and passed tests, then threw `AbstractMethodError` the first time the user pressed Enter in a markdown file on the older IDEs the plugin claims to support via `since-build = 243`. `postProcessEnter` is now implemented explicitly, returning `Continue` to match the newer platforms' default. Caught by the IntelliJ Plugin Verifier, which reported the problem against IU-243 and IU-251 only.
+- **Auto-fix debounce could retain a closed project.** `ChevronAutoFixListener` is an application-level service, so its `Alarm` outlives any single project. The pending request captured the `Document` and `Project` strongly, so closing a project inside the 250ms debounce window kept it reachable until the request fired - and a retained `Project` pins its entire PSI tree and indices. The request now holds weak references and skips a disposed project, and `dispose()` cancels anything still pending.
 
 ### Changed
-- **Updated to the current JetBrains platform and toolchain.** Compile target moved from IntelliJ 2025.2.6.2 to **2026.2.2**, IntelliJ Platform Gradle Plugin 2.16.0 → **2.18.1**, and Kotlin 2.1.20 → **2.4.10**. The Kotlin bump is not optional: IntelliJ 2026.2 ships Kotlin **2.4.0** binary metadata, so older compilers reject its jars outright (`Module was compiled with an incompatible version of Kotlin`). The JVM toolchain is now pinned to 23 for both `compileJava` and `compileKotlin` — the platform derives Kotlin's `jvmTarget` from the target IDE, so leaving Java to follow whatever JDK ran Gradle produced `Inconsistent JVM-target compatibility (25 vs 23)` on machines with a newer JBR. CI's `setup-java` moves 21 → 23 to match.
+- **Updated to the current JetBrains platform and toolchain.** Compile target moved from IntelliJ 2025.2.6.2 to **2026.2.2**, IntelliJ Platform Gradle Plugin 2.16.0 → **2.18.1**, and Kotlin 2.1.20 → **2.4.10**. The Kotlin bump is not optional: IntelliJ 2026.2 ships Kotlin **2.4.0** binary metadata, so older compilers reject its jars outright (`Module was compiled with an incompatible version of Kotlin`). The JVM toolchain is now pinned to 23 for both `compileJava` and `compileKotlin` - the platform derives Kotlin's `jvmTarget` from the target IDE, so leaving Java to follow whatever JDK ran Gradle produced `Inconsistent JVM-target compatibility (25 vs 23)` on machines with a newer JBR. CI's `setup-java` moves 21 → 23 to match.
 - Compatibility is unchanged: `since-build` stays at 243 with no upper bound, and the Plugin Verifier still checks the whole 243–263 range.
-- **Dropped the last scheduled-for-removal API.** `ChevronListsConfigurable` built its two combo-box renderers with `SimpleListCellRenderer.create(...)`. Every static `create()` overload is deprecated and marked for removal — the older `create(nullValue, getText)` and the newer `create(Customizer)` alike — which the Verifier reported against 2026.2 and 2026.3. Both renderers now subclass `SimpleListCellRenderer` and override `customize()`; the class itself is not deprecated, so this is stable across the whole declared range. (The modern `com.intellij.ui.dsl.listCellRenderer` DSL is the other replacement, but it postdates 2024.3 and would have broken `since-build = 243`.) With no `until-build` there is no version ceiling to stop the plugin loading into the IDE that finally drops the removed method, so carrying a removal-marked API was the one real risk of an open bound.
+- **Dropped the last scheduled-for-removal API.** `ChevronListsConfigurable` built its two combo-box renderers with `SimpleListCellRenderer.create(...)`. Every static `create()` overload is deprecated and marked for removal - the older `create(nullValue, getText)` and the newer `create(Customizer)` alike - which the Verifier reported against 2026.2 and 2026.3. Both renderers now subclass `SimpleListCellRenderer` and override `customize()`; the class itself is not deprecated, so this is stable across the whole declared range. (The modern `com.intellij.ui.dsl.listCellRenderer` DSL is the other replacement, but it postdates 2024.3 and would have broken `since-build = 243`.) With no `until-build` there is no version ceiling to stop the plugin loading into the IDE that finally drops the removed method, so carrying a removal-marked API was the one real risk of an open bound.
 
 ### Added
-- **`publishPlugin` is now actually configured.** `.github/workflows/release.yml` passes `PUBLISH_TOKEN`, `CERTIFICATE_CHAIN`, `PRIVATE_KEY` and `PRIVATE_KEY_PASSWORD` as environment variables, but the Gradle plugin does not read them on its own — there was no `publishing {}` or `signing {}` block, so the automated release would have failed on a missing token even with the repository secrets set. Both blocks are now wired to those environment variables.
+- **`publishPlugin` is now actually configured.** `.github/workflows/release.yml` passes `PUBLISH_TOKEN`, `CERTIFICATE_CHAIN`, `PRIVATE_KEY` and `PRIVATE_KEY_PASSWORD` as environment variables, but the Gradle plugin does not read them on its own - there was no `publishing {}` or `signing {}` block, so the automated release would have failed on a missing token even with the repository secrets set. Both blocks are now wired to those environment variables.
 
 ### Notes
 - Versions 0.9.0 through 0.14.1 were built but never published; the Marketplace has been serving 0.8.0 since 2026-05-21. This release carries all of that accumulated work: inline `#tag` / `!!!` priority / `@date` highlighting (0.9.0), Promote/Demote/Cycle List Type (0.10.0), the colour settings page (0.11.0), tag autocomplete (0.12.0), 13 colour presets (0.13.0), and colour labels (0.14.0).
@@ -48,10 +48,10 @@
 ## [0.13.0] - 2026-05-21
 ### Added
 - **Colour presets**, ported from the VS Code extension. 13 co-ordinated palettes are available under `Settings → Tools → Chevron Lists → Colour preset`:
-  - **Default** — violet headers, slate prefixes, lime numbers (matches the plugin icon)
-  - **Classic** — amber/grey/blue (the original VS Code theme)
+  - **Default** - violet headers, slate prefixes, lime numbers (matches the plugin icon)
+  - **Classic** - amber/grey/blue (the original VS Code theme)
   - **Ocean, Forest, Sunset, Monochrome, Midnight, Rose, Autumn, Arctic, Neon, Sepia**
-  - **Custom** — use per-scheme colours from `Settings → Editor → Color Scheme → Chevron Lists` (the escape hatch for users who want full per-scheme control).
+  - **Custom** - use per-scheme colours from `Settings → Editor → Color Scheme → Chevron Lists` (the escape hatch for users who want full per-scheme control).
 - New `CHEVRON_LISTS_NUMBER` colour for the digit token in numbered items (`1.`, `2.`, ...), driven by the active preset and customisable per-scheme.
 - Markdown files now render with co-ordinated colours that match the VS Code extension's palette identically.
 - Pure `ColourPresets.kt` and `ColourPresetApplier.kt` modules with 10 new JUnit tests covering preset lookup, custom fallback, attribute resolution, and palette completeness.
@@ -62,7 +62,7 @@
 ## [0.12.0] - 2026-05-21
 ### Added
 - **Tag autocomplete**. Typing `#` and any letters in a markdown file, then pressing `Ctrl+Space` (or waiting for auto-popup), now suggests every existing `#tag` from the current document. Selecting a suggestion completes the rest of the tag in place.
-- Tag completion respects the same detection rules as the highlighter — a `#` must be at the start of the line or follow whitespace, and the first character after `#` must be a letter.
+- Tag completion respects the same detection rules as the highlighter - a `#` must be at the start of the line or follow whitespace, and the first character after `#` must be a letter.
 - Pure `extractAllTags(text)` function in new `TagCompletion.kt`, with 8 new JUnit tests covering deduplication, hyphen/underscore tags, multi-line documents, and rejection of issue numbers like `#123`.
 
 ## [0.11.0] - 2026-05-21
@@ -80,9 +80,9 @@
 
 ## [0.10.0] - 2026-05-21
 ### Added
-- **`CL: Promote Item`** — decreases the current item's chevron depth (`>>> - foo` → `>> - foo`). No-op at depth 2 since that's the minimum for an item.
-- **`CL: Demote Item`** — increases the current item's chevron depth (`>> - foo` → `>>> - foo`). No upper bound; items can be nested as deep as you want.
-- **`CL: Cycle List Type`** — toggles the current item between bullet and numbered form (`>> - foo` ↔ `>> 1. foo`). Auto-fix-numbering will then renumber any resulting sequence.
+- **`CL: Promote Item`** - decreases the current item's chevron depth (`>>> - foo` → `>> - foo`). No-op at depth 2 since that's the minimum for an item.
+- **`CL: Demote Item`** - increases the current item's chevron depth (`>> - foo` → `>>> - foo`). No upper bound; items can be nested as deep as you want.
+- **`CL: Cycle List Type`** - toggles the current item between bullet and numbered form (`>> - foo` ↔ `>> 1. foo`). Auto-fix-numbering will then renumber any resulting sequence.
 - All three available via the editor right-click menu and `Ctrl+Shift+A` action search. Multi-line selection processes every item in the selection in one stroke. Markers and content (`⭐`, `#tags`, `@dates`, etc.) are fully preserved through the transformation.
 - Pure `computePromote`, `computeDemote`, `computeCycleListType` functions in new `ItemTransforms.kt`, with 22 new JUnit tests covering depth bounds, content preservation, number/prefix handling, and non-item rejection.
 
@@ -91,12 +91,12 @@
 
 ## [0.9.0] - 2026-05-21
 ### Added
-- **Inline syntax highlighting** — three new visual decorations applied to any markdown file (chevron items and plain paragraphs alike):
+- **Inline syntax highlighting** - three new visual decorations applied to any markdown file (chevron items and plain paragraphs alike):
   - **`#tags`** like `#urgent`, `#blocked`, `#in-progress` are highlighted using your IDE's metadata colour. Must start with a letter and may contain word characters and hyphens.
   - **Priority markers** as standalone tokens:
-    - **`!!!`** (high) — KEYWORD colour
-    - **`!!`**  (medium) — NUMBER colour
-    - **`!`**   (low) — PREDEFINED_SYMBOL colour
+    - **`!!!`** (high) - KEYWORD colour
+    - **`!!`**  (medium) - NUMBER colour
+    - **`!`**   (low) - PREDEFINED_SYMBOL colour
   - **Due dates** like `@2026-04-22` (ISO format) are highlighted using your STRING colour.
 - All five new `TextAttributesKey` constants (`CHEVRON_LISTS_TAG`, `..._PRIORITY_HIGH/MEDIUM/LOW`, `..._DATE`) are user-customisable via `Settings → Editor → Color Scheme → General`.
 - New pure `InlinePatterns.kt` module with `findTags`, `findPriorities`, `findDueDates` and `PriorityMatch` data class.
@@ -108,17 +108,17 @@
 
 ## [0.8.0] - 2026-05-21
 ### Added
-- **Plugin icon** — a native SVG reproduction of the VS Code plugin's logo (four chevron rows in purple/lime/blue/lavender on a `#12122A` background). Scales crisply from 16×16 in the plugin manager to 80×80+ on the Marketplace listing.
-- **Marketplace-ready description** — detailed feature list, code example, and link to the VS Code counterpart, rendered in the JetBrains Marketplace listing.
-- **Change notes** — versioned history surfaced in the plugin manager's "What's New" tab.
-- **Compatibility range** — `since-build="243"` (IntelliJ Platform 2024.3+); `until-build` left open so new IDE releases install without manual bumps.
+- **Plugin icon** - a native SVG reproduction of the VS Code plugin's logo (four chevron rows in purple/lime/blue/lavender on a `#12122A` background). Scales crisply from 16×16 in the plugin manager to 80×80+ on the Marketplace listing.
+- **Marketplace-ready description** - detailed feature list, code example, and link to the VS Code counterpart, rendered in the JetBrains Marketplace listing.
+- **Change notes** - versioned history surfaced in the plugin manager's "What's New" tab.
+- **Compatibility range** - `since-build="243"` (IntelliJ Platform 2024.3+); `until-build` left open so new IDE releases install without manual bumps.
 
 ## [0.7.0] - 2026-05-21
 ### Added
-- **`CL: Toggle Star`**  — toggles a ⭐ marker on the current item.
-- **`CL: Toggle Pin`**   — toggles a 📌 marker.
-- **`CL: Toggle Flag`**  — toggles a 🚩 marker.
-- **`CL: Toggle Note`**  — toggles a 📝 marker.
+- **`CL: Toggle Star`** - toggles a ⭐ marker on the current item.
+- **`CL: Toggle Pin`** - toggles a 📌 marker.
+- **`CL: Toggle Flag`** - toggles a 🚩 marker.
+- **`CL: Toggle Note`** - toggles a 📝 marker.
 - All four available via the editor right-click menu and `Ctrl+Shift+A` action search. Markers can coexist: starring a flagged item yields `⭐ 🚩 Task` rather than replacing the flag. Multi-line selection toggles every item in the range in one stroke.
 - Pure `toggleMarker(content, marker)` and `computeToggleMarker(line, prefix, marker)` functions in `ItemCommands.kt`, with 17 new JUnit tests covering presence detection, removal at any position, marker coexistence, and edge cases (empty content, multiple internal spaces, depth/number preservation).
 
@@ -138,7 +138,7 @@
 
 ## [0.5.0] - 2026-05-17
 ### Added
-- **Auto-fix numbering as you type**. The plugin now watches all open `.md` files and silently renumbers numbered lists when sequences break. Typing `>> 2.` immediately after `>> 1. ... >> 2.` (a duplicate) automatically becomes `>> 3.`. Independent per section and per chevron depth — lists in different sections never collide.
+- **Auto-fix numbering as you type**. The plugin now watches all open `.md` files and silently renumbers numbered lists when sequences break. Typing `>> 2.` immediately after `>> 1. ... >> 2.` (a duplicate) automatically becomes `>> 3.`. Independent per section and per chevron depth - lists in different sections never collide.
 - New `autoFixNumbering` setting under `Tools → Chevron Lists`, on by default. Toggle off if you want only the warning underlines without auto-edits.
 - Pure `computeAutoFixEdits` function in `Diagnostics.kt` with full plain-JUnit coverage (7 new tests).
 - Application-level `ChevronAutoFixListener` service with 250ms debounce, applied via `WriteCommandAction` so edits stack with the user's own undo history correctly.
@@ -149,10 +149,10 @@
 ## [0.4.0] - 2026-05-17
 ### Added
 - **Settings panel**. New `Settings → Tools → Chevron Lists` panel with two configurable options:
-  - **List prefix** — the character used after `>>` for bullet items (default `-`, change to `*` for `>> *`, etc.).
-  - **Default new list type** — `unordered` inserts `>> - ` after Enter on a header (default), `ordered` inserts `>> 1. ` so headers start numbered lists by default.
+  - **List prefix** - the character used after `>>` for bullet items (default `-`, change to `*` for `>> *`, etc.).
+  - **Default new list type** - `unordered` inserts `>> - ` after Enter on a header (default), `ordered` inserts `>> 1. ` so headers start numbered lists by default.
 - Persistent settings stored in `chevronLists.xml` at the IDE config level, shared across all projects.
-- `ChevronEnterHandler` now reads both settings live — no IDE restart required when you change them.
+- `ChevronEnterHandler` now reads both settings live - no IDE restart required when you change them.
 
 ## [0.3.0] - 2026-05-17
 ### Added
@@ -165,7 +165,7 @@
 
 ## [0.2.0] - 2026-05-17
 ### Added
-- Bad-numbering diagnostic: flags numbered lists that break sequence (e.g. `>> 1.` followed by `>> 3.`) with a warning underline and a hover message showing the expected number. Independent per section and per chevron depth — lists in different sections never collide.
+- Bad-numbering diagnostic: flags numbered lists that break sequence (e.g. `>> 1.` followed by `>> 3.`) with a warning underline and a hover message showing the expected number. Independent per section and per chevron depth - lists in different sections never collide.
 - Empty-section diagnostic: flags any `> Section` header that has no chevron items before the next section starts. The currently-trailing section is never flagged since you may still be writing it.
 - New `Diagnostics.kt` module: pure diagnostic functions (`collectIssues`, `collectDuplicateHeaders`, `collectDuplicateSubheadings`, `collectBadNumbering`, `collectEmptySections`) with full plain-JUnit coverage.
 
