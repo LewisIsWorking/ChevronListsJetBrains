@@ -155,6 +155,18 @@
                 description="Move the caret to the previous > section header">
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt UP"/>
         </action>
+        <action id="ChevronLists.SortItemsAscending"
+                class="com.lewisisworking.chevronlists.SortItemsAscendingAction"
+                text="CL: Sort Items A to Z"
+                description="Sort the items of this section A to Z, keeping nested items with their parent">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SortItemsDescending"
+                class="com.lewisisworking.chevronlists.SortItemsDescendingAction"
+                text="CL: Sort Items Z to A"
+                description="Sort the items of this section Z to A, keeping nested items with their parent">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.MoveItemUp"
                 class="com.lewisisworking.chevronlists.MoveItemUpAction"
                 text="CL: Move Item Up"

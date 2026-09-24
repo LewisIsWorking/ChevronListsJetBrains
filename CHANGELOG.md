@@ -5,9 +5,11 @@
 - **Paste several lines as separate items.** Pasting multi-line text (a chat log, an e-mail, a list from elsewhere) into a chevron item now puts each line on its own item at the same depth. Blank lines are dropped, each line is trimmed, and lines that were already chevron items keep only their text. Numbered items keep counting, and with *Auto-fix numbering* on, the items after them are renumbered. A single line pastes as before. Turn it off under *Settings → Tools → Chevron Lists → Paste several lines as separate items*. Matches the VS Code extension's 26.7.0 behaviour.
 
 - **Move Item Up / Move Item Down** (`Ctrl+Alt+Shift+Up` / `Ctrl+Alt+Shift+Down`). An item swaps with the previous or next item at the same depth in its section, and anything nested under it travels with it, so a parent never lands below its own children. Items never cross a `> Header`. Numbered items are renumbered by the existing auto-fix.
+- **Sort Items A to Z / Z to A** (editor right-click menu, or Find Action). Sorts the section at the caret. Each item moves with everything nested under it, nested items are sorted among themselves, and blank lines or notes stay put and split the lists around them. Numbers stay with their positions, so a list that read 1, 2, 3 still does.
 - **Jump to Next / Previous Header** (`Ctrl+Alt+Down` / `Ctrl+Alt+Up`, the same keys as the VS Code extension). Active only in markdown files; elsewhere those keys keep the IDE's Next / Previous Occurrence.
 
 ### Fixed
+- **Auto-fix no longer renumbers the children of a second parent.** Numbered lists were grouped by section and depth alone, so in `>> 1. a`, `>>> 1. a1`, `>> 2. b`, `>>> 1. b1` the checker flagged `b1` and auto-fix changed it to `2.` as you typed. A list now runs until a header or a shallower line interrupts it, as in the VS Code extension since 26.7.0.
 - **An over-long item number no longer throws on every edit.** A line such as `>> 99999999999. item` threw `NumberFormatException` from the numbering auto-fix, which runs on every edit of every markdown file, and from the highlighter and the Enter handler. `>> 2147483647. x` did parse, and Enter then offered item -2147483648. Item numbers are now at most nine digits; longer ones are plain text.
 
 ## [0.15.0] - 2026-09-06
