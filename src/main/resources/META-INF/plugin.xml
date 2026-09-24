@@ -155,6 +155,24 @@
                 description="Move the caret to the previous > section header">
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt UP"/>
         </action>
+        <action id="ChevronLists.RenumberItems"
+                class="com.lewisisworking.chevronlists.RenumberItemsAction"
+                text="CL: Renumber Items"
+                description="Number every list in this section from 1; nested lists are counted separately">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ConvertBulletsToNumbered"
+                class="com.lewisisworking.chevronlists.ConvertBulletsToNumberedAction"
+                text="CL: Convert Bullets to Numbered List"
+                description="Turn every bullet in this section into a numbered item">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ConvertNumberedToBullets"
+                class="com.lewisisworking.chevronlists.ConvertNumberedToBulletsAction"
+                text="CL: Convert Numbered List to Bullets"
+                description="Turn every numbered item in this section into a bullet">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.SortItemsAscending"
                 class="com.lewisisworking.chevronlists.SortItemsAscendingAction"
                 text="CL: Sort Items A to Z"

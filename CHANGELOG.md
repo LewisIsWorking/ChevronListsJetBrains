@@ -6,6 +6,7 @@
 
 - **Move Item Up / Move Item Down** (`Ctrl+Alt+Shift+Up` / `Ctrl+Alt+Shift+Down`). An item swaps with the previous or next item at the same depth in its section, and anything nested under it travels with it, so a parent never lands below its own children. Items never cross a `> Header`. Numbered items are renumbered by the existing auto-fix.
 - **Sort Items A to Z / Z to A** (editor right-click menu, or Find Action). Sorts the section at the caret. Each item moves with everything nested under it, nested items are sorted among themselves, and blank lines or notes stay put and split the lists around them. Numbers stay with their positions, so a list that read 1, 2, 3 still does.
+- **Renumber Items, Convert Bullets to Numbered List, Convert Numbered List to Bullets** (right-click menu, or Find Action), each for the section at the caret. Renumber starts every list at 1, counting nested lists separately. Converting to numbered continues each list from its highest existing number. Converting to bullets only changes the marker.
 - **Jump to Next / Previous Header** (`Ctrl+Alt+Down` / `Ctrl+Alt+Up`, the same keys as the VS Code extension). Active only in markdown files; elsewhere those keys keep the IDE's Next / Previous Occurrence.
 
 ### Fixed
