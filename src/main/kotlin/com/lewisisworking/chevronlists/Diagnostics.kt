@@ -67,19 +67,17 @@ fun collectDuplicateSubheadings(lines: List<String>): List<DiagnosticIssue> {
 }
 
 /**
- * Pure: flags numbered items that break sequence within their section.
- * Items are grouped by (section, chevron-depth) so lists in different
- * sections or at different depths never collide.
+ * Pure: flags numbered items that break sequence within their list.
+ * Items are grouped into lists by NumberingRuns, so lists in different
+ * sections, at different depths, or under different parents never collide.
  */
 fun collectBadNumbering(lines: List<String>): List<DiagnosticIssue> {
     data class Item(val lineIndex: Int, val num: Int)
-    val byKey = HashMap<String, MutableList<Item>>()
-    var currentSection = -1
+    val byKey = LinkedHashMap<Int, MutableList<Item>>()
+    val runs  = NumberingRuns()
     for ((i, line) in lines.withIndex()) {
-        if (isHeader(line)) { currentSection = i; continue }
-        val n = parseNumbered(line) ?: continue
-        val key = "$currentSection::${n.chevrons}"
-        byKey.getOrPut(key) { mutableListOf() }.add(Item(i, n.num))
+        val run = runs.visit(line) ?: continue
+        byKey.getOrPut(run) { mutableListOf() }.add(Item(i, parseNumbered(line)!!.num))
     }
     val out = mutableListOf<DiagnosticIssue>()
     for ((_, items) in byKey) {
@@ -97,8 +95,8 @@ fun collectBadNumbering(lines: List<String>): List<DiagnosticIssue> {
 
 /**
  * Pure: computes the buffer edits needed to renumber broken numbered-list sequences.
- * Mirrors the VS Code `computeAutoFixEdits` in patternsUtils.ts. Items are grouped by
- * (section, chevron-depth) so lists in different sections never collide.
+ * Mirrors the VS Code `computeAutoFixEdits` in patternsUtils.ts. Items are grouped
+ * into lists by NumberingRuns, so the children of two parents are two lists.
  *
  * For each group, the first item's number is taken as the start. The next items are
  * expected to be sequential; once a break is detected, everything from that point on
@@ -106,13 +104,11 @@ fun collectBadNumbering(lines: List<String>): List<DiagnosticIssue> {
  */
 fun computeAutoFixEdits(lines: List<AutoFixLine>): List<AutoFixEdit> {
     data class Item(val lineIndex: Int, val num: Int, val text: String)
-    val byKey = HashMap<String, MutableList<Item>>()
-    var currentSection = -1
+    val byKey = LinkedHashMap<Int, MutableList<Item>>()
+    val runs  = NumberingRuns()
     for (l in lines) {
-        if (isHeader(l.text)) { currentSection = l.lineIndex; continue }
-        val n = parseNumbered(l.text) ?: continue
-        val key = "$currentSection::${n.chevrons}"
-        byKey.getOrPut(key) { mutableListOf() }.add(Item(l.lineIndex, n.num, l.text))
+        val run = runs.visit(l.text) ?: continue
+        byKey.getOrPut(run) { mutableListOf() }.add(Item(l.lineIndex, parseNumbered(l.text)!!.num, l.text))
     }
 
     val edits = mutableListOf<AutoFixEdit>()

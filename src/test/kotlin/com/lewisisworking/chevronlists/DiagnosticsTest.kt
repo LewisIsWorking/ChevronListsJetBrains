@@ -108,6 +108,34 @@ class DiagnosticsTest {
         assertEquals(">> 3. d", edits[1].newText)
     }
 
+    // Children of two different parents are two lists. Both used to be keyed by
+    // depth alone, so auto-fix renumbered b1 to 2 as the user typed.
+    private val twoParents = arrayOf("> H", ">> 1. a", ">>> 1. a1", ">> 2. b", ">>> 1. b1")
+
+    @Test fun `autoFix leaves the children of a second parent starting at 1`() =
+        assertTrue(computeAutoFixEdits(fixLines(*twoParents)).isEmpty())
+
+    @Test fun `no numbering warning for the children of a second parent`() =
+        assertTrue(collectBadNumbering(twoParents.toList()).isEmpty())
+
+    @Test fun `a bullet parent also starts a new child list`() {
+        val lines = arrayOf("> H", ">> - a", ">>> 1. a1", ">>> 2. a2", ">> - b", ">>> 1. b1")
+        assertTrue(computeAutoFixEdits(fixLines(*lines)).isEmpty())
+        assertTrue(collectBadNumbering(lines.toList()).isEmpty())
+    }
+
+    @Test fun `a list broken only by deeper items is still one list`() {
+        val edits = computeAutoFixEdits(fixLines("> H", ">> 1. a", ">>> 1. a1", ">> 1. b"))
+        assertEquals(1, edits.size)
+        assertEquals(">> 2. b", edits[0].newText)
+    }
+
+    @Test fun `a real break inside a child list is still fixed`() {
+        val edits = computeAutoFixEdits(fixLines("> H", ">> 1. a", ">>> 1. a1", ">>> 1. a2"))
+        assertEquals(1, edits.size)
+        assertEquals(">>> 2. a2", edits[0].newText)
+    }
+
     // The listener runs this on every edit of every .md file; a huge number used to throw
     @Test fun `autoFix ignores a number too long for an Int instead of throwing`() {
         val edits = computeAutoFixEdits(fixLines("> H", ">> 1. a", ">> 99999999999. huge", ">> 3. c"))
