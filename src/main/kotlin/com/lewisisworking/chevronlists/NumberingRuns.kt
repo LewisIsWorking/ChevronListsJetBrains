@@ -27,12 +27,16 @@ class NumberingRuns {
     private val runs = HashMap<Int, Int>()
     private var nextRun = 0
 
-    /** Records [text] and returns the run of the numbered item on it, or null when it is not one */
-    fun visit(text: String): Int? {
+    /**
+     * Records [text] and returns the run of the numbered item on it, or null when
+     * it is not one. [asNumbered] treats a chevron line as numbered, for commands
+     * about to number it.
+     */
+    fun visit(text: String, asNumbered: Boolean = false): Int? {
         if (isHeader(text)) { runs.clear(); return null }
         val depth = chevronDepth(text) ?: return null
         runs.keys.removeAll { it > depth }
-        if (parseNumbered(text) == null) return null
+        if (!asNumbered && parseNumbered(text) == null) return null
         return runs.getOrPut(depth) { nextRun++ }
     }
 }
