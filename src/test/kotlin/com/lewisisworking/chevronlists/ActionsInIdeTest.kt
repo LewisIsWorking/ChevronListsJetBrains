@@ -101,7 +101,11 @@ class ActionsInIdeTest : BasePlatformTestCase() {
             open("> H\n>> - <caret>")
             CopyPasteManager.getInstance().setContents(StringSelection("one\ntwo"))
             run(IdeActions.ACTION_EDITOR_PASTE)
-            assertEquals("> H\n>> - one\ntwo", myFixture.editor.document.text)
+            // An ordinary paste: the IDE may indent the second line to the caret
+            // column, but it must not become an item
+            val lines = myFixture.editor.document.text.split("\n")
+            assertEquals(listOf("> H", ">> - one", "two"), lines.map { it.trim() })
+            assertNull(parseBullet(lines[2], "-"))
         } finally {
             state.pasteLinesAsItems = true
         }
