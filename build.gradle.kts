@@ -131,3 +131,12 @@ kover {
         }
     }
 }
+
+// The platform tests (ActionsInIdeTest) boot a headless IDE. IntelliJ IDEA
+// 2026.2 is one distribution that includes the Ultimate modules, and one of
+// their obfuscated extensions cannot be constructed in a test environment
+// ("Cannot find suitable constructor"), which failed every test at startup.
+// Load only this plugin and the Markdown plugin it depends on.
+tasks.test {
+    systemProperty("idea.load.plugins.id", "com.lewisisworking.chevronlists,org.intellij.plugins.markdown")
+}
