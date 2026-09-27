@@ -45,7 +45,7 @@ class ChevronListsAnnotator : Annotator {
             "CHEVRON_LISTS_NUMBER", DefaultLanguageHighlighterColors.NUMBER
         )
         private val CHEVRON_PREFIX  = Regex("""^(>+)""")
-        private val NUMBERED_PREFIX = Regex("""^(>+)\s+(\d{1,9}\.)""")  // same digit limit as parseNumbered
+        private val NUMBERED_PREFIX = Regex("""^(>{2,})\s+(\d{1,9}\.)""")  // same rules as parseNumbered: two chevrons, 9 digits
     }
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
