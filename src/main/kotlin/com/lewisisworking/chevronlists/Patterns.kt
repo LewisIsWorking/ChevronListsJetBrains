@@ -7,12 +7,15 @@
 package com.lewisisworking.chevronlists
 
 private val HEADER_REGEX   = Regex("""^> (.*)$""")
-private val BULLET_REGEX   = Regex("""^(>+)\s+(\S)\s+(.*)$""")
+// Items need two or more chevrons: a single ">" is a section header, so
+// "> - Notes" or "> 1. Plan" must not be read as an item (it used to be, and
+// pasting into it made new headers). Matches the VS Code extension.
+private val BULLET_REGEX   = Regex("""^(>{2,})\s+(\S)\s+(.*)$""")
 // At most 9 digits, so the number and the next one (Enter, renumbering) always fit
 // in an Int. With \d+ a line such as ">> 99999999999. x" threw
 // NumberFormatException from toInt(), and the auto-fix listener parses every
 // markdown document on every edit. Longer numbers are plain text, not items.
-private val NUMBERED_REGEX = Regex("""^(>+)\s+(\d{1,9})\.\s*(.*)$""")
+private val NUMBERED_REGEX = Regex("""^(>{2,})\s+(\d{1,9})\.\s*(.*)$""")
 private val SUBHEAD_REGEX  = Regex("""^(#{1,6})\s+(.+)$""")
 
 /** Result of parsing a chevron line */
