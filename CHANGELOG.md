@@ -6,10 +6,12 @@
 
 - **Move Item Up / Move Item Down** (`Ctrl+Alt+Shift+Up` / `Ctrl+Alt+Shift+Down`). An item swaps with the previous or next item at the same depth in its section, and anything nested under it travels with it, so a parent never lands below its own children. Items never cross a `> Header`. Numbered items are renumbered by the existing auto-fix.
 - **Sort Items A to Z / Z to A** (editor right-click menu, or Find Action). Sorts the section at the caret. Each item moves with everything nested under it, nested items are sorted among themselves, and blank lines or notes stay put and split the lists around them. Numbers stay with their positions, so a list that read 1, 2, 3 still does.
+- **Duplicate Item** (right-click menu, or Find Action). The copy goes below the item's nested items, which are copied with it. A numbered copy takes the next number and the later items of the list move up by one.
 - **Renumber Items, Convert Bullets to Numbered List, Convert Numbered List to Bullets** (right-click menu, or Find Action), each for the section at the caret. Renumber starts every list at 1, counting nested lists separately. Converting to numbered continues each list from its highest existing number. Converting to bullets only changes the marker.
 - **Jump to Next / Previous Header** (`Ctrl+Alt+Down` / `Ctrl+Alt+Up`, the same keys as the VS Code extension). Active only in markdown files; elsewhere those keys keep the IDE's Next / Previous Occurrence.
 
 ### Fixed
+- **A section header is never treated as an item.** A header such as `> - Notes` or `> 1. Plan` also matched the item patterns, so pasting lines into it created new headers and Toggle Done or the marker toggles rewrote it. Items now need two or more chevrons, as in the VS Code extension.
 - **Auto-fix no longer renumbers the children of a second parent.** Numbered lists were grouped by section and depth alone, so in `>> 1. a`, `>>> 1. a1`, `>> 2. b`, `>>> 1. b1` the checker flagged `b1` and auto-fix changed it to `2.` as you typed. A list now runs until a header or a shallower line interrupts it, as in the VS Code extension since 26.7.0.
 - **An over-long item number no longer throws on every edit.** A line such as `>> 99999999999. item` threw `NumberFormatException` from the numbering auto-fix, which runs on every edit of every markdown file, and from the highlighter and the Enter handler. `>> 2147483647. x` did parse, and Enter then offered item -2147483648. Item numbers are now at most nine digits; longer ones are plain text.
 

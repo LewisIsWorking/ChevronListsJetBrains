@@ -155,6 +155,12 @@
                 description="Move the caret to the previous > section header">
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt UP"/>
         </action>
+        <action id="ChevronLists.DuplicateItem"
+                class="com.lewisisworking.chevronlists.DuplicateItemAction"
+                text="CL: Duplicate Item"
+                description="Copy this item, with anything nested under it, below itself; a numbered copy takes the next number">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenumberItems"
                 class="com.lewisisworking.chevronlists.RenumberItemsAction"
                 text="CL: Renumber Items"

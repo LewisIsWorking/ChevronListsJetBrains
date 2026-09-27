@@ -70,6 +70,13 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         assertEquals("> H\n>> - a\n>> - b", myFixture.editor.document.text)
     }
 
+    // Duplicate
+    fun `test duplicate copies the block below and renumbers the rest`() {
+        open("> H\n>> 1. <caret>a\n>>> - a1\n>> 2. b")
+        run("ChevronLists.DuplicateItem")
+        myFixture.checkResult("> H\n>> 1. a\n>>> - a1\n>> 2. <caret>a\n>>> - a1\n>> 3. b")
+    }
+
     // Header navigation
     fun `test jump to next and previous header`() {
         open("> One\n>> - <caret>a\n> Two\n>> - b")
