@@ -9,7 +9,9 @@
 package com.lewisisworking.chevronlists
 
 import com.intellij.lang.folding.LanguageFolding
+import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.IdeActions
+import com.intellij.openapi.editor.LogicalPosition
 import com.intellij.openapi.ide.CopyPasteManager
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import java.awt.datatransfer.StringSelection
@@ -69,6 +71,16 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         assertEquals("> H\n>> 1. a\n>> 2. b", myFixture.editor.document.text)
         run("ChevronLists.ConvertNumberedToBullets")
         assertEquals("> H\n>> - a\n>> - b", myFixture.editor.document.text)
+    }
+
+    // Go to Section (the popup itself cannot open in a headless IDE)
+    fun `test go to section is registered and jumps to the chosen header`() {
+        assertNotNull(ActionManager.getInstance().getAction("ChevronLists.GoToSection"))
+        open("> One\n>> - <caret>a\n> Two\n>> - b")
+        val entries = sectionEntries(myFixture.editor.document.text.split("\n"), "-")
+        assertEquals(listOf("One  (1 item)", "Two  (1 item)"), entries.map { it.label })
+        GoToSectionAction.jumpTo(myFixture.editor, entries[1])
+        assertEquals(LogicalPosition(2, 0), myFixture.editor.caretModel.logicalPosition)
     }
 
     // Section folding
