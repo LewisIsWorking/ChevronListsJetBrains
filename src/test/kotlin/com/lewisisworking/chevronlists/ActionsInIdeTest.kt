@@ -8,6 +8,7 @@
  */
 package com.lewisisworking.chevronlists
 
+import com.intellij.codeInsight.folding.CodeFoldingManager
 import com.intellij.openapi.actionSystem.IdeActions
 import com.intellij.openapi.ide.CopyPasteManager
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
@@ -68,6 +69,16 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         assertEquals("> H\n>> 1. a\n>> 2. b", myFixture.editor.document.text)
         run("ChevronLists.ConvertNumberedToBullets")
         assertEquals("> H\n>> - a\n>> - b", myFixture.editor.document.text)
+    }
+
+    // Section folding
+    fun `test each section folds with its item count`() {
+        open("> One\n>> - <caret>a\n>> - b\n\n> Two\n>> - c")
+        CodeFoldingManager.getInstance(project).buildInitialFoldings(myFixture.editor)
+        val ours = myFixture.editor.foldingModel.allFoldRegions.filter { it.placeholderText.contains("item") }
+        assertEquals(listOf(" (2 items)", " (1 item)"), ours.map { it.placeholderText })
+        // The first fold ends at "b", leaving the blank line before "> Two" visible
+        assertEquals(myFixture.editor.document.getLineEndOffset(2), ours[0].endOffset)
     }
 
     // Mark all done / undone

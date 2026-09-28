@@ -2,6 +2,7 @@
 
 ## [0.17.0] - Unreleased
 ### Added
+- **Sections fold.** Every `> Header` section gets a fold in the gutter, so Fold All / Unfold All and the gutter arrows work on sections. A folded section shows its item count after the header, such as `> Groceries (12 items)`. The fold ends at the section's last line, so the blank line before the next header stays visible.
 - **Mark All Done / Mark All Undone (Section)** (right-click menu, or Find Action). Ticks or clears every checkbox item in the section at the caret; an item without a checkbox is left alone, as in the VS Code extension.
 
 ## [0.16.0] - 2026-09-22
