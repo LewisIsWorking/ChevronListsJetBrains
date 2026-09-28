@@ -8,6 +8,7 @@
  */
 package com.lewisisworking.chevronlists
 
+import com.intellij.lang.folding.LanguageFolding
 import com.intellij.openapi.actionSystem.IdeActions
 import com.intellij.openapi.ide.CopyPasteManager
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
@@ -68,6 +69,22 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         assertEquals("> H\n>> 1. a\n>> 2. b", myFixture.editor.document.text)
         run("ChevronLists.ConvertNumberedToBullets")
         assertEquals("> H\n>> - a\n>> - b", myFixture.editor.document.text)
+    }
+
+    // Section folding
+    fun `test each section folds with its item count`() {
+        open("> One\n>> - <caret>a\n>> - b\n\n> Two\n>> - c")
+        val file = myFixture.file
+        assertEquals("Markdown", file.language.id)
+        // Registered for markdown files, alongside the Markdown plugin's own builder
+        assertTrue(LanguageFolding.INSTANCE.allForLanguage(file.language).any { it is ChevronFoldingBuilder })
+
+        val document = myFixture.editor.document
+        val folds = ChevronFoldingBuilder().buildFoldRegions(file, document, false)
+        assertEquals(listOf(" (2 items)", " (1 item)"), folds.map { it.placeholderText })
+        // The first fold ends at "b", leaving the blank line before "> Two" visible
+        assertEquals(document.getLineEndOffset(0), folds[0].range.startOffset)
+        assertEquals(document.getLineEndOffset(2), folds[0].range.endOffset)
     }
 
     // Mark all done / undone
