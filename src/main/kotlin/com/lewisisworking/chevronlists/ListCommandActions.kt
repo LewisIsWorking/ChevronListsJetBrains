@@ -62,3 +62,15 @@ class ConvertNumberedToBulletsAction : ChevronSectionListAction(
     actionDescription = "Turn every numbered item in this section into a bullet",
     change            = { lines, prefix -> numberedToBullets(lines, prefix) }
 )
+
+class MarkAllDoneAction : ChevronSectionListAction(
+    actionText        = "CL: Mark All Done (Section)",
+    actionDescription = "Tick every checkbox item in this section; items without a checkbox are left alone",
+    change            = { lines, prefix -> markAll(lines, done = true, listPrefix = prefix) }
+)
+
+class MarkAllUndoneAction : ChevronSectionListAction(
+    actionText        = "CL: Mark All Undone (Section)",
+    actionDescription = "Clear every checkbox item in this section; items without a checkbox are left alone",
+    change            = { lines, prefix -> markAll(lines, done = false, listPrefix = prefix) }
+)

@@ -70,6 +70,15 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         assertEquals("> H\n>> - a\n>> - b", myFixture.editor.document.text)
     }
 
+    // Mark all done / undone
+    fun `test mark all done and undone in the section`() {
+        open("> H\n>> - [ ] <caret>a\n>> - b\n>> 2. [x] c\n> Other\n>> - [ ] z")
+        run("ChevronLists.MarkAllDone")
+        assertEquals("> H\n>> - [x] a\n>> - b\n>> 2. [x] c\n> Other\n>> - [ ] z", myFixture.editor.document.text)
+        run("ChevronLists.MarkAllUndone")
+        assertEquals("> H\n>> - [ ] a\n>> - b\n>> 2. [ ] c\n> Other\n>> - [ ] z", myFixture.editor.document.text)
+    }
+
     // Duplicate
     fun `test duplicate copies the block below and renumbers the rest`() {
         open("> H\n>> 1. <caret>a\n>>> - a1\n>> 2. b")

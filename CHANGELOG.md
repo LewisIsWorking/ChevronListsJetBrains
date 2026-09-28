@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.17.0] - Unreleased
+### Added
+- **Mark All Done / Mark All Undone (Section)** (right-click menu, or Find Action). Ticks or clears every checkbox item in the section at the caret; an item without a checkbox is left alone, as in the VS Code extension.
+
 ## [0.16.0] - 2026-09-22
 ### Added
 - **Paste several lines as separate items.** Pasting multi-line text (a chat log, an e-mail, a list from elsewhere) into a chevron item now puts each line on its own item at the same depth. Blank lines are dropped, each line is trimmed, and lines that were already chevron items keep only their text. Numbered items keep counting, and with *Auto-fix numbering* on, the items after them are renumbered. A single line pastes as before. Turn it off under *Settings → Tools → Chevron Lists → Paste several lines as separate items*. Matches the VS Code extension's 26.7.0 behaviour.
