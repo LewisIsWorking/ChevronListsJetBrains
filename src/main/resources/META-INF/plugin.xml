@@ -145,6 +145,12 @@
                 description="Increase this item's chevron depth">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.GoToSection"
+                class="com.lewisisworking.chevronlists.GoToSectionAction"
+                text="CL: Go to Section"
+                description="Pick a &gt; section from a searchable list and jump to it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.JumpToNextHeader"
                 class="com.lewisisworking.chevronlists.JumpToNextHeaderAction"
                 text="CL: Jump to Next Header"
