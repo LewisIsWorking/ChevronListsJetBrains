@@ -99,6 +99,13 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         assertEquals(document.getLineEndOffset(2), folds[0].range.endOffset)
     }
 
+    // Archive done items
+    fun `test archive moves done blocks into a new archive`() {
+        open("> Tasks\n>> - [x] <caret>a\n>>> - a1\n>> - [ ] b")
+        run("ChevronLists.ArchiveDone")
+        assertEquals("> Tasks\n>> - [ ] b\n\n> Archive\n>> - [x] a\n>>> - a1", myFixture.editor.document.text)
+    }
+
     // Mark all done / undone
     fun `test mark all done and undone in the section`() {
         open("> H\n>> - [ ] <caret>a\n>> - b\n>> 2. [x] c\n> Other\n>> - [ ] z")
