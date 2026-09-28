@@ -163,6 +163,12 @@
                 description="Move the caret to the previous > section header">
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt UP"/>
         </action>
+        <action id="ChevronLists.ArchiveDone"
+                class="com.lewisisworking.chevronlists.ArchiveDoneAction"
+                text="CL: Archive Done Items"
+                description="Move the done items of this section, with anything nested under them, into the &gt; Archive section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.MarkAllDone"
                 class="com.lewisisworking.chevronlists.MarkAllDoneAction"
                 text="CL: Mark All Done (Section)"
