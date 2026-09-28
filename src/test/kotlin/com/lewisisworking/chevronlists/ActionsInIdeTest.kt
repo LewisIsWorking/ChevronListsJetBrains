@@ -8,7 +8,7 @@
  */
 package com.lewisisworking.chevronlists
 
-import com.intellij.codeInsight.folding.CodeFoldingManager
+import com.intellij.lang.folding.LanguageFolding
 import com.intellij.openapi.actionSystem.IdeActions
 import com.intellij.openapi.ide.CopyPasteManager
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
@@ -74,11 +74,17 @@ class ActionsInIdeTest : BasePlatformTestCase() {
     // Section folding
     fun `test each section folds with its item count`() {
         open("> One\n>> - <caret>a\n>> - b\n\n> Two\n>> - c")
-        CodeFoldingManager.getInstance(project).buildInitialFoldings(myFixture.editor)
-        val ours = myFixture.editor.foldingModel.allFoldRegions.filter { it.placeholderText.contains("item") }
-        assertEquals(listOf(" (2 items)", " (1 item)"), ours.map { it.placeholderText })
+        val file = myFixture.file
+        assertEquals("Markdown", file.language.id)
+        // Registered for markdown files, alongside the Markdown plugin's own builder
+        assertTrue(LanguageFolding.INSTANCE.allForLanguage(file.language).any { it is ChevronFoldingBuilder })
+
+        val document = myFixture.editor.document
+        val folds = ChevronFoldingBuilder().buildFoldRegions(file, document, false)
+        assertEquals(listOf(" (2 items)", " (1 item)"), folds.map { it.placeholderText })
         // The first fold ends at "b", leaving the blank line before "> Two" visible
-        assertEquals(myFixture.editor.document.getLineEndOffset(2), ours[0].endOffset)
+        assertEquals(document.getLineEndOffset(0), folds[0].range.startOffset)
+        assertEquals(document.getLineEndOffset(2), folds[0].range.endOffset)
     }
 
     // Mark all done / undone
