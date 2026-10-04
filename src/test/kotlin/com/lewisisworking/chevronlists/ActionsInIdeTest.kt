@@ -83,6 +83,16 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         assertEquals(LogicalPosition(2, 0), myFixture.editor.caretModel.logicalPosition)
     }
 
+    // Filter by Tag (the popups cannot open in a headless IDE)
+    fun `test filter by tag is registered and jumps to the tagged item`() {
+        assertNotNull(ActionManager.getInstance().getAction("ChevronLists.FilterByTag"))
+        open("> One\n>> - <caret>a #x\n> Two\n>> - b #x #y")
+        val hits = tagHits(myFixture.editor.document.text.split("\n"), "-")
+        assertEquals(listOf("x" to 2, "y" to 1), tagCounts(hits))
+        FilterByTagAction.jumpTo(myFixture.editor, hits.last { it.tag == "x" })
+        assertEquals(LogicalPosition(3, 0), myFixture.editor.caretModel.logicalPosition)
+    }
+
     // Section folding
     fun `test each section folds with its item count`() {
         open("> One\n>> - <caret>a\n>> - b\n\n> Two\n>> - c")
