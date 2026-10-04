@@ -151,6 +151,12 @@
                 description="Pick a &gt; section from a searchable list and jump to it">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.FilterByTag"
+                class="com.lewisisworking.chevronlists.FilterByTagAction"
+                text="CL: Filter by Tag"
+                description="Pick a #tag, then jump to one of the items that carry it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.JumpToNextHeader"
                 class="com.lewisisworking.chevronlists.JumpToNextHeaderAction"
                 text="CL: Jump to Next Header"

@@ -2,6 +2,7 @@
 
 ## [0.17.0] - Unreleased
 ### Added
+- **Filter by Tag** (right-click menu, or Find Action). Pick a `#tag` from those the file's items carry, with how many items have each, then pick one of those items to jump to it. Both lists filter as you type. Tags follow this plugin's rule (a letter first) and match in any case.
 - **Archive Done Items** (right-click menu, or Find Action). Moves the done (`[x]`) items of the section at the caret into a `> Archive` section, created at the end of the file if there is none. Each done item takes everything nested under it along, so no children are left behind under the wrong item.
 - **Go to Section** (right-click menu, or Find Action; bind a key under Keymap if you like). A searchable list of the file's `> Header` sections with their item counts; type to filter, Enter to jump. The JetBrains counterpart of the VS Code extension's Filter Sections.
 - **Sections fold.** Every `> Header` section gets a fold in the gutter, so Fold All / Unfold All and the gutter arrows work on sections. A folded section shows its item count after the header, such as `> Groceries (12 items)`. The fold ends at the section's last line, so the blank line before the next header stays visible.
