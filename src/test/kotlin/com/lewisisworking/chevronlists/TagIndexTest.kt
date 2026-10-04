@@ -31,7 +31,7 @@ class TagIndexTest {
     @Test fun `notes and headers are not indexed`() =
         assertEquals(emptyList<TagHit>(), tagHits(listOf("> Plans #big", "just text #idea"), "-"))
 
-    @Test fun `this plugin's tag rule applies: a letter first`() =
+    @Test fun `this plugin's tag rule applies, a letter first`() =
         assertEquals(listOf("v2"), tagHits(listOf(">> - fix #123 and #v2"), "-").map { it.tag })
 
     @Test fun `a fragment inside a word is not a tag`() =
