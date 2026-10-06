@@ -2,9 +2,13 @@
  * SectionFolds.kt
  * Pure logic for folding `> Header` sections. No IntelliJ Platform imports.
  *
- * A section folds from the end of its header line to its last non-blank line,
- * so the blank line before the next header stays visible. The VS Code
- * extension folds the same sections (it keeps the trailing blank lines inside).
+ * A section folds from the start of its header line to its last non-blank
+ * line, so the blank line before the next header stays visible, and the
+ * folded section shows its header and item count. Starting at the header line
+ * makes the fold cover the same range as the Markdown plugin's block quote
+ * fold (or wrap several of them), so it is the one Collapse All shows. The
+ * VS Code extension folds the same sections (it keeps the trailing blank
+ * lines inside).
  */
 package com.lewisisworking.chevronlists
 
@@ -36,8 +40,8 @@ fun sectionFolds(lines: List<String>, listPrefix: String): List<SectionFold> {
     return folds
 }
 
-/** Pure: the text a folded section shows after its header, e.g. " (3 items)" */
-fun foldPlaceholder(fold: SectionFold): String = when (fold.items) {
+/** Pure: the text a folded section shows, its header then its item count, e.g. "> Groceries (3 items)" */
+fun foldPlaceholder(header: String, fold: SectionFold): String = header.trimEnd() + when (fold.items) {
     0    -> " ..."
     1    -> " (1 item)"
     else -> " (${fold.items} items)"

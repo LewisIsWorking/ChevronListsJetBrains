@@ -103,10 +103,23 @@ class ActionsInIdeTest : BasePlatformTestCase() {
 
         val document = myFixture.editor.document
         val folds = ChevronFoldingBuilder().buildFoldRegions(file, document, false)
-        assertEquals(listOf(" (2 items)", " (1 item)"), folds.map { it.placeholderText })
-        // The first fold ends at "b", leaving the blank line before "> Two" visible
-        assertEquals(document.getLineEndOffset(0), folds[0].range.startOffset)
+        assertEquals(listOf("> One (2 items)", "> Two (1 item)"), folds.map { it.placeholderText })
+        // The first fold covers "> One" to "b", leaving the blank line before "> Two" visible
+        assertEquals(0, folds[0].range.startOffset)
         assertEquals(document.getLineEndOffset(2), folds[0].range.endOffset)
+    }
+
+    // Every builder for markdown together, as Collapse All sees them. A chevron
+    // section is also a markdown block quote, and the Markdown plugin folds
+    // that too: the outermost fold of each section must be ours, or Collapse
+    // All shows "block quote: > One ..." and the item count is never seen.
+    fun `test collapse all shows the section fold, not the markdown block quote`() {
+        open("> One\n>> - <caret>a\n>> - b\n\n> Two\n>> - c\n>>> - c1")
+        val file = myFixture.file
+        val builder = LanguageFolding.INSTANCE.forLanguage(file.language)
+        val all = LanguageFolding.buildFoldingDescriptors(builder, file, myFixture.editor.document, false)
+        val outermost = all.filter { d -> all.none { o -> o.range != d.range && o.range.contains(d.range) } }
+        assertEquals(listOf("> One (2 items)", "> Two (2 items)"), outermost.map { it.placeholderText })
     }
 
     // Archive done items

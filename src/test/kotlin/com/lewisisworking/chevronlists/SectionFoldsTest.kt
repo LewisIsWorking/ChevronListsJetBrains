@@ -33,9 +33,9 @@ class SectionFoldsTest {
     @Test fun `a document with no headers has no folds`() =
         assertEquals(emptyList<SectionFold>(), folds(">> - a", ">> - b"))
 
-    @Test fun `the placeholder counts items`() {
-        assertEquals(" (1 item)", foldPlaceholder(SectionFold(0, 1, 1)))
-        assertEquals(" (4 items)", foldPlaceholder(SectionFold(0, 5, 4)))
-        assertEquals(" ...", foldPlaceholder(SectionFold(0, 1, 0)))
+    @Test fun `the placeholder shows the header and counts items`() {
+        assertEquals("> Plans (1 item)", foldPlaceholder("> Plans", SectionFold(0, 1, 1)))
+        assertEquals("> Plans (4 items)", foldPlaceholder("> Plans  ", SectionFold(0, 5, 4)))
+        assertEquals("> Plans ...", foldPlaceholder("> Plans", SectionFold(0, 1, 0)))
     }
 }

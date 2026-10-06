@@ -86,7 +86,7 @@
                    implementation="com.lewisisworking.chevronlists.ChevronAutoFixStartup"/>
         <colorSettingsPage
                    implementation="com.lewisisworking.chevronlists.ChevronListsColorSettingsPage"/>
-        <lang.foldingBuilder language="Markdown"
+        <lang.foldingBuilder language="Markdown" order="first"
                    implementationClass="com.lewisisworking.chevronlists.ChevronFoldingBuilder"/>
         <copyPastePreProcessor
                    implementation="com.lewisisworking.chevronlists.ChevronPasteItemsPreProcessor"/>
