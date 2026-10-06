@@ -103,9 +103,9 @@ class ActionsInIdeTest : BasePlatformTestCase() {
 
         val document = myFixture.editor.document
         val folds = ChevronFoldingBuilder().buildFoldRegions(file, document, false)
-        assertEquals(listOf(" (2 items)", " (1 item)"), folds.map { it.placeholderText })
-        // The first fold ends at "b", leaving the blank line before "> Two" visible
-        assertEquals(document.getLineEndOffset(0), folds[0].range.startOffset)
+        assertEquals(listOf("> One (2 items)", "> Two (1 item)"), folds.map { it.placeholderText })
+        // The first fold covers "> One" to "b", leaving the blank line before "> Two" visible
+        assertEquals(0, folds[0].range.startOffset)
         assertEquals(document.getLineEndOffset(2), folds[0].range.endOffset)
     }
 

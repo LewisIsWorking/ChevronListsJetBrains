@@ -2,7 +2,11 @@
  * ChevronFoldingBuilder.kt
  * IntelliJ bridge for SectionFolds.kt: adds a fold for every `> Header`
  * section of a markdown file, alongside the Markdown plugin's own folds. The
- * collapsed section shows its item count after the header.
+ * collapsed section shows its header and item count.
+ *
+ * A section is also a Markdown block quote, which the Markdown plugin folds
+ * over the same range. IntelliJ keeps the first fold it is given for a range,
+ * so plugin.xml registers this builder with order="first".
  */
 package com.lewisisworking.chevronlists
 
@@ -18,9 +22,10 @@ class ChevronFoldingBuilder : FoldingBuilderEx(), DumbAware {
 
     override fun buildFoldRegions(root: PsiElement, document: Document, quick: Boolean): Array<FoldingDescriptor> {
         val prefix = ChevronListsSettings.getInstance().state.listPrefix
-        return sectionFolds(document.text.split("\n"), prefix).map { fold ->
-            val range = TextRange(document.getLineEndOffset(fold.headerLine), document.getLineEndOffset(fold.lastLine))
-            FoldingDescriptor(root.node, range, null, foldPlaceholder(fold))
+        val lines  = document.text.split("\n")
+        return sectionFolds(lines, prefix).map { fold ->
+            val range = TextRange(document.getLineStartOffset(fold.headerLine), document.getLineEndOffset(fold.lastLine))
+            FoldingDescriptor(root.node, range, null, foldPlaceholder(lines[fold.headerLine], fold))
         }.toTypedArray()
     }
 
