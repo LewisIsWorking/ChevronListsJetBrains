@@ -109,6 +109,19 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         assertEquals(document.getLineEndOffset(2), folds[0].range.endOffset)
     }
 
+    // Every builder for markdown together, as Collapse All sees them. A chevron
+    // section is also a markdown block quote, and the Markdown plugin folds
+    // that too: the outermost fold of each section must be ours, or Collapse
+    // All shows "block quote: > One ..." and the item count is never seen.
+    fun `test collapse all shows the section fold, not the markdown block quote`() {
+        open("> One\n>> - <caret>a\n>> - b\n\n> Two\n>> - c\n>>> - c1")
+        val file = myFixture.file
+        val builder = LanguageFolding.INSTANCE.forLanguage(file.language)
+        val all = LanguageFolding.buildFoldingDescriptors(builder, file, myFixture.editor.document, false)
+        val outermost = all.filter { d -> all.none { o -> o.range != d.range && o.range.contains(d.range) } }
+        assertEquals(listOf("> One (2 items)", "> Two (2 items)"), outermost.map { it.placeholderText })
+    }
+
     // Archive done items
     fun `test archive moves done blocks into a new archive`() {
         open("> Tasks\n>> - [x] <caret>a\n>>> - a1\n>> - [ ] b")
