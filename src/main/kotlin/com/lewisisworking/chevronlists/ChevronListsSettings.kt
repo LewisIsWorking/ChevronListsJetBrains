@@ -26,7 +26,9 @@ class ChevronListsSettings : PersistentStateComponent<ChevronListsSettings.State
         var defaultNewListType: String  = "unordered",
         var autoFixNumbering:   Boolean = true,
         var colourPreset:       String  = "default",
-        var pasteLinesAsItems:  Boolean = true
+        var pasteLinesAsItems:  Boolean = true,
+        var dailyNotesFolder:   String  = "",
+        var dailyNoteTemplate:  String  = ""
     )
 
     private var myState = State()
