@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.17.0] - Unreleased
+## [0.17.0] - 2026-10-08
 ### Added
 - **Filter by Tag** (right-click menu, or Find Action). Pick a `#tag` from those the file's items carry, with how many items have each, then pick one of those items to jump to it. Both lists filter as you type. Tags follow this plugin's rule (a letter first) and match in any case.
 - **Archive Done Items** (right-click menu, or Find Action). Moves the done (`[x]`) items of the section at the caret into a `> Archive` section, created at the end of the file if there is none. Each done item takes everything nested under it along, so no children are left behind under the wrong item.
