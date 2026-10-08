@@ -7,26 +7,31 @@
 
 A JetBrains port of the [Chevron Lists VS Code extension](https://marketplace.visualstudio.com/items?itemName=lewisisworking.chevron-lists) - a markdown-based task and project management plugin using `>`, `>>`, `>>>` blockquote nesting.
 
-## Status
+## Features
 
-**v0.1.0 - initial release.** Minimum viable feature set:
-- Syntax highlighting for chevron lines (`>`, `>>`, `>>>`) in markdown files
-- Warning underline for duplicate `> Section` headers
-- Warning underline for duplicate `## Subheading` markdown headings
-- `CL: Open Settings` action (placeholder for now, under the Tools menu)
+Current version: **0.17.0**. See [CHANGELOG.md](CHANGELOG.md) for the history.
+
+**In the editor**
+- Syntax highlighting for chevron lines (`>`, `>>`, `>>>`), with colours set under Settings > Editor > Color Scheme
+- Warnings for duplicate `> Section` headers, duplicate `## Subheading` headings, numbering breaks and empty sections
+- Numbering fixed as you type, and Enter continues the list
+- Sections fold, showing the header and item count
+- Pasting several lines into an item makes each line its own item
+- `#tag` completion
+
+**Actions** (all start with `CL:`, so Find Action lists them together)
+- Items: Toggle Done, Star, Pin, Flag or Note; Promote and Demote; Move Up and Down; Duplicate; Cycle List Type; Set or Remove Colour Label
+- Sections: Mark All Done or Undone, Archive Done Items, Renumber Items, Sort A to Z or Z to A, Convert Bullets to Numbered and back
+- Navigation: Go to Section, Filter by Tag, Jump to Next or Previous Header
+- Open Settings
 
 ## Roadmap
 
-Features to be ported from the VS Code extension, roughly in priority order:
-1. Bad-numbering diagnostics (sequence breaks in `>> 1.`, `>> 2.` lists)
-2. Empty-section diagnostics
-3. Auto-fix numbering on type
-4. Enter-key list continuation
-5. Item-level commands (toggle done, move up/down, etc.)
-6. Settings panel with real-time controls
-7. Command launcher
-8. AI assist integration
-9. Daily notes, templates, kanban, statistics
+Still to port from the VS Code extension:
+1. AI assist integration
+2. Daily notes and templates
+3. Kanban view
+4. Statistics
 
 ## Development
 
