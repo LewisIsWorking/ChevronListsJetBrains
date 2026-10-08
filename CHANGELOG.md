@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.18.0] - Unreleased
+### Added
+- **Daily notes.** *CL: Open Daily Note* (Tools menu, or Find Action) opens today's `YYYY-MM-DD.md`, creating it from a template and putting the caret on its first empty item. *CL: Send to Daily Note* (right-click menu) copies the item at the caret into today's note, first under `> Inbox` (added if missing). Set the folder and template under *Settings > Tools > Chevron Lists > Daily Notes*; the template fills in `{{date}}`, `{{weekday}}` and `{{day}}`. The folder may be relative to the project or absolute, and is the project folder when blank. Ported from the VS Code extension.
+
 ## [0.17.0] - 2026-10-08
 ### Added
 - **Filter by Tag** (right-click menu, or Find Action). Pick a `#tag` from those the file's items carry, with how many items have each, then pick one of those items to jump to it. Both lists filter as you type. Tags follow this plugin's rule (a letter first) and match in any case.

@@ -151,6 +151,18 @@
                 description="Pick a &gt; section from a searchable list and jump to it">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.OpenDailyNote"
+                class="com.lewisisworking.chevronlists.OpenDailyNoteAction"
+                text="CL: Open Daily Note"
+                description="Open today's daily note (YYYY-MM-DD.md), creating it from the daily note template">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SendToDailyNote"
+                class="com.lewisisworking.chevronlists.SendToDailyNoteAction"
+                text="CL: Send to Daily Note"
+                description="Copy the item at the caret to today's daily note, under &gt; Inbox">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.FilterByTag"
                 class="com.lewisisworking.chevronlists.FilterByTagAction"
                 text="CL: Filter by Tag"

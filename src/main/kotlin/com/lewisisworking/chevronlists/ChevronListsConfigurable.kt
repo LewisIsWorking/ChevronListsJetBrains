@@ -13,6 +13,7 @@ import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.bindSelected
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.builder.rows
 import com.intellij.ui.dsl.builder.toNullableProperty
 import javax.swing.JList
 
@@ -86,6 +87,21 @@ class ChevronListsConfigurable : BoundConfigurable("Chevron Lists") {
                     .comment("Pasting multi-line text into a chevron item puts each line on " +
                              "its own item at the same depth. Numbered items keep counting " +
                              "(with auto-fix on, the items after them are renumbered).")
+            }
+        }
+        group("Daily Notes") {
+            row("Folder:") {
+                textField()
+                    .bindText(state::dailyNotesFolder)
+                    .comment("Where CL: Open Daily Note keeps YYYY-MM-DD.md files. Relative to the " +
+                             "project folder, or an absolute path. Blank: the project folder.")
+            }
+            row("Template:") {
+                textArea()
+                    .rows(4)
+                    .bindText(state::dailyNoteTemplate)
+                    .comment("Text of a new daily note. {{date}}, {{weekday}} and {{day}} are filled " +
+                             "in. Blank: a dated > header with one empty item.")
             }
         }
         group("Appearance") {
