@@ -1,5 +1,10 @@
 # Chevron Lists for JetBrains IDEs
 
+[![JetBrains Marketplace](https://img.shields.io/jetbrains/plugin/v/31877?label=JetBrains%20Marketplace)](https://plugins.jetbrains.com/plugin/31877-chevron-lists)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/31877)](https://plugins.jetbrains.com/plugin/31877-chevron-lists)
+
+**[Get from Marketplace](https://plugins.jetbrains.com/plugin/31877-chevron-lists)**, or in the IDE: Settings > Plugins > Marketplace, search "Chevron Lists".
+
 A JetBrains port of the [Chevron Lists VS Code extension](https://marketplace.visualstudio.com/items?itemName=lewisisworking.chevron-lists) - a markdown-based task and project management plugin using `>`, `>>`, `>>>` blockquote nesting.
 
 ## Status
