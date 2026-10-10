@@ -36,12 +36,13 @@ fun setMemberKey(content: String): String =
 private fun itemOf(line: String, listPrefix: String) =
     parseNumbered(line)?.let { it.chevrons to it.content } ?: parseBullet(line, listPrefix)?.let { it.chevrons to it.content }
 
-/** The top-level item lines of the section headed at [header]; nested notes are left out */
+/** The top-level item lines of the section headed at [header]; nested notes and empty items are left out */
 fun sectionMembers(lines: List<String>, header: Int, listPrefix: String): List<Int> {
     val out = mutableListOf<Int>()
     for (i in header + 1 until lines.size) {
         if (isHeader(lines[i]) || parseSubheading(lines[i]) != null) break
-        if (itemOf(lines[i], listPrefix)?.first?.length == 2) out += i
+        val item = itemOf(lines[i], listPrefix)
+        if (item != null && item.first.length == 2 && item.second.isNotBlank()) out += i
     }
     return out
 }

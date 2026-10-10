@@ -9,6 +9,7 @@ package com.lewisisworking.chevronlists
 import com.intellij.codeInsight.editorActions.enter.EnterHandlerDelegate
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler
 import com.intellij.openapi.util.Ref
@@ -33,11 +34,13 @@ class ChevronEnterHandler : EnterHandlerDelegate {
         val lineStart  = document.getLineStartOffset(lineNumber)
         val lineEnd    = document.getLineEndOffset(lineNumber)
         val lineText   = document.getText(TextRange(lineStart, lineEnd))
+        val nextLine   = if (lineNumber + 1 < document.lineCount)
+            document.getText(TextRange(document.getLineStartOffset(lineNumber + 1), document.getLineEndOffset(lineNumber + 1))) else ""
 
-        return when (val action = computeEnterAction(lineText, settingsPrefix(), settingsListType())) {
+        return when (val action = computeEnterAction(lineText, settingsPrefix(), settingsListType(), nextLine)) {
             is EnterAction.Default  -> EnterHandlerDelegate.Result.Continue
             is EnterAction.EndList  -> handleEndList(file, editor, lineStart, offset)
-            is EnterAction.Continue -> handleContinue(file, editor, offset, caretOffset, action.insert)
+            is EnterAction.Continue -> handleContinue(file, editor, offset, caretOffset, action.insert, action.renumber)
         }
     }
 
@@ -74,17 +77,34 @@ class ChevronEnterHandler : EnterHandlerDelegate {
         return EnterHandlerDelegate.Result.Continue
     }
 
-    /** Insert `\n` + continuation text at the caret and stop further processing */
+    /** Insert `\n` + continuation text at the caret and stop further processing; [renumber] renumbers its section */
     private fun handleContinue(
         file: PsiFile, editor: Editor, offset: Int,
-        caretOffsetRef: Ref<Int>, insertText: String
+        caretOffsetRef: Ref<Int>, insertText: String, renumber: Boolean
     ): EnterHandlerDelegate.Result {
         WriteCommandAction.runWriteCommandAction(file.project) {
-            editor.document.insertString(offset, "\n$insertText")
+            val document = editor.document
+            document.insertString(offset, "\n$insertText")
+            if (renumber) renumberSection(document, document.getLineNumber(offset) + 1)
         }
         val newOffset = offset + 1 + insertText.length
         editor.caretModel.moveToOffset(newOffset)
         caretOffsetRef.set(newOffset)
         return EnterHandlerDelegate.Result.Stop
+    }
+
+    /** Renumbers the section holding [line], from the line after its header to the next header */
+    private fun renumberSection(document: Document, line: Int) {
+        fun textOf(i: Int) = document.getText(TextRange(document.getLineStartOffset(i), document.getLineEndOffset(i)))
+        fun bounds(i: Int) = isHeader(textOf(i)) || parseSubheading(textOf(i)) != null
+        var firstLine = line
+        while (firstLine > 0 && !bounds(firstLine - 1)) firstLine--
+        var lastLine = line
+        while (lastLine + 1 < document.lineCount && !bounds(lastLine + 1)) lastLine++
+        val start  = document.getLineStartOffset(firstLine)
+        val end    = document.getLineEndOffset(lastLine)
+        val before = document.getText(TextRange(start, end))
+        val after  = renumberLines(before.split("\n")).joinToString("\n")
+        if (after != before) document.replaceString(start, end, after)
     }
 }
