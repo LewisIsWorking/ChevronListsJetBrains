@@ -2,6 +2,7 @@
 
 ## [0.18.0] - Unreleased
 ### Added
+- **Template import, export and delete** (Tools menu, or Find Action). *CL: Import Templates from File* saves every `> Header` section of a markdown file as a template, nested items included. *CL: Export Templates to File* writes the saved templates to a file, one section each, which imports back into either editor. *CL: Delete Saved Template* removes one.
 - **Templates.** *CL: Insert Template* (right-click menu, or Find Action) inserts a section template at the caret; Tab moves through its fields. The five VS Code built-ins are included (Bullet List, Numbered List, Nested List, Session Notes, Character Sheet). *CL: Save Section as Template* saves the section at the caret, its header and item texts becoming the fields. Templates use the VS Code extension's snippet format, so they can move between the two.
 - **Daily notes.** *CL: Open Daily Note* (Tools menu, or Find Action) opens today's `YYYY-MM-DD.md`, creating it from a template and putting the caret on its first empty item. *CL: Send to Daily Note* (right-click menu) copies the item at the caret into today's note, first under `> Inbox` (added if missing). Set the folder and template under *Settings > Tools > Chevron Lists > Daily Notes*; the template fills in `{{date}}`, `{{weekday}}` and `{{day}}`. The folder may be relative to the project or absolute, and is the project folder when blank. Ported from the VS Code extension.
 
