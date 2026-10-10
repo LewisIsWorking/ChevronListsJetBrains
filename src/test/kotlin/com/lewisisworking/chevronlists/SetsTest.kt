@@ -107,4 +107,9 @@ class SetsTest {
         assertNull(setSummary(bikes, 2, "-"))    // a section header
         assertNull(setSummary(listOf("# Empty #set", "text"), 0, "-"))
     }
+
+    @Test fun `an empty item just started with Enter is not a member`() {
+        val doc = bikes.toMutableList().apply { add(3, ">> 1. ") }
+        assertEquals("2 Paid, 2 Hasn't paid, 2 Not going, 5 in all", setSummary(doc, 0, "-"))
+    }
 }
