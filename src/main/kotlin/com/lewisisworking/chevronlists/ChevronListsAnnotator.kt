@@ -3,22 +3,25 @@
  * Bridges pure logic (Patterns.kt, Diagnostics.kt) to IntelliJ Platform.
  * Performs syntax highlighting per line and creates warning annotations
  * from collectIssues() results.
+ *
+ * An ExternalAnnotator, not an Annotator: IntelliJ 2026.2 never calls a plain
+ * Annotator registered for Markdown, so every colour and warning vanished in a
+ * real IDE while the headless tests still passed.
  */
 package com.lewisisworking.chevronlists
 
 import com.intellij.lang.annotation.AnnotationHolder
-import com.intellij.lang.annotation.Annotator
+import com.intellij.lang.annotation.ExternalAnnotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.editor.markup.TextAttributes
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import java.awt.Color
 import java.awt.Font
 
-class ChevronListsAnnotator : Annotator {
+class ChevronListsAnnotator : ExternalAnnotator<String, String>() {
     companion object {
         val CHEVRON_KEY: TextAttributesKey = TextAttributesKey.createTextAttributesKey(
             "CHEVRON_LISTS_CHEVRON", DefaultLanguageHighlighterColors.KEYWORD
@@ -48,11 +51,13 @@ class ChevronListsAnnotator : Annotator {
         private val NUMBERED_PREFIX = Regex("""^(>{2,})\s+(\d{1,9}\.)""")  // same rules as parseNumbered: two chevrons, 9 digits
     }
 
-    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
-        if (element !is PsiFile) return
-        if (!element.name.endsWith(".md")) return
+    /** The file's text, read under the read lock the platform holds here */
+    override fun collectInformation(file: PsiFile): String? = if (file.name.endsWith(".md")) file.text else null
 
-        val text      = element.text
+    override fun doAnnotate(collectedInfo: String): String = collectedInfo
+
+    override fun apply(file: PsiFile, text: String, holder: AnnotationHolder) {
+        if (file.textLength != text.length) return   // edited since collectInformation; the next pass catches up
         val lines     = text.split("\n")
         val offsets   = computeLineOffsets(lines)
         val presetId  = ChevronListsSettings.getInstance().state.colourPreset

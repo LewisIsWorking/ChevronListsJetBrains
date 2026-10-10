@@ -73,7 +73,7 @@
     <depends>org.intellij.plugins.markdown</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <annotator language="Markdown"
+        <externalAnnotator language="Markdown"
                    implementationClass="com.lewisisworking.chevronlists.ChevronListsAnnotator"/>
         <enterHandlerDelegate
                    implementation="com.lewisisworking.chevronlists.ChevronEnterHandler"/>
@@ -86,7 +86,10 @@
                    implementation="com.lewisisworking.chevronlists.ChevronAutoFixStartup"/>
         <colorSettingsPage
                    implementation="com.lewisisworking.chevronlists.ChevronListsColorSettingsPage"/>
-        <editor.linePainter implementation="com.lewisisworking.chevronlists.SetTotalsPainter"/>
+        <codeInsight.declarativeInlayProvider language="Markdown" isEnabledByDefault="true" group="OTHER_GROUP"
+                providerId="chevronlists.setTotals" bundle="messages.ChevronListsBundle"
+                nameKey="inlay.setTotals.name" descriptionKey="inlay.setTotals.description"
+                implementationClass="com.lewisisworking.chevronlists.SetTotalsInlayProvider"/>
         <lang.foldingBuilder language="Markdown" order="first"
                    implementationClass="com.lewisisworking.chevronlists.ChevronFoldingBuilder"/>
         <copyPastePreProcessor
