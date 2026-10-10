@@ -27,8 +27,22 @@ class SetTotalsInlayProvider : InlayHintsProvider {
             val prefix = ChevronListsSettings.getInstance().state.listPrefix
             for (set in findSets(lines)) {
                 val summary = setSummary(lines, set.headingLine, prefix) ?: continue
-                sink.addPresentation(EndOfLinePosition(set.headingLine), hintFormat = HintFormat.default) { text(summary) }
+                sink.addPresentation(endOfLine(set.headingLine), hintFormat = HintFormat.default) { text(summary) }
             }
         }
     }
+}
+
+/**
+ * EndOfLinePosition(line), built by reflection: 2025.1+ gave it a second,
+ * defaulted priority parameter, so a direct call compiles to a constructor
+ * that IDE 2024.3 lacks (NoSuchMethodError), and no direct call fits both.
+ * Takes whichever all-int constructor exists, line first, the rest 0.
+ */
+internal fun endOfLine(line: Int): EndOfLinePosition {
+    val constructor = EndOfLinePosition::class.java.constructors
+        .filter { c -> c.parameterTypes.all { it == Int::class.javaPrimitiveType } }
+        .minBy { it.parameterCount }
+    val args = Array<Any>(constructor.parameterCount) { 0 }.also { it[0] = line }
+    return constructor.newInstance(*args) as EndOfLinePosition
 }

@@ -43,4 +43,7 @@ class SetActionsTest : BasePlatformTestCase() {
         myFixture.configureByText("bikes.txt", doc)
         assertNull(provider.createCollector(myFixture.file, myFixture.editor))
     }
+
+    fun `test the totals sit at the end of the heading's line`() =
+        assertEquals(4, endOfLine(4).line)
 }
