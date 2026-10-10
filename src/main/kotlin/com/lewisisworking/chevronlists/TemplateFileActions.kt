@@ -68,7 +68,7 @@ class ExportTemplatesAction : ProjectAction(
             return
         }
         val dialog = FileChooserFactory.getInstance().createSaveFileDialog(
-            FileSaverDescriptor("Export Templates to File", "Choose where to save the templates", "md"), project)
+            FileSaverDescriptor("Export Templates to File", "Choose where to save the templates", *arrayOf("md")), project)
         val target = dialog.save("templates.md") ?: return
         exportTo(project, target.file.toPath())
     }
