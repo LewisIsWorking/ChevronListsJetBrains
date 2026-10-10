@@ -126,3 +126,18 @@ fun computeMoveToSection(lines: List<String>, itemLine: Int, targetHeader: Int, 
     renumberSection(rest, if (insertAt <= fromHeader) fromHeader + block.size else fromHeader)
     return rest
 }
+
+/**
+ * The totals shown after the `#set` heading at [headingLine], such as
+ * "23 Paid, 3 Hasn't paid, 3 Not going, 28 in all". "In all" counts each
+ * member once, so a name in two lists is not counted twice. Null when the
+ * line is not a set heading or the set has no sections.
+ */
+fun setSummary(lines: List<String>, headingLine: Int, listPrefix: String): String? {
+    val set = findSets(lines).firstOrNull { it.headingLine == headingLine }
+    if (set == null || set.sections.isEmpty()) return null
+    val members = set.sections.associateWith { sectionMembers(lines, it, listPrefix) }
+    val unique  = members.values.flatten().map { setMemberKey(itemOf(lines[it], listPrefix)!!.second) }.toSet().size
+    return members.entries.joinToString(", ") { (header, items) -> "${items.size} ${sectionName(lines, header).trimEnd('.')}" } +
+        ", $unique in all"
+}

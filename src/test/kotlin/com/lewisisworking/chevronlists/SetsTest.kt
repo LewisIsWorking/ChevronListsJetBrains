@@ -100,4 +100,11 @@ class SetsTest {
         assertNull(computeMoveToSection(bikes, 9, 2, "-"))
         assertNull(computeMoveToSection(bikes, 7, 3, "-"))   // line 3 is not a header
     }
+
+    @Test fun `the totals count each list, and each member once in all`() {
+        assertEquals("2 Paid, 2 Hasn't paid, 2 Not going, 5 in all", setSummary(bikes, 0, "-"))
+        assertNull(setSummary(bikes, 15, "-"))   // a heading without #set
+        assertNull(setSummary(bikes, 2, "-"))    // a section header
+        assertNull(setSummary(listOf("# Empty #set", "text"), 0, "-"))
+    }
 }
