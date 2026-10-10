@@ -35,4 +35,12 @@ class SetActionsTest : BasePlatformTestCase() {
         myFixture.testAction(ActionManager.getInstance().getAction("ChevronLists.MoveToList"))
         assertEquals("> Paid.\n>> 1. Lewis.\n> Owed\n", myFixture.editor.document.text)
     }
+
+    fun `test the totals are painted after the set heading only`() {
+        myFixture.configureByText("bikes.md", doc)
+        val file = myFixture.file.virtualFile
+        val painted = SetTotalsPainter().getLineExtensions(project, file, 0)
+        assertEquals(listOf("    1 Paid, 2 Hasn't paid, 1 Not going, 3 in all"), painted?.map { it.text })
+        assertNull(SetTotalsPainter().getLineExtensions(project, file, 1))
+    }
 }

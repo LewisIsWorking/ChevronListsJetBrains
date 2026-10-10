@@ -25,7 +25,7 @@ Current version: **0.17.0**. See [CHANGELOG.md](CHANGELOG.md) for the history.
 - Navigation: Go to Section, Filter by Tag, Jump to Next or Previous Header
 - Daily notes: Open Daily Note (Tools menu), Send to Daily Note
 - Templates: Insert Template, Save Section as Template; Import, Export and Delete (Tools menu)
-- Sets: tag a heading `#set` to warn when an item is in two of its lists; Move Item to List
+- Sets: tag a heading `#set` to warn when an item is in two of its lists and show totals after it; Move Item to List
 - Open Settings
 
 ## Roadmap
