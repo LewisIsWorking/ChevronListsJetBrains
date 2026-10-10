@@ -75,7 +75,9 @@
     <extensions defaultExtensionNs="com.intellij">
         <externalAnnotator language="Markdown"
                    implementationClass="com.lewisisworking.chevronlists.ChevronListsAnnotator"/>
-        <enterHandlerDelegate
+        <!-- First, so the Markdown plugin's list Enter handler never starts on a line this one handles:
+             it keeps PSI from its preprocess and fails in postProcess once a renumber has replaced it -->
+        <enterHandlerDelegate order="first" id="chevronListsEnter"
                    implementation="com.lewisisworking.chevronlists.ChevronEnterHandler"/>
         <applicationConfigurable
                    id="com.lewisisworking.chevronlists.settings"

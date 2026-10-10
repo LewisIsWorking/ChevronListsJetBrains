@@ -25,6 +25,20 @@ class EnterContinuationTest {
         assertEquals(">> * ", a.insert)
     }
 
+    @Test fun `header above a numbered list starts at 1 and renumbers the rest`() =
+        assertEquals(EnterAction.Continue(">> 1. ", renumber = true), computeEnterAction("> Paid.", "-", "unordered", ">> 1. Lewis."))
+    @Test fun `header above a bullet list stays bulleted even when ordered is the default`() =
+        assertEquals(EnterAction.Continue(">> - "), computeEnterAction("> Paid.", "-", "ordered", ">> - Lewis."))
+    @Test fun `header above a blank line or a nested item uses the default`() {
+        assertEquals(EnterAction.Continue(">> - "), computeEnterAction("> Paid.", "-", "unordered", ""))
+        assertEquals(EnterAction.Continue(">> - "), computeEnterAction("> Paid.", "-", "unordered", ">>> 1. note"))
+    }
+
+    @Test fun `numbered item asks for a renumber only when the list goes on below it`() {
+        assertEquals(EnterAction.Continue(">> 2. ", renumber = true), computeEnterAction(">> 1. a", "-", "unordered", ">> 2. b"))
+        assertEquals(EnterAction.Continue(">> 2. "), computeEnterAction(">> 1. a", "-", "unordered", ">>> 1. note"))
+    }
+
     // Bullet line -> continue with another bullet
     @Test fun `bullet with content continues with another bullet`() {
         val a = action(">> - First task") as EnterAction.Continue

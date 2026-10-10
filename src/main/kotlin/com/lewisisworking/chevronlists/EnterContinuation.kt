@@ -19,7 +19,8 @@ sealed class EnterAction {
     /** The current line is an empty list item - clear it and fall through to default */
     object EndList : EnterAction()
     /** Insert a newline followed by this text at the caret */
-    data class Continue(val insert: String) : EnterAction()
+    /** Insert a newline followed by this text at the caret; [renumber] renumbers the section after */
+    data class Continue(val insert: String, val renumber: Boolean = false) : EnterAction()
 }
 
 /**
@@ -28,10 +29,15 @@ sealed class EnterAction {
  * @param line              The full text of the line the caret is on
  * @param listPrefix        Bullet prefix character, typically "-"
  * @param defaultNewListType Either "unordered" (default `>> - `) or "ordered" (`>> 1. `)
+ * @param nextLine          The line below; on a header with a list under it, Enter continues that list's type
  */
-fun computeEnterAction(line: String, listPrefix: String, defaultNewListType: String): EnterAction {
-    // > Header -> start a new list at depth 2
+fun computeEnterAction(line: String, listPrefix: String, defaultNewListType: String, nextLine: String = ""): EnterAction {
+    // > Header -> start a new list at depth 2, matching a list already under it
     if (isHeader(line)) {
+        val nextNumbered = parseNumbered(nextLine)
+        if (nextNumbered != null && nextNumbered.chevrons.length == 2) return EnterAction.Continue(">> 1. ", renumber = true)
+        val nextBullet = parseBullet(nextLine, listPrefix)
+        if (nextBullet != null && nextBullet.chevrons.length == 2) return EnterAction.Continue(">> ${nextBullet.prefix} ")
         val first = if (defaultNewListType == "ordered") "1." else listPrefix
         return EnterAction.Continue(">> $first ")
     }
@@ -42,7 +48,7 @@ fun computeEnterAction(line: String, listPrefix: String, defaultNewListType: Str
         return if (n.content.isBlank())
             EnterAction.EndList
         else
-            EnterAction.Continue("${n.chevrons} ${n.num + 1}. ")
+            EnterAction.Continue("${n.chevrons} ${n.num + 1}. ", renumber = parseNumbered(nextLine)?.chevrons == n.chevrons)
     }
 
     // >> - content -> continue with another bullet
