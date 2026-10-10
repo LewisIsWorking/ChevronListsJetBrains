@@ -82,8 +82,10 @@ class SetsTest {
     }
 
     @Test fun `an item takes the list type of its new section`() {
-        val r = computeMoveToSection(bikes, 7, 16, "-")!!
-        assertEquals(listOf("> Elsewhere", ">> - Ethan.", ">> - Ethan."), r.takeLast(3))
+        val doc = listOf("> Numbered", ">> 1. a", ">> 2. b", "> Bullets", ">> - c")
+        assertEquals(listOf("> Numbered", ">> 1. a", "> Bullets", ">> - c", ">> - b"), computeMoveToSection(doc, 2, 3, "-"))
+        assertEquals(listOf("> Numbered", ">> 1. a", ">> 2. b", ">> 3. c", "> Bullets"), computeMoveToSection(doc, 4, 0, "-"))
+        assertNull(computeMoveToSection(bikes, 7, 16, "-"))   // out of its set
         val back = computeMoveToSection(bikes, 17, 2, "-")!!
         assertEquals(">> 3. Ethan.", back[5])
     }
