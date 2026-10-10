@@ -163,6 +163,12 @@
                 description="Copy the item at the caret to today's daily note, under &gt; Inbox">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.MoveToList"
+                class="com.lewisisworking.chevronlists.MoveToListAction"
+                text="CL: Move Item to List"
+                description="Move this item into another section; inside a #set heading, one of the set's other lists">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.InsertTemplate"
                 class="com.lewisisworking.chevronlists.InsertTemplateAction"
                 text="CL: Insert Template"

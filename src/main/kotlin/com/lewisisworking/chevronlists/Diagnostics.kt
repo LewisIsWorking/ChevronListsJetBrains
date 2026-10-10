@@ -5,7 +5,7 @@
  */
 package com.lewisisworking.chevronlists
 
-enum class IssueKind { DUPLICATE_HEADER, DUPLICATE_SUBHEADING, BAD_NUMBERING, EMPTY_SECTION }
+enum class IssueKind { DUPLICATE_HEADER, DUPLICATE_SUBHEADING, BAD_NUMBERING, EMPTY_SECTION, SET_DUPLICATE }
 
 /** A single diagnostic finding tied to a specific line in the document */
 data class DiagnosticIssue(
@@ -29,6 +29,7 @@ fun collectIssues(lines: List<String>, prefix: String): List<DiagnosticIssue> {
     all += collectDuplicateSubheadings(lines)
     all += collectBadNumbering(lines)
     all += collectEmptySections(lines)
+    all += collectSetDuplicates(lines, prefix)
     return all.sortedBy { it.line }
 }
 
