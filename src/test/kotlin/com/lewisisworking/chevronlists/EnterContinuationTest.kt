@@ -34,7 +34,13 @@ class EnterContinuationTest {
         assertEquals(EnterAction.Continue(">> - "), computeEnterAction("> Paid.", "-", "unordered", ">>> 1. note"))
     }
 
-    // Bullet line -> continue with another bullet    @Test fun `bullet with content continues with another bullet`() {
+    @Test fun `numbered item asks for a renumber only when the list goes on below it`() {
+        assertEquals(EnterAction.Continue(">> 2. ", renumber = true), computeEnterAction(">> 1. a", "-", "unordered", ">> 2. b"))
+        assertEquals(EnterAction.Continue(">> 2. "), computeEnterAction(">> 1. a", "-", "unordered", ">>> 1. note"))
+    }
+
+    // Bullet line -> continue with another bullet
+    @Test fun `bullet with content continues with another bullet`() {
         val a = action(">> - First task") as EnterAction.Continue
         assertEquals(">> - ", a.insert)
     }
