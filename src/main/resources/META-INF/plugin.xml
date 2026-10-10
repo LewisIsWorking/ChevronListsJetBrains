@@ -163,6 +163,18 @@
                 description="Copy the item at the caret to today's daily note, under &gt; Inbox">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.InsertTemplate"
+                class="com.lewisisworking.chevronlists.InsertTemplateAction"
+                text="CL: Insert Template"
+                description="Insert a built-in or saved section template at the caret; Tab moves through its fields">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SaveSectionAsTemplate"
+                class="com.lewisisworking.chevronlists.SaveSectionAsTemplateAction"
+                text="CL: Save Section as Template"
+                description="Save the section at the caret as a template for CL: Insert Template">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.FilterByTag"
                 class="com.lewisisworking.chevronlists.FilterByTagAction"
                 text="CL: Filter by Tag"

@@ -24,13 +24,14 @@ Current version: **0.17.0**. See [CHANGELOG.md](CHANGELOG.md) for the history.
 - Sections: Mark All Done or Undone, Archive Done Items, Renumber Items, Sort A to Z or Z to A, Convert Bullets to Numbered and back
 - Navigation: Go to Section, Filter by Tag, Jump to Next or Previous Header
 - Daily notes: Open Daily Note (Tools menu), Send to Daily Note
+- Templates: Insert Template, Save Section as Template
 - Open Settings
 
 ## Roadmap
 
 Still to port from the VS Code extension:
 1. AI assist integration
-2. Templates
+2. Template import and export
 3. Kanban view
 4. Statistics
 
