@@ -9,6 +9,7 @@
 
 ### Fixed
 - In IDE 2026.2 none of the plugin's highlighting showed: no chevron or number colours, no `#tag` or `{red}` highlights, and no warnings. The IDE no longer runs a plain annotator for Markdown files, so the highlighting now runs as an external annotator, which it does run.
+- Enter on a header with a numbered list under it started a `-` bullet; it now adds `1.` and renumbers the list. A bulleted list gets its bullet. Enter in the middle of a numbered list no longer leaves two items with the same number: the rest of the list is renumbered.
 
 ## [0.17.0] - 2026-10-08
 ### Added
