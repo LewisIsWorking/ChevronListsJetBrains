@@ -175,6 +175,24 @@
                 description="Save the section at the caret as a template for CL: Insert Template">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.ImportTemplates"
+                class="com.lewisisworking.chevronlists.ImportTemplatesAction"
+                text="CL: Import Templates from File"
+                description="Save every &gt; section of a markdown file as a template">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ExportTemplates"
+                class="com.lewisisworking.chevronlists.ExportTemplatesAction"
+                text="CL: Export Templates to File"
+                description="Write the saved templates to a markdown file, one &gt; section each">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.DeleteTemplate"
+                class="com.lewisisworking.chevronlists.DeleteTemplateAction"
+                text="CL: Delete Saved Template"
+                description="Remove a template saved with Save Section as Template or Import Templates">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.FilterByTag"
                 class="com.lewisisworking.chevronlists.FilterByTagAction"
                 text="CL: Filter by Tag"
