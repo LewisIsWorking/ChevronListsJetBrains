@@ -28,8 +28,14 @@ class ChevronListsSettings : PersistentStateComponent<ChevronListsSettings.State
         var colourPreset:       String  = "default",
         var pasteLinesAsItems:  Boolean = true,
         var dailyNotesFolder:   String  = "",
-        var dailyNoteTemplate:  String  = ""
+        var dailyNoteTemplate:  String  = "",
+        var templates:          MutableList<SavedTemplate> = mutableListOf()
     )
+
+    /** A template saved with CL: Save Section as Template; a bean so XmlSerializer can store it */
+    class SavedTemplate(var name: String = "", var description: String = "", var body: String = "") {
+        fun toTemplate() = ChevronTemplate(name, description, body)
+    }
 
     private var myState = State()
 
