@@ -157,6 +157,18 @@
                 description="Pick a &gt; section from a searchable list and jump to it">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.QuickStats"
+                class="com.lewisisworking.chevronlists.QuickStatsAction"
+                text="CL: Quick Stats"
+                description="Show the caret section's items, done count, words and tags">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowStatistics"
+                class="com.lewisisworking.chevronlists.ShowStatisticsAction"
+                text="CL: Show File Statistics"
+                description="Show item, word, done and tag counts for every section in this file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.OpenDailyNote"
                 class="com.lewisisworking.chevronlists.OpenDailyNoteAction"
                 text="CL: Open Daily Note"
