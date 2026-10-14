@@ -6,25 +6,13 @@
 package com.lewisisworking.chevronlists
 
 import com.intellij.codeInsight.hint.HintManager
-import com.intellij.openapi.actionSystem.ActionUpdateThread
-import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.ui.Messages
 import java.time.LocalDate
 
-/** Enabled in a markdown editor only */
-abstract class MarkdownEditorAction(text: String, description: String) : AnAction(text, description, null) {
-    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
-
-    override fun update(e: AnActionEvent) {
-        val file = e.getData(CommonDataKeys.PSI_FILE)
-        e.presentation.isEnabled = e.getData(CommonDataKeys.EDITOR) != null && file != null && file.name.endsWith(".md")
-    }
-
-    protected val listPrefix: String get() = ChevronListsSettings.getInstance().state.listPrefix
-    protected val today: String get() = LocalDate.now().toString()
-}
+private val listPrefix: String get() = ChevronListsSettings.getInstance().state.listPrefix
+private val today: String get() = LocalDate.now().toString()
 
 class QuickStatsAction : MarkdownEditorAction(
     "CL: Quick Stats",
