@@ -83,10 +83,11 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         assertEquals(LogicalPosition(2, 0), myFixture.editor.caretModel.logicalPosition)
     }
 
-    // Statistics (the hint and dialog cannot show in a headless IDE)
-    fun `test statistics actions are registered`() {
+    // Statistics and Kanban (the hint and dialogs cannot show in a headless IDE)
+    fun `test statistics and kanban actions are registered`() {
         assertNotNull(ActionManager.getInstance().getAction("ChevronLists.QuickStats"))
         assertNotNull(ActionManager.getInstance().getAction("ChevronLists.ShowStatistics"))
+        assertNotNull(ActionManager.getInstance().getAction("ChevronLists.ShowKanban"))
     }
 
     // Filter by Tag (the popups cannot open in a headless IDE)
