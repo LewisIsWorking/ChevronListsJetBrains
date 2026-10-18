@@ -83,6 +83,25 @@ fun summaryLine(reply: String, listPrefix: String): String? {
     return ">> $listPrefix _${summary}_"
 }
 
+private val API_ERROR_MESSAGE = Regex(""""message"\s*:\s*"((?:[^"\\]|\\.)*)"""")
+
+/**
+ * Pure: a readable message for a failed request, from its HTTP status (null when
+ * no response came back) and the raw error text, which for an API error holds the
+ * JSON body. It used to show that JSON as it was.
+ */
+fun aiErrorMessage(status: Int?, raw: String): String {
+    val detail = API_ERROR_MESSAGE.find(raw)?.groupValues?.get(1)?.replace("\\\"", "\"") ?: raw
+    return when (status) {
+        null -> "Could not reach Claude: $raw"
+        401  -> "Anthropic rejected the API key. Check it in Settings, Tools, Chevron Lists."
+        403  -> "This API key is not allowed to make the request: $detail"
+        429  -> "Anthropic is rate limiting this key. Try again in a minute."
+        500, 503, 529 -> "Claude is busy or unavailable. Try again shortly."
+        else -> "Claude request failed ($status): $detail"
+    }
+}
+
 /** Pure: [items] as bullet lines at [chevrons] depth */
 fun itemLines(items: List<String>, chevrons: String, listPrefix: String): List<String> =
     items.map { "$chevrons $listPrefix $it" }
