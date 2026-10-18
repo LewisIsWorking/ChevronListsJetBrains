@@ -2,10 +2,15 @@
  * AiAssist.kt
  * Pure logic for the AI assist actions (Suggest Items, Summarise Section,
  * Expand Item): the prompts, the message sent to Claude, reading the reply into
- * items and building the lines to insert. No IntelliJ Platform imports.
- * Mirrors aiCommands.ts in the VS Code extension.
+ * items and building the lines to insert. No IntelliJ Platform imports; JSON
+ * goes through Gson, which the IDE bundles. Mirrors aiCommands.ts in the VS Code
+ * extension.
  */
 package com.lewisisworking.chevronlists
+
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 
 const val AI_SYSTEM_SUGGEST = """You are a helpful writing assistant for a bullet list tool.
 Given a section header and existing list items, suggest 3-5 additional relevant items.
@@ -81,6 +86,40 @@ fun replyItems(reply: String): List<String> =
 fun summaryLine(reply: String, listPrefix: String): String? {
     val summary = reply.trim().lines().firstOrNull { it.isNotBlank() }?.trim() ?: return null
     return ">> $listPrefix _${summary}_"
+}
+
+const val AI_MODEL = "claude-opus-5-5"
+
+/**
+ * Pure: the Messages API request body. Low effort keeps short list edits quick
+ * and cheap; "fallbacks" lets the server retry on its default fallback model if
+ * the model declines (needs the server-side-fallback beta header).
+ */
+fun aiRequestBody(system: String, user: String): String {
+    val body = JsonObject()
+    body.addProperty("model", AI_MODEL)
+    body.addProperty("max_tokens", 16000)
+    body.addProperty("system", system)
+    body.add("messages", JsonArray().apply {
+        add(JsonObject().apply { addProperty("role", "user"); addProperty("content", user) })
+    })
+    body.add("output_config", JsonObject().apply { addProperty("effort", "low") })
+    body.addProperty("fallbacks", "default")
+    return body.toString()
+}
+
+/**
+ * Pure: the text of a Messages API response, every text block joined (thinking
+ * blocks skipped). Null when Claude declined the request.
+ */
+fun aiReplyText(response: String): String? {
+    val json = JsonParser.parseString(response).asJsonObject
+    if (json.get("stop_reason")?.takeIf { it.isJsonPrimitive }?.asString == "refusal") return null
+    return json.getAsJsonArray("content")
+        ?.map { it.asJsonObject }
+        ?.filter { it.get("type")?.asString == "text" }
+        ?.joinToString("") { it.get("text")?.asString ?: "" }
+        ?: ""
 }
 
 private val API_ERROR_MESSAGE = Regex(""""message"\s*:\s*"((?:[^"\\]|\\.)*)"""")
