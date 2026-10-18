@@ -9,6 +9,7 @@ package com.lewisisworking.chevronlists
 import com.intellij.openapi.options.BoundConfigurable
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.SimpleListCellRenderer
+import com.intellij.ui.dsl.builder.Cell
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.bindSelected
 import com.intellij.ui.dsl.builder.bindText
@@ -16,7 +17,11 @@ import com.intellij.ui.dsl.builder.columns
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.builder.rows
 import com.intellij.ui.dsl.builder.toNullableProperty
+import javax.swing.JComponent
 import javax.swing.JList
+
+/** Comment line length, in the UI DSL's units; the default is 70 */
+const val COMMENT_LINE_LENGTH = 45
 
 class ChevronListsConfigurable : BoundConfigurable("Chevron Lists") {
 
@@ -62,30 +67,36 @@ class ChevronListsConfigurable : BoundConfigurable("Chevron Lists") {
         }
     }
 
+    // The default comment line length ran past the right edge of a narrow Settings
+    // pane and added a sideways scrollbar. Word-wrap mode did not help: it still
+    // asks for the unwrapped width. A shorter fixed length does.
+    private fun <T : JComponent> Cell<T>.wrappedComment(text: String): Cell<T> =
+        comment(text, maxLineLength = COMMENT_LINE_LENGTH)
+
     override fun createPanel(): DialogPanel = panel {
         group("List Behaviour") {
             row("List prefix:") {
                 textField()
                     .bindText(state::listPrefix)
-                    .comment("Character used after >> for bullet items. Default: '-'. " +
+                    .wrappedComment("Character used after >> for bullet items. Default: '-'. " +
                              "Change to '*' for >> *, etc.")
             }
             row("Default new list type:") {
                 comboBox(listTypeValues, listTypeRenderer)
                     .bindItem(state::defaultNewListType.toNullableProperty())
-                    .comment("Inserted when pressing Enter on a `> Header` line.")
+                    .wrappedComment("Inserted when pressing Enter on a `> Header` line.")
             }
             row {
                 checkBox("Auto-fix numbering as you type")
                     .bindSelected(state::autoFixNumbering)
-                    .comment("Automatically renumber items when sequences break " +
+                    .wrappedComment("Automatically renumber items when sequences break " +
                              "(e.g. two `>> 2.` items, or `>> 1.` followed by `>> 3.`). " +
                              "Independent per section and per chevron depth.")
             }
             row {
                 checkBox("Paste several lines as separate items")
                     .bindSelected(state::pasteLinesAsItems)
-                    .comment("Pasting multi-line text into a chevron item puts each line on " +
+                    .wrappedComment("Pasting multi-line text into a chevron item puts each line on " +
                              "its own item at the same depth. Numbered items keep counting " +
                              "(with auto-fix on, the items after them are renumbered).")
             }
@@ -94,14 +105,14 @@ class ChevronListsConfigurable : BoundConfigurable("Chevron Lists") {
             row("Folder:") {
                 textField()
                     .bindText(state::dailyNotesFolder)
-                    .comment("Where CL: Open Daily Note keeps YYYY-MM-DD.md files. Relative to the " +
+                    .wrappedComment("Where CL: Open Daily Note keeps YYYY-MM-DD.md files. Relative to the " +
                              "project folder, or an absolute path. Blank: the project folder.")
             }
             row("Template:") {
                 textArea()
                     .rows(4)
                     .bindText(state::dailyNoteTemplate)
-                    .comment("Text of a new daily note. {{date}}, {{weekday}} and {{day}} are filled " +
+                    .wrappedComment("Text of a new daily note. {{date}}, {{weekday}} and {{day}} are filled " +
                              "in. Blank: a dated > header with one empty item.")
             }
         }
@@ -110,7 +121,7 @@ class ChevronListsConfigurable : BoundConfigurable("Chevron Lists") {
                 passwordField()
                     .columns(40)
                     .bindText(AnthropicApiKey::stored)
-                    .comment("Used by CL: Suggest Items, Summarise Section and Expand Item. Kept in the " +
+                    .wrappedComment("Used by CL: Suggest Items, Summarise Section and Expand Item. Kept in the " +
                              "IDE's password safe, not in settings files. Blank: the ANTHROPIC_API_KEY " +
                              "environment variable.")
             }
@@ -119,7 +130,7 @@ class ChevronListsConfigurable : BoundConfigurable("Chevron Lists") {
             row("Colour preset:") {
                 comboBox(presetIds, presetRenderer)
                     .bindItem(state::colourPreset.toNullableProperty())
-                    .comment("Co-ordinated colour palette for chevron syntax highlighting. " +
+                    .wrappedComment("Co-ordinated colour palette for chevron syntax highlighting. " +
                              "Choose 'Custom' to use per-scheme colours from " +
                              "Settings → Editor → Color Scheme → Chevron Lists. " +
                              "Re-open the markdown file to see preset changes take effect.")
