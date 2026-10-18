@@ -23,14 +23,6 @@ kotlin {
 dependencies {
     testImplementation("junit:junit:4.13.2")
 
-    // AI assist (Suggest Items, Summarise Section, Expand Item) calls Claude
-    // through the official SDK. The IDE already provides the Kotlin runtime, and
-    // a second copy in the plugin would clash with it, so leave Kotlin out.
-    implementation("com.anthropic:anthropic-java:2.73.0") {
-        exclude(group = "org.jetbrains.kotlin")
-        exclude(group = "org.jetbrains.kotlinx")
-    }
-
     // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
     intellijPlatform {
         // Compile against the current IDE release. The Plugin Verifier in CI

@@ -7,14 +7,6 @@
  */
 package com.lewisisworking.chevronlists
 
-import com.anthropic.client.okhttp.AnthropicOkHttpClient
-import com.anthropic.errors.AnthropicServiceException
-import com.anthropic.models.beta.AnthropicBeta
-import com.anthropic.models.beta.messages.BetaFallbacksParam
-import com.anthropic.models.beta.messages.BetaOutputConfig
-import com.anthropic.models.beta.messages.BetaStopReason
-import com.anthropic.models.beta.messages.MessageCreateParams
-import com.anthropic.models.messages.Model
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.credentialStore.CredentialAttributes
 import com.intellij.credentialStore.generateServiceName
@@ -30,8 +22,10 @@ import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.Messages
 import com.intellij.ui.CheckBoxList
 import com.intellij.ui.components.JBScrollPane
+import com.intellij.util.io.HttpRequests
 import com.intellij.util.ui.JBUI
-import java.time.Duration
+import java.io.IOException
+import java.net.HttpURLConnection
 import javax.swing.JComponent
 
 /** The Anthropic API key, kept in the IDE's password safe rather than in settings XML */
@@ -54,32 +48,34 @@ class AiAssistException(message: String) : Exception(message)
 private fun askClaude(system: String, user: String): String {
     val key = AnthropicApiKey.resolve()
         ?: throw AiAssistException("No Anthropic API key. Add one in Settings, Tools, Chevron Lists.")
-    val client = AnthropicOkHttpClient.builder().apiKey(key).timeout(Duration.ofSeconds(120)).build()
-    try {
-        val params = MessageCreateParams.builder()
-            .model(Model.CLAUDE_OPUS_5_5)
-            .maxTokens(16000L)
-            .system(system)
-            .addUserMessage(user)
-            // Short list edits need little thinking: low effort keeps them quick and cheap
-            .outputConfig(BetaOutputConfig.builder().effort(BetaOutputConfig.Effort.LOW).build())
-            // If the model declines, let the server retry on its default fallback model
-            .addBeta(AnthropicBeta.SERVER_SIDE_FALLBACK_2026_07_01)
-            .fallbacks(BetaFallbacksParam.ofDefault())
-            .build()
-        val message = try {
-            client.beta().messages().create(params)
-        } catch (e: AnthropicServiceException) {
-            throw AiAssistException(aiErrorMessage(e.statusCode(), e.message ?: ""))
-        } catch (e: Exception) {
-            throw AiAssistException(aiErrorMessage(null, e.message ?: e.javaClass.simpleName))
-        }
-        if (message.stopReason().orElse(null) == BetaStopReason.REFUSAL)
-            throw AiAssistException("Claude declined this request.")
-        return message.content().mapNotNull { it.text().orElse(null)?.text() }.joinToString("")
-    } finally {
-        client.close()
+    // Plain HTTP through the IDE's own client: an SDK would have to ship inside the
+    // plugin (it added 43 MB), as the IDE does not provide one
+    val (status, response) = try {
+        HttpRequests.post("https://api.anthropic.com/v1/messages", "application/json")
+            .tuner {
+                it.setRequestProperty("x-api-key", key)
+                it.setRequestProperty("anthropic-version", "2023-06-01")
+                it.setRequestProperty("anthropic-beta", "server-side-fallback-2026-07-01")
+            }
+            .connectTimeout(30_000)
+            .readTimeout(120_000)
+            .throwStatusCodeException(false)
+            .connect { request ->
+                request.write(aiRequestBody(system, user))
+                val connection = request.connection as HttpURLConnection
+                val code = connection.responseCode
+                val stream = if (code in 200..299) connection.inputStream else connection.errorStream
+                code to (stream?.use { String(it.readAllBytes(), Charsets.UTF_8) } ?: "")
+            }
+    } catch (e: IOException) {
+        throw AiAssistException(aiErrorMessage(null, e.message ?: e.javaClass.simpleName))
     }
+    if (status !in 200..299) throw AiAssistException(aiErrorMessage(status, response))
+    return try {
+        aiReplyText(response)
+    } catch (e: Exception) {
+        throw AiAssistException("Claude sent a reply that could not be read.")
+    } ?: throw AiAssistException("Claude declined this request.")
 }
 
 /** Asks Claude in a cancellable background task, then hands the reply to [onReply] on the EDT */

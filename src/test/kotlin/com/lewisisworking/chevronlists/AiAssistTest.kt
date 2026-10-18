@@ -4,8 +4,10 @@
  */
 package com.lewisisworking.chevronlists
 
+import com.google.gson.JsonParser
 import org.junit.Test
 import org.junit.Assert.*
+import java.io.File
 
 class AiAssistTest {
 
@@ -84,6 +86,33 @@ class AiAssistTest {
         assertEquals("Anthropic is rate limiting this key. Try again in a minute.", aiErrorMessage(429, ""))
         assertEquals("Claude is busy or unavailable. Try again shortly.", aiErrorMessage(529, ""))
         assertEquals("Could not reach Claude: timeout", aiErrorMessage(null, "timeout"))
+    }
+
+    @Test fun `request body asks Opus 5_5 at low effort with server fallback`() {
+        val body = JsonParser.parseString(aiRequestBody("sys \"quoted\"", "line 1\nline 2")).asJsonObject
+        assertEquals("claude-opus-5-5", body.get("model").asString)
+        assertEquals(16000, body.get("max_tokens").asInt)
+        assertEquals("sys \"quoted\"", body.get("system").asString)
+        val message = body.getAsJsonArray("messages")[0].asJsonObject
+        assertEquals("user", message.get("role").asString)
+        assertEquals("line 1\nline 2", message.get("content").asString)
+        assertEquals("low", body.getAsJsonObject("output_config").get("effort").asString)
+        assertEquals("default", body.get("fallbacks").asString)
+    }
+
+    @Test fun `reply text joins text blocks and skips thinking`() {
+        val response = """{"content":[{"type":"thinking","thinking":"hmm"},{"type":"text","text":"- eggs\n"},""" +
+            """{"type":"text","text":"- jam"}],"stop_reason":"end_turn"}"""
+        assertEquals("- eggs\n- jam", aiReplyText(response))
+    }
+
+    @Test fun `a refusal gives no reply text`() =
+        assertNull(aiReplyText("""{"content":[],"stop_reason":"refusal"}"""))
+
+    @Test fun `the plugin does not bundle an Anthropic SDK`() {
+        // 0.18.0 first shipped with the Java SDK, which grew the plugin zip from 0.4 MB to 44 MB
+        val gradle = File("build.gradle.kts").readText()
+        assertFalse(gradle.contains("com.anthropic"))
     }
 
     @Test fun `item lines use the depth and prefix`() =
