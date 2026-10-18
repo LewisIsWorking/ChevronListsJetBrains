@@ -12,6 +12,7 @@ import com.intellij.ui.SimpleListCellRenderer
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.bindSelected
 import com.intellij.ui.dsl.builder.bindText
+import com.intellij.ui.dsl.builder.columns
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.builder.rows
 import com.intellij.ui.dsl.builder.toNullableProperty
@@ -102,6 +103,16 @@ class ChevronListsConfigurable : BoundConfigurable("Chevron Lists") {
                     .bindText(state::dailyNoteTemplate)
                     .comment("Text of a new daily note. {{date}}, {{weekday}} and {{day}} are filled " +
                              "in. Blank: a dated > header with one empty item.")
+            }
+        }
+        group("AI Assist") {
+            row("Anthropic API key:") {
+                passwordField()
+                    .columns(40)
+                    .bindText(AnthropicApiKey::stored)
+                    .comment("Used by CL: Suggest Items, Summarise Section and Expand Item. Kept in the " +
+                             "IDE's password safe, not in settings files. Blank: the ANTHROPIC_API_KEY " +
+                             "environment variable.")
             }
         }
         group("Appearance") {
