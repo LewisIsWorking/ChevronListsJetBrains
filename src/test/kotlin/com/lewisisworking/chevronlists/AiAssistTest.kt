@@ -66,6 +66,26 @@ class AiAssistTest {
         assertNull(summaryLine("  \n", "-"))
     }
 
+    @Test fun `a rejected key gets a plain message, not the JSON body`() {
+        // Live test: a bad key showed {"type":"error","error":{...}} in the dialog
+        val raw = """401: {"type":"error","error":{"type":"authentication_error","message":"invalid x-api-key"},"request_id":"req_1"}"""
+        assertEquals("Anthropic rejected the API key. Check it in Settings, Tools, Chevron Lists.", aiErrorMessage(401, raw))
+    }
+
+    @Test fun `other errors show the API's own message`() {
+        val raw = """400: {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low"}}"""
+        assertEquals("Claude request failed (400): Your credit balance is too low", aiErrorMessage(400, raw))
+        assertEquals("This API key is not allowed to make the request: no \"access\"",
+            aiErrorMessage(403, """{"message":"no \"access\""}"""))
+        assertEquals("Claude request failed (418): teapot", aiErrorMessage(418, "teapot"))
+    }
+
+    @Test fun `busy, rate limited and unreachable`() {
+        assertEquals("Anthropic is rate limiting this key. Try again in a minute.", aiErrorMessage(429, ""))
+        assertEquals("Claude is busy or unavailable. Try again shortly.", aiErrorMessage(529, ""))
+        assertEquals("Could not reach Claude: timeout", aiErrorMessage(null, "timeout"))
+    }
+
     @Test fun `item lines use the depth and prefix`() =
         assertEquals(listOf(">>> * a", ">>> * b"), itemLines(listOf("a", "b"), ">>>", "*"))
 }

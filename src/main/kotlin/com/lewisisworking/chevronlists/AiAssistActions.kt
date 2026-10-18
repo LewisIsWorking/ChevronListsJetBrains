@@ -8,6 +8,7 @@
 package com.lewisisworking.chevronlists
 
 import com.anthropic.client.okhttp.AnthropicOkHttpClient
+import com.anthropic.errors.AnthropicServiceException
 import com.anthropic.models.beta.AnthropicBeta
 import com.anthropic.models.beta.messages.BetaFallbacksParam
 import com.anthropic.models.beta.messages.BetaOutputConfig
@@ -68,8 +69,10 @@ private fun askClaude(system: String, user: String): String {
             .build()
         val message = try {
             client.beta().messages().create(params)
+        } catch (e: AnthropicServiceException) {
+            throw AiAssistException(aiErrorMessage(e.statusCode(), e.message ?: ""))
         } catch (e: Exception) {
-            throw AiAssistException("Claude request failed: ${e.message ?: e.javaClass.simpleName}")
+            throw AiAssistException(aiErrorMessage(null, e.message ?: e.javaClass.simpleName))
         }
         if (message.stopReason().orElse(null) == BetaStopReason.REFUSAL)
             throw AiAssistException("Claude declined this request.")
