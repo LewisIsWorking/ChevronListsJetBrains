@@ -193,6 +193,12 @@
                 description="Ask Claude to break the item at the caret into sub-items">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.RewriteItem"
+                class="com.lewisisworking.chevronlists.RewriteItemAction"
+                text="CL: Rewrite Item (AI)"
+                description="Ask Claude to make the item at the caret clearer and more concise, keeping its markers">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.OpenDailyNote"
                 class="com.lewisisworking.chevronlists.OpenDailyNoteAction"
                 text="CL: Open Daily Note"

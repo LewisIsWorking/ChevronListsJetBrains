@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.19.0] - Unreleased
+### Added
+- **Rewrite Item (AI).** *CL: Rewrite Item (AI)* (right-click menu) asks Claude to make the item at the caret clearer and more concise. Its checkbox, priority, markers, tags, dates, estimates, votes and comment are kept: only the words go to Claude, and the metadata goes back after the new text. If you edit the item while Claude is thinking, it is left alone. Ported from the VS Code extension.
+
 ## [0.18.0] - Unreleased
 ### Added
 - **Sets.** Tag a markdown heading `#set` (`# Beer Bikes #set`) and the `> Sections` under it, up to the next heading of the same level, become buckets of one group, such as Paid, Hasn't paid and Not going. A name in two of them is warned about on both lines; case, a checkbox and end punctuation are ignored when matching. *CL: Move Item to List* (editor right-click menu) moves the item at the caret, with anything nested under it, to the end of another list in the set (or any other section outside a set), matching that list's numbering or bullets and renumbering both. The heading shows the totals in grey after it, such as "23 Paid, 3 Hasn't paid, 3 Not going, 28 in all", counting each member once in all.

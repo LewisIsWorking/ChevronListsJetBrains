@@ -115,6 +115,30 @@ class AiAssistTest {
         assertFalse(gradle.contains("com.anthropic"))
     }
 
+    @Test fun `rewrite keeps leading markers and moves metadata after the new words`() {
+        val t = rewriteTarget(">>> - [ ] !! ⭐ fix the #urgent bug in login @2026-11-01 ~2h +3 // ask Sam", "-")!!
+        assertEquals(RewriteTarget(">>> -", "[ ] !! ⭐", "fix the bug in login", "#urgent @2026-11-01 ~2h +3 // ask Sam"), t)
+        assertEquals("Item: fix the bug in login", rewriteMessage(t))
+        assertEquals(">>> - [ ] !! ⭐ Fix the login bug #urgent @2026-11-01 ~2h +3 // ask Sam",
+            rewrittenLine(t, "\n\"Fix the login bug\"\n"))
+    }
+
+    @Test fun `rewrite of a plain numbered item`() {
+        val t = rewriteTarget(">> 2. call the bank about it", "-")!!
+        assertEquals(">> 2. Call the bank", rewrittenLine(t, "Call the bank"))
+    }
+
+    @Test fun `rewrite keeps prose that only looks like a marker`() {
+        // Mid-sentence "!!", "?" and C++11 are words, not markers
+        assertEquals("Wow!! is C++11 ok?", rewriteTarget(">> - Wow!! is C++11 ok?", "-")!!.plain)
+    }
+
+    @Test fun `nothing to rewrite`() {
+        assertNull(rewriteTarget("> Header", "-"))
+        assertNull(rewriteTarget(">> - [x] #done @2026-01-01", "-"))
+        assertNull(rewrittenLine(rewriteTarget(">> - a", "-")!!, "  \n"))
+    }
+
     @Test fun `item lines use the depth and prefix`() =
         assertEquals(listOf(">>> * a", ">>> * b"), itemLines(listOf("a", "b"), ">>>", "*"))
 }
