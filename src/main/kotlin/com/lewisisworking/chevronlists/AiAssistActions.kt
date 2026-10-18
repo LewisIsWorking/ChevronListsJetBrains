@@ -20,6 +20,7 @@ import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.Messages
+import com.intellij.openapi.util.TextRange
 import com.intellij.ui.CheckBoxList
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.util.io.HttpRequests
@@ -167,6 +168,34 @@ class ExpandItemAction : MarkdownEditorAction(
             val subItems = replyItems(reply)
             if (subItems.isEmpty()) return@askInBackground HintManager.getInstance().showInformationHint(editor, "Claude suggested no sub-items")
             insertAfter(editor, anchor, itemLines(subItems, item.chevrons + ">", prefix))
+        }
+    }
+}
+
+class RewriteItemAction : MarkdownEditorAction(
+    "CL: Rewrite Item (AI)",
+    "Ask Claude to make the item at the caret clearer and more concise, keeping its markers"
+) {
+    override fun actionPerformed(e: AnActionEvent) {
+        val editor = e.getData(CommonDataKeys.EDITOR) ?: return
+        val doc = editor.document
+        val line = editor.caretModel.logicalPosition.line
+        val original = doc.getText(TextRange(doc.getLineStartOffset(line), doc.getLineEndOffset(line)))
+        val target = rewriteTarget(original, listPrefix())
+            ?: return HintManager.getInstance().showInformationHint(editor, "Put the caret on a chevron item to rewrite it")
+        val marker = doc.createRangeMarker(doc.getLineStartOffset(line), doc.getLineEndOffset(line))
+        askInBackground(editor, "CL: Rewriting item", AI_SYSTEM_REWRITE, rewriteMessage(target)) { reply ->
+            val rewritten = rewrittenLine(target, reply)
+            when {
+                rewritten == null -> HintManager.getInstance().showInformationHint(editor, "Claude sent back no text")
+                // Edited while Claude was thinking: leave the user's text alone
+                !marker.isValid || doc.getText(marker.textRange) != original ->
+                    HintManager.getInstance().showInformationHint(editor, "The item changed while Claude was thinking, so it was left as it is")
+                else -> WriteCommandAction.runWriteCommandAction(editor.project, "CL: Rewrite Item", null, {
+                    doc.replaceString(marker.startOffset, marker.endOffset, rewritten)
+                })
+            }
+            marker.dispose()
         }
     }
 }

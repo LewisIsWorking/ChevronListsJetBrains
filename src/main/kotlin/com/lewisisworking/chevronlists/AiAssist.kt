@@ -1,7 +1,7 @@
 /**
  * AiAssist.kt
  * Pure logic for the AI assist actions (Suggest Items, Summarise Section,
- * Expand Item): the prompts, the message sent to Claude, reading the reply into
+ * Expand Item, Rewrite Item): the prompts, the message sent to Claude, reading the reply into
  * items and building the lines to insert. No IntelliJ Platform imports; JSON
  * goes through Gson, which the IDE bundles. Mirrors aiCommands.ts in the VS Code
  * extension.
@@ -25,6 +25,10 @@ const val AI_SYSTEM_EXPAND = """You are a helpful writing assistant for a bullet
 Given a section header and a single item, expand it into 3-5 sub-items.
 Return ONLY the sub-items, one per line, with no numbering, bullets, or explanation.
 Keep each sub-item concise (under 10 words)."""
+
+const val AI_SYSTEM_REWRITE = """You are a helpful writing assistant for a bullet list tool.
+Rewrite the list item you are given to be clearer and more concise.
+Return ONLY the rewritten text, no explanation, no quotes."""
 
 /** The section at the caret: its title, its items, its header line and its last non-blank line */
 data class AiSection(val header: String, val items: List<String>, val headerLine: Int, val contentEnd: Int)
@@ -139,6 +143,71 @@ fun aiErrorMessage(status: Int?, raw: String): String {
         500, 503, 529 -> "Claude is busy or unavailable. Try again shortly."
         else -> "Claude request failed ($status): $detail"
     }
+}
+
+/**
+ * An item split for Rewrite Item: the line start (">> -" or ">> 2."), the markers
+ * at the front of the content, the words Claude rewrites, and the metadata that
+ * goes back after them.
+ */
+data class RewriteTarget(val start: String, val lead: String, val plain: String, val tail: String)
+
+private val REWRITE_LEAD = listOf(
+    Regex("""^\[(?:[xX]| ?)]\s*"""),                      // checkbox
+    Regex("""^!{1,3}\s+"""),                              // priority
+    Regex("""^[*?]\s+"""),                                // star or flag
+    Regex("""^(?:⭐|📌|🚩|📝)\s*"""),                    // marker emoji
+    Regex("""^\{(?:red|green|blue|yellow|orange|purple)}\s*"""), // colour label
+)
+private val REWRITE_META = listOf(
+    Regex("""(?:^|\s)//.*$"""),                           // inline comment
+    Regex("""(?:^|\s)\+\d+(?=\s*(?://.*)?$)"""),          // votes, before any comment
+    Regex("""(?:^|\s)#[A-Za-z][\w-]*"""),                 // tags
+    Regex("""@created:\d{4}-\d{2}-\d{2}"""),              // creation dates
+    Regex("""@\d{4}-\d{2}-\d{2}"""),                      // due dates
+    Regex("""@(?:daily|weekly|monthly)"""),               // recurrence
+    Regex("""~\d+h(?:\d+m)?|~\d+m"""),                    // time estimates
+    Regex("""\{(?:red|green|blue|yellow|orange|purple)}"""), // colour labels
+    Regex("""\[\[[^]]+]]"""),                             // section and file links
+    Regex("""⭐|📌|🚩|📝"""),                             // marker emoji
+)
+private val SPACE_RUN = Regex("""\s+""")
+
+/** Pure: the item on [line] split for rewriting, or null when it is not an item or has no words */
+fun rewriteTarget(line: String, listPrefix: String): RewriteTarget? {
+    val b = parseBullet(line, listPrefix)
+    val n = if (b == null) parseNumbered(line) else null
+    val start = when {
+        b != null -> "${b.chevrons} ${b.prefix}"
+        n != null -> "${n.chevrons} ${n.num}."
+        else -> return null
+    }
+    var rest = (b?.content ?: n!!.content).trim()
+    val lead = mutableListOf<String>()
+    while (true) {
+        val m = REWRITE_LEAD.firstNotNullOfOrNull { it.find(rest) } ?: break
+        lead += m.value.trim()
+        rest = rest.substring(m.range.last + 1)
+    }
+    // Metadata anywhere in the rest, in the order it appears; overlaps keep the first
+    val found = REWRITE_META.flatMap { it.findAll(rest).toList() }.sortedBy { it.range.first }
+    val kept = mutableListOf<MatchResult>()
+    for (m in found) if (kept.none { m.range.first <= it.range.last }) kept += m
+    val plain = StringBuilder(rest)
+    for (m in kept.asReversed()) plain.replace(m.range.first, m.range.last + 1, " ")
+    val words = SPACE_RUN.replace(plain, " ").trim()
+    if (words.isEmpty()) return null
+    return RewriteTarget(start, lead.joinToString(" "), words, kept.joinToString(" ") { it.value.trim() })
+}
+
+/** Pure: the user message for Rewrite Item */
+fun rewriteMessage(t: RewriteTarget): String = "Item: ${t.plain}"
+
+/** Pure: the item line with Claude's text in place of the words, or null when the reply is blank */
+fun rewrittenLine(t: RewriteTarget, reply: String): String? {
+    val text = SPACE_RUN.replace(reply.trim(), " ").trim().removeSurrounding("\"").trim()
+    if (text.isEmpty()) return null
+    return listOf(t.start, t.lead, text, t.tail).filter { it.isNotEmpty() }.joinToString(" ")
 }
 
 /** Pure: [items] as bullet lines at [chevrons] depth */

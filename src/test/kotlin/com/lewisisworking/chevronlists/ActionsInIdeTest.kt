@@ -95,6 +95,7 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         assertNotNull(ActionManager.getInstance().getAction("ChevronLists.SuggestItems"))
         assertNotNull(ActionManager.getInstance().getAction("ChevronLists.SummariseSection"))
         assertNotNull(ActionManager.getInstance().getAction("ChevronLists.ExpandItem"))
+        assertNotNull(ActionManager.getInstance().getAction("ChevronLists.RewriteItem"))
     }
 
     // Filter by Tag (the popups cannot open in a headless IDE)
