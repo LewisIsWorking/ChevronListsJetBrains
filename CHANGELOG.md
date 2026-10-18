@@ -11,6 +11,7 @@
 - **Daily notes.** *CL: Open Daily Note* (Tools menu, or Find Action) opens today's `YYYY-MM-DD.md`, creating it from a template and putting the caret on its first empty item. *CL: Send to Daily Note* (right-click menu) copies the item at the caret into today's note, first under `> Inbox` (added if missing). Set the folder and template under *Settings > Tools > Chevron Lists > Daily Notes*; the template fills in `{{date}}`, `{{weekday}}` and `{{day}}`. The folder may be relative to the project or absolute, and is the project folder when blank. Ported from the VS Code extension.
 
 ### Fixed
+- The comments on the Chevron Lists settings page ran past the right edge of a narrow Settings dialog and added a sideways scrollbar. They now wrap to fit.
 - In IDE 2026.2 none of the plugin's highlighting showed: no chevron or number colours, no `#tag` or `{red}` highlights, and no warnings. The IDE no longer runs a plain annotator for Markdown files, so the highlighting now runs as an external annotator, which it does run.
 - Enter on a header with a numbered list under it started a `-` bullet; it now adds `1.` and renumbers the list. A bulleted list gets its bullet. Enter in the middle of a numbered list no longer leaves two items with the same number: the rest of the list is renumbered.
 
