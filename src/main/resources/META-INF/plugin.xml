@@ -175,6 +175,24 @@
                 description="Show this file's items as a board: Todo, In Progress (starred) and Done ([x])">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.SuggestItems"
+                class="com.lewisisworking.chevronlists.SuggestItemsAction"
+                text="CL: Suggest Items (AI)"
+                description="Ask Claude for more items for this section, then pick which to add">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SummariseSection"
+                class="com.lewisisworking.chevronlists.SummariseSectionAction"
+                text="CL: Summarise Section (AI)"
+                description="Ask Claude for a one-line summary of this section and add it under the header">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ExpandItem"
+                class="com.lewisisworking.chevronlists.ExpandItemAction"
+                text="CL: Expand Item (AI)"
+                description="Ask Claude to break the item at the caret into sub-items">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.OpenDailyNote"
                 class="com.lewisisworking.chevronlists.OpenDailyNoteAction"
                 text="CL: Open Daily Note"

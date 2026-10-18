@@ -90,6 +90,13 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         assertNotNull(ActionManager.getInstance().getAction("ChevronLists.ShowKanban"))
     }
 
+    // AI assist (a real request needs a key and the network)
+    fun `test ai assist actions are registered`() {
+        assertNotNull(ActionManager.getInstance().getAction("ChevronLists.SuggestItems"))
+        assertNotNull(ActionManager.getInstance().getAction("ChevronLists.SummariseSection"))
+        assertNotNull(ActionManager.getInstance().getAction("ChevronLists.ExpandItem"))
+    }
+
     // Filter by Tag (the popups cannot open in a headless IDE)
     fun `test filter by tag is registered and jumps to the tagged item`() {
         assertNotNull(ActionManager.getInstance().getAction("ChevronLists.FilterByTag"))
