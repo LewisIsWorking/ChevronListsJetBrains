@@ -333,6 +333,18 @@
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt shift DOWN"/>
         </action>
+        <action id="ChevronLists.MoveSectionUp"
+                class="com.lewisisworking.chevronlists.MoveSectionUpAction"
+                text="CL: Move Section Up"
+                description="Swap the section at the caret with the section above it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.MoveSectionDown"
+                class="com.lewisisworking.chevronlists.MoveSectionDownAction"
+                text="CL: Move Section Down"
+                description="Swap the section at the caret with the section below it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.CycleListType"
                 class="com.lewisisworking.chevronlists.CycleListTypeAction"
                 text="CL: Cycle List Type"

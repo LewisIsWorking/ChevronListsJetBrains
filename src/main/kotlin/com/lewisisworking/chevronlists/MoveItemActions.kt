@@ -1,8 +1,9 @@
 /**
  * MoveItemActions.kt
- * IntelliJ bridge for MoveItems.kt: moves the item at the caret up or down
- * among its siblings. All decisions are made by the pure computeMoveItem; this
- * class only reads the document, writes the changed span and moves the caret.
+ * IntelliJ bridge for MoveItems.kt and MoveSections.kt: moves the item at the
+ * caret up or down among its siblings, or swaps its whole section with the next
+ * one. All decisions are made by the pure computeMoveItem / computeMoveSection;
+ * these classes only read the document, write the changed span and move the caret.
  */
 package com.lewisisworking.chevronlists
 
@@ -13,11 +14,13 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.LogicalPosition
 
-abstract class ChevronMoveItemAction(
+abstract class ChevronMoveAction(
     actionText:        String,
-    actionDescription: String,
-    private val up:    Boolean
+    actionDescription: String
 ) : AnAction(actionText, actionDescription, null) {
+
+    /** The document after the move, or null when there is nothing to move */
+    protected abstract fun compute(lines: List<String>, line: Int, prefix: String): MoveResult?
 
     override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
 
@@ -36,7 +39,7 @@ abstract class ChevronMoveItemAction(
 
         val before = document.text.split("\n")
         val line   = document.getLineNumber(caret.offset)
-        val result = computeMoveItem(before, line, up, prefix) ?: return
+        val result = compute(before, line, prefix) ?: return
         val span   = changedSpan(before, result.lines) ?: return
         val column = caret.logicalPosition.column
 
@@ -49,6 +52,22 @@ abstract class ChevronMoveItemAction(
     }
 }
 
+abstract class ChevronMoveItemAction(
+    actionText:        String,
+    actionDescription: String,
+    private val up:    Boolean
+) : ChevronMoveAction(actionText, actionDescription) {
+    override fun compute(lines: List<String>, line: Int, prefix: String) = computeMoveItem(lines, line, up, prefix)
+}
+
+abstract class ChevronMoveSectionAction(
+    actionText:        String,
+    actionDescription: String,
+    private val up:    Boolean
+) : ChevronMoveAction(actionText, actionDescription) {
+    override fun compute(lines: List<String>, line: Int, prefix: String) = computeMoveSection(lines, line, up)
+}
+
 class MoveItemUpAction : ChevronMoveItemAction(
     actionText        = "CL: Move Item Up",
     actionDescription = "Move this item above the previous item at the same depth, with anything nested under it",
@@ -58,5 +77,17 @@ class MoveItemUpAction : ChevronMoveItemAction(
 class MoveItemDownAction : ChevronMoveItemAction(
     actionText        = "CL: Move Item Down",
     actionDescription = "Move this item below the next item at the same depth, with anything nested under it",
+    up                = false
+)
+
+class MoveSectionUpAction : ChevronMoveSectionAction(
+    actionText        = "CL: Move Section Up",
+    actionDescription = "Swap the section at the caret with the section above it",
+    up                = true
+)
+
+class MoveSectionDownAction : ChevronMoveSectionAction(
+    actionText        = "CL: Move Section Down",
+    actionDescription = "Swap the section at the caret with the section below it",
     up                = false
 )
