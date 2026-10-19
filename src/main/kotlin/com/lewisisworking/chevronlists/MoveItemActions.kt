@@ -36,7 +36,7 @@ abstract class ChevronMoveItemAction(
 
         val before = document.text.split("\n")
         val line   = document.getLineNumber(caret.offset)
-        val result = computeMoveItem(before, line, up, prefix) ?: return
+        val result = compute(before, line, prefix) ?: return
         val span   = changedSpan(before, result.lines) ?: return
         val column = caret.logicalPosition.column
 
@@ -49,6 +49,22 @@ abstract class ChevronMoveItemAction(
     }
 }
 
+abstract class ChevronMoveItemAction(
+    actionText:        String,
+    actionDescription: String,
+    private val up:    Boolean
+) : ChevronMoveAction(actionText, actionDescription) {
+    override fun compute(lines: List<String>, line: Int, prefix: String) = computeMoveItem(lines, line, up, prefix)
+}
+
+abstract class ChevronMoveSectionAction(
+    actionText:        String,
+    actionDescription: String,
+    private val up:    Boolean
+) : ChevronMoveAction(actionText, actionDescription) {
+    override fun compute(lines: List<String>, line: Int, prefix: String) = computeMoveSection(lines, line, up)
+}
+
 class MoveItemUpAction : ChevronMoveItemAction(
     actionText        = "CL: Move Item Up",
     actionDescription = "Move this item above the previous item at the same depth, with anything nested under it",
@@ -58,5 +74,17 @@ class MoveItemUpAction : ChevronMoveItemAction(
 class MoveItemDownAction : ChevronMoveItemAction(
     actionText        = "CL: Move Item Down",
     actionDescription = "Move this item below the next item at the same depth, with anything nested under it",
+    up                = false
+)
+
+class MoveSectionUpAction : ChevronMoveSectionAction(
+    actionText        = "CL: Move Section Up",
+    actionDescription = "Swap the section at the caret with the section above it",
+    up                = true
+)
+
+class MoveSectionDownAction : ChevronMoveSectionAction(
+    actionText        = "CL: Move Section Down",
+    actionDescription = "Swap the section at the caret with the section below it",
     up                = false
 )
