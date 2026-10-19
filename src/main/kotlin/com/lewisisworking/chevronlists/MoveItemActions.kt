@@ -1,8 +1,9 @@
 /**
  * MoveItemActions.kt
- * IntelliJ bridge for MoveItems.kt: moves the item at the caret up or down
- * among its siblings. All decisions are made by the pure computeMoveItem; this
- * class only reads the document, writes the changed span and moves the caret.
+ * IntelliJ bridge for MoveItems.kt and MoveSections.kt: moves the item at the
+ * caret up or down among its siblings, or swaps its whole section with the next
+ * one. All decisions are made by the pure computeMoveItem / computeMoveSection;
+ * these classes only read the document, write the changed span and move the caret.
  */
 package com.lewisisworking.chevronlists
 
@@ -13,11 +14,13 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.LogicalPosition
 
-abstract class ChevronMoveItemAction(
+abstract class ChevronMoveAction(
     actionText:        String,
-    actionDescription: String,
-    private val up:    Boolean
+    actionDescription: String
 ) : AnAction(actionText, actionDescription, null) {
+
+    /** The document after the move, or null when there is nothing to move */
+    protected abstract fun compute(lines: List<String>, line: Int, prefix: String): MoveResult?
 
     override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
 
