@@ -45,6 +45,19 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         myFixture.checkResult("> H\n>> - <caret>a\n>> - b")
     }
 
+    // Move Section Up / Down
+    fun `test move section down swaps it with the next section and follows the caret`() {
+        open("> A\n>> - <caret>a1\n\n> B\n>> - b1")
+        run("ChevronLists.MoveSectionDown")
+        myFixture.checkResult("> B\n>> - b1\n\n> A\n>> - <caret>a1")
+    }
+
+    fun `test move section up swaps it with the previous section`() {
+        open("> A\n>> - a1\n\n> <caret>B\n>> - b1")
+        run("ChevronLists.MoveSectionUp")
+        myFixture.checkResult("> <caret>B\n>> - b1\n\n> A\n>> - a1")
+    }
+
     // Sort
     fun `test sort keeps children with their parent`() {
         open("> H\n>> - <caret>b\n>>> - x\n>> - a\n>>> - y")
