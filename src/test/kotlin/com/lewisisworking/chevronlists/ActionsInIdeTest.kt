@@ -59,6 +59,25 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         myFixture.checkResult("> <caret>B\n>> - b1\n\n> A\n>> - a1")
     }
 
+    // Duplicate / Delete Section
+    fun `test duplicate section inserts a copy below`() {
+        open("> A\n>> - <caret>a1\n\n> B\n>> - b1")
+        run("ChevronLists.DuplicateSection")
+        assertEquals("> A\n>> - a1\n\n> A\n>> - a1\n\n> B\n>> - b1", myFixture.editor.document.text)
+    }
+
+    fun `test delete section removes it and puts the caret on the next section`() {
+        open("> A\n>> - <caret>a1\n\n> B\n>> - b1")
+        run("ChevronLists.DeleteSection")
+        myFixture.checkResult("<caret>> B\n>> - b1")
+    }
+
+    fun `test deleting the only section leaves an empty file`() {
+        open("> A\n>> - <caret>a1")
+        run("ChevronLists.DeleteSection")
+        assertEquals("", myFixture.editor.document.text)
+    }
+
     // Copy Section
     private fun clipboard() = CopyPasteManager.getInstance().getContents<String>(DataFlavor.stringFlavor)
 
