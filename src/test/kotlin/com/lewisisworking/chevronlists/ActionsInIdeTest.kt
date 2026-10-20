@@ -14,6 +14,7 @@ import com.intellij.openapi.actionSystem.IdeActions
 import com.intellij.openapi.editor.LogicalPosition
 import com.intellij.openapi.ide.CopyPasteManager
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
+import java.awt.datatransfer.DataFlavor
 import java.awt.datatransfer.StringSelection
 
 class ActionsInIdeTest : BasePlatformTestCase() {
@@ -56,6 +57,22 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         open("> A\n>> - a1\n\n> <caret>B\n>> - b1")
         run("ChevronLists.MoveSectionUp")
         myFixture.checkResult("> <caret>B\n>> - b1\n\n> A\n>> - a1")
+    }
+
+    // Copy Section
+    private fun clipboard() = CopyPasteManager.getInstance().getContents<String>(DataFlavor.stringFlavor)
+
+    fun `test copy section as markdown puts a heading and list on the clipboard`() {
+        open("> Steps\n>> 1. <caret>mix\n>>> - flour\n\n> Next\n>> - x")
+        run("ChevronLists.CopySectionAsMarkdown")
+        assertEquals("## Steps\n\n1. mix\n   - flour", clipboard())
+        assertEquals("> Steps\n>> 1. mix\n>>> - flour\n\n> Next\n>> - x", myFixture.editor.document.text)
+    }
+
+    fun `test copy section as plain text`() {
+        open("> Steps\n>> 1. <caret>mix\n>>> - flour")
+        run("ChevronLists.CopySectionAsPlainText")
+        assertEquals("Steps\n\nmix\nflour", clipboard())
     }
 
     // Sort
