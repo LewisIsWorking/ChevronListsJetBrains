@@ -5,6 +5,7 @@
 - **Rewrite Item (AI).** *CL: Rewrite Item (AI)* (right-click menu) asks Claude to make the item at the caret clearer and more concise. Its checkbox, priority, markers, tags, dates, estimates, votes and comment are kept: only the words go to Claude, and the metadata goes back after the new text. If you edit the item while Claude is thinking, it is left alone. Ported from the VS Code extension.
 - **Move Section Up / Down.** *CL: Move Section Up* and *CL: Move Section Down* (right-click menu) swap the section at the caret with the one above or below it. Notes under the items move with the section, and the caret stays on the same line. Ported from the VS Code extension.
 - **Copy Section as Markdown / Plain Text.** *CL: Copy Section as Markdown* (right-click menu) copies the caret section as a `##` heading and a standard Markdown list, nesting kept. *CL: Copy Section as Plain Text* copies the header and item texts without chevrons or bullets. Ported from the VS Code extension, with nested items under a numbered item indented far enough to stay in the list.
+- **Duplicate / Delete Section.** *CL: Duplicate Section* (right-click menu) inserts a copy of the caret section, notes included, below it. *CL: Delete Section* removes the section and the blank lines after it, and puts the caret on the next section. Undo brings either back. Ported from the VS Code extension.
 
 ## [0.18.0] - Unreleased
 ### Added

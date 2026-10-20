@@ -26,8 +26,11 @@ class SectionEditsTest {
     @Test fun `delete works from the header line`() =
         assertEquals(1..4, deleteSectionRange(doc, 1))
 
-    @Test fun `deleting the last section keeps the file's trailing blank line`() =
-        assertEquals(5..6, deleteSectionRange(doc, 7))
+    @Test fun `deleting the last section takes the blank lines above it and keeps the trailing one`() =
+        assertEquals(4..6, deleteSectionRange(doc, 7))
+
+    @Test fun `deleting the last section straight after another takes nothing above it`() =
+        assertEquals(2..3, deleteSectionRange(listOf("> A", ">> - a", "> B", ">> - b"), 3))
 
     @Test fun `delete outside a section does nothing`() =
         assertNull(deleteSectionRange(doc, 0))

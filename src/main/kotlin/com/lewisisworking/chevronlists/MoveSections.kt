@@ -11,7 +11,7 @@
 package com.lewisisworking.chevronlists
 
 /** The last non-blank line of the section headed at [header], or the header itself */
-private fun sectionContentEnd(lines: List<String>, header: Int): Int {
+internal fun sectionContentEnd(lines: List<String>, header: Int): Int {
     val next = findHeaderBelow(lines, header) ?: lines.size
     return (next - 1 downTo header + 1).firstOrNull { lines[it].isNotBlank() } ?: header
 }
