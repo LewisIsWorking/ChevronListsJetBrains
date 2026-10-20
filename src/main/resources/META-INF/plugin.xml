@@ -163,6 +163,18 @@
                 description="Show the caret section's items, done count, words and tags">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.CopySectionAsMarkdown"
+                class="com.lewisisworking.chevronlists.CopySectionAsMarkdownAction"
+                text="CL: Copy Section as Markdown"
+                description="Copy the caret section as a Markdown heading and list">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.CopySectionAsPlainText"
+                class="com.lewisisworking.chevronlists.CopySectionAsPlainTextAction"
+                text="CL: Copy Section as Plain Text"
+                description="Copy the caret section's header and item texts, without chevrons or bullets">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.ShowStatistics"
                 class="com.lewisisworking.chevronlists.ShowStatisticsAction"
                 text="CL: Show File Statistics"
