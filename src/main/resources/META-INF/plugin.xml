@@ -283,6 +283,60 @@
                 description="Put a caret on every item of the caret section, selecting each one">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.MarkAllItemsDone"
+                class="com.lewisisworking.chevronlists.MarkAllItemsDoneAction"
+                text="CL: Mark All Items Done"
+                description="Tick every item in the section, adding a checkbox where there is none">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.MarkAllItemsUndone"
+                class="com.lewisisworking.chevronlists.MarkAllItemsUndoneAction"
+                text="CL: Mark All Items Undone"
+                description="Reset every done item in the section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.RemoveAllCheckboxes"
+                class="com.lewisisworking.chevronlists.RemoveAllCheckboxesAction"
+                text="CL: Remove All Checkboxes"
+                description="Remove the checkbox from every item in the section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ClearAllDueDates"
+                class="com.lewisisworking.chevronlists.ClearAllDueDatesAction"
+                text="CL: Clear All Due Dates"
+                description="Remove the @YYYY-MM-DD due date from every item in the section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ClearAllPriority"
+                class="com.lewisisworking.chevronlists.ClearAllPriorityAction"
+                text="CL: Clear All Priority"
+                description="Remove the priority marker from every item in the section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.StripCommentsFromSection"
+                class="com.lewisisworking.chevronlists.StripCommentsFromSectionAction"
+                text="CL: Strip Comments from Section"
+                description="Remove the // comment from every item in the section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.StripAllMetadata"
+                class="com.lewisisworking.chevronlists.StripAllMetadataAction"
+                text="CL: Strip All Metadata"
+                description="Remove tags, dates, priority, votes and other markers from every item in the section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.AddVote"
+                class="com.lewisisworking.chevronlists.AddVoteAction"
+                text="CL: Add Vote"
+                description="Add one vote to the item at the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.RemoveVote"
+                class="com.lewisisworking.chevronlists.RemoveVoteAction"
+                text="CL: Remove Vote"
+                description="Remove one vote from the item at the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"

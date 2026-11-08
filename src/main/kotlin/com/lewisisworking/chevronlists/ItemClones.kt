@@ -18,16 +18,9 @@ fun itemCopyBelow(lines: List<String>, index: Int, listPrefix: String, change: (
 /** Pure: [content] with a ticked checkbox, replacing any it already has */
 fun markCloneDone(content: String): String = joinItem(splitItem(content).copy(check = "[x]"))
 
-private val LEADING_CHECKBOX = Regex("""^\[(?:x| ?)]\s*""", RegexOption.IGNORE_CASE)
 
 /** Removed in this order: each marker only where its parser recognises it, so ordinary prose survives */
 private val METADATA = listOf(
-    LEADING_CHECKBOX,
-    Regex("""^!{1,3} +"""),
-    Regex("""^\* +"""),
-    Regex("""^\? +"""),
-    Regex("""(?:^|\s+)//.*$"""),
-    Regex("""(?:^|\s+)\+\d+\s*$"""),
     Regex("""(?<!\S)#\w[\w-]*"""),
     Regex("""@\d{4}-\d{2}-\d{2}"""),
     Regex("""@created:\d{4}-\d{2}-\d{2}"""),
@@ -43,7 +36,7 @@ private val WHITESPACE   = Regex("""\s{2,}""")
 
 /** Pure: item content with every known marker removed, leaving the plain words */
 fun stripItemMetadata(content: String): String {
-    var text = content.trim()
+    var text = splitItem(content).body
     for (marker in METADATA) text = marker.replace(text, "")
     text = STRUCK.replace(text) { it.groupValues[1] }
     text = FILE_LINK.replace(SECTION_LINK.replace(text, ""), "")
