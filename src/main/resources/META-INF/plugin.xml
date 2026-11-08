@@ -469,6 +469,54 @@
                 description="Insert a &gt;&gt; -- Name divider below the caret line">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.StampItem"
+                class="com.lewisisworking.chevronlists.StampItemAction"
+                text="CL: Stamp Item with Creation Date"
+                description="Add @created:today to the item at the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.StampAllItems"
+                class="com.lewisisworking.chevronlists.StampAllItemsAction"
+                text="CL: Stamp All Items"
+                description="Add @created:today to every item in the section without one">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.BulkTagItems"
+                class="com.lewisisworking.chevronlists.BulkTagItemsAction"
+                text="CL: Bulk Tag Items"
+                description="Add a tag to every item in the section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.BulkSetDueDate"
+                class="com.lewisisworking.chevronlists.BulkSetDueDateAction"
+                text="CL: Bulk Set Due Date"
+                description="Set the due date on every item in the section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SetExpiryOnAllItems"
+                class="com.lewisisworking.chevronlists.SetExpiryOnAllItemsAction"
+                text="CL: Set Expiry on All Items"
+                description="Set an @expires: date on every item in the section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.PasteAsBullets"
+                class="com.lewisisworking.chevronlists.PasteAsBulletsAction"
+                text="CL: Paste Clipboard as Bullet Items"
+                description="Paste each copied line as a bullet item below the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.PasteAsNumbered"
+                class="com.lewisisworking.chevronlists.PasteAsNumberedAction"
+                text="CL: Paste Clipboard as Numbered Items"
+                description="Paste each copied line as a numbered item below the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.PasteAsSection"
+                class="com.lewisisworking.chevronlists.PasteAsSectionAction"
+                text="CL: Paste Clipboard as Section"
+                description="Paste the copied lines as a new section, the first line naming it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"

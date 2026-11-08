@@ -15,7 +15,19 @@ import com.intellij.openapi.util.TextRange
 
 internal fun replaceChangedLines(document: Document, before: List<String>, after: List<String>) {
     // Merging and splitting change the line count, so the two ends are matched separately
-    val first = before.indices.firstOrNull { it >= after.size || before[it] != after[it] } ?: return
+    if (before == after) return
+    val shared = minOf(before.size, after.size)
+    val first = (0 until shared).firstOrNull { before[it] != after[it] } ?: shared
+    if (first == before.size) {
+        // Lines added after the last line: there is no old line to replace
+        document.insertString(document.textLength, after.subList(first, after.size).joinToString("\n", prefix = "\n"))
+        return
+    }
+    if (first == after.size) {
+        // Only the end of the document went
+        document.deleteString(document.getLineEndOffset(first - 1), document.textLength)
+        return
+    }
     var lastBefore = before.lastIndex
     var lastAfter  = after.lastIndex
     while (lastBefore > first && lastAfter > first && before[lastBefore] == after[lastAfter]) {
