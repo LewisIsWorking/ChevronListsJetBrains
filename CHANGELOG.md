@@ -6,6 +6,7 @@
 - **Move Section Up / Down.** *CL: Move Section Up* and *CL: Move Section Down* (right-click menu) swap the section at the caret with the one above or below it. Notes under the items move with the section, and the caret stays on the same line. Ported from the VS Code extension.
 - **Copy Section as Markdown / Plain Text.** *CL: Copy Section as Markdown* (right-click menu) copies the caret section as a `##` heading and a standard Markdown list, nesting kept. *CL: Copy Section as Plain Text* copies the header and item texts without chevrons or bullets. Ported from the VS Code extension, with nested items under a numbered item indented far enough to stay in the list.
 - **Duplicate / Delete Section.** *CL: Duplicate Section* (right-click menu) inserts a copy of the caret section, notes included, below it. *CL: Delete Section* removes the section and the blank lines after it, and puts the caret on the next section. Undo brings either back. Ported from the VS Code extension.
+- **Rename Section.** *CL: Rename Section* (right-click menu) asks for a new name for the caret section and rewrites its header and every `[[Old name]]` link in the file, in one undoable edit. Ported from the VS Code extension.
 
 ## [0.18.0] - Unreleased
 ### Added
