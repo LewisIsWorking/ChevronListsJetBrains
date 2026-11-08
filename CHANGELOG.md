@@ -24,6 +24,9 @@
 - **Contents, reports, tables and folding.** *CL: Insert Table of Contents (TOC)*, *CL: Show Reading Time*, *CL: Show Section Path*, *CL: Copy Item as Markdown*, *CL: Convert Section to Markdown Table*, *CL: Fold All Sections* and *CL: Unfold All Sections*. Ported from the VS Code extension.
 - **Ratings, priorities, URLs and cloning across sections.** *CL: Set Item Rating*, *CL: Bulk Set Rating*, *CL: Set Item Priority*, *CL: Bulk Set Priority*, *CL: Clone Item to Section* and *CL: Extract URLs from Section*. Ported from the VS Code extension.
 - **Renaming tags, changing bullets, grouping and word goals.** *CL: Rename Tag*, *CL: Rename Tag (Section)*, *CL: Change Item Prefix*, *CL: Group Items by Tag* and *CL: Set Word Count Goal*. Ported from the VS Code extension.
+- **Section summaries and multi-caret edits.** *CL: Show Word Count*, *CL: Show Nesting Summary*, *CL: Show Priority Summary*, *CL: Show Section Time Estimate*, *CL: Count Word Frequency*, *CL: Toggle Done (All Cursors)* and *CL: Set Priority (All Cursors)*. Ported from the VS Code extension.
+### Fixed
+- *CL: Copy Section as JSON* no longer reads a time estimate from an item comment.
 
 ## [0.18.0] - Unreleased
 ### Added

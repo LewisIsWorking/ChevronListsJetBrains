@@ -70,17 +70,25 @@ fun sectionAsCsvRow(lines: List<String>, caretLine: Int, listPrefix: String): St
     return items.joinToString(",") { csvEscape(stripItemMetadata(it.content)) }
 }
 
-private fun estimateOf(content: String): String? {
-    val match = ESTIMATE_FIELD.findAll(content).firstOrNull { it.value.length > 1 } ?: return null
+private fun estimateParts(content: String): Pair<Int, Int>? {
+    val match = ESTIMATE_FIELD.findAll(splitItem(content).body).firstOrNull { it.value.length > 1 } ?: return null
     val hours = match.groupValues[1].toIntOrNull() ?: 0
     val minutes = match.groupValues[2].toIntOrNull() ?: 0
+    return (hours to minutes).takeIf { hours > 0 || minutes > 0 }
+}
+
+private fun estimateOf(content: String): String? {
+    val (hours, minutes) = estimateParts(content) ?: return null
     return when {
         hours > 0 && minutes > 0 -> "${hours}h${minutes}m"
         hours > 0                -> "${hours}h"
-        minutes > 0              -> "${minutes}m"
-        else                     -> null
+        else                     -> "${minutes}m"
     }
 }
+
+/** Pure: the minutes of the first ~estimate in an item's words; null when there is none */
+internal fun itemEstimateMinutes(content: String): Int? =
+    estimateParts(content)?.let { (hours, minutes) -> hours * 60 + minutes }
 
 private fun jsonString(text: String): String = buildString {
     append('"')
