@@ -23,6 +23,7 @@
 - **Stamps, bulk edits and pasting lists.** *CL: Stamp Item with Creation Date*, *CL: Stamp All Items*, *CL: Bulk Tag Items*, *CL: Bulk Set Due Date*, *CL: Set Expiry on All Items*, and *CL: Paste Clipboard as Bullet Items*, *Numbered Items* and *Section*. Ported from the VS Code extension.
 - **Contents, reports, tables and folding.** *CL: Insert Table of Contents (TOC)*, *CL: Show Reading Time*, *CL: Show Section Path*, *CL: Copy Item as Markdown*, *CL: Convert Section to Markdown Table*, *CL: Fold All Sections* and *CL: Unfold All Sections*. Ported from the VS Code extension.
 - **Ratings, priorities, URLs and cloning across sections.** *CL: Set Item Rating*, *CL: Bulk Set Rating*, *CL: Set Item Priority*, *CL: Bulk Set Priority*, *CL: Clone Item to Section* and *CL: Extract URLs from Section*. Ported from the VS Code extension.
+- **Renaming tags, changing bullets, grouping and word goals.** *CL: Rename Tag*, *CL: Rename Tag (Section)*, *CL: Change Item Prefix*, *CL: Group Items by Tag* and *CL: Set Word Count Goal*. Ported from the VS Code extension.
 
 ## [0.18.0] - Unreleased
 ### Added
