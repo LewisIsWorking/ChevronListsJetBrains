@@ -375,6 +375,18 @@
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt shift DOWN"/>
         </action>
+        <action id="ChevronLists.MoveItemToTop"
+                class="com.lewisisworking.chevronlists.MoveItemToTopAction"
+                text="CL: Move Item to Top of Section"
+                description="Move this item, with anything nested under it, above its first sibling">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.MoveItemToBottom"
+                class="com.lewisisworking.chevronlists.MoveItemToBottomAction"
+                text="CL: Move Item to Bottom of Section"
+                description="Move this item, with anything nested under it, below its last sibling">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.MoveSectionUp"
                 class="com.lewisisworking.chevronlists.MoveSectionUpAction"
                 text="CL: Move Section Up"

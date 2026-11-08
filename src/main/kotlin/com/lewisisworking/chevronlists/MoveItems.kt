@@ -106,3 +106,19 @@ fun computeMoveItem(lines: List<String>, index: Int, up: Boolean, listPrefix: St
     rest.addAll(insertAt, block)
     return MoveResult(rest, insertAt)
 }
+
+/**
+ * Pure: moves the item at [index] to the first place among its siblings (or the
+ * last when [top] is false), carrying its nested children. Null when it is
+ * already there or the line is not an item. Ported from the VS Code extension's
+ * Move Item to Top / Bottom of Section.
+ */
+fun computeMoveItemToEdge(lines: List<String>, index: Int, top: Boolean, listPrefix: String): MoveResult? {
+    var result = computeMoveItem(lines, index, top, listPrefix) ?: return null
+    var next = computeMoveItem(result.lines, result.newIndex, top, listPrefix)
+    while (next != null) {
+        result = next
+        next = computeMoveItem(result.lines, result.newIndex, top, listPrefix)
+    }
+    return result
+}
