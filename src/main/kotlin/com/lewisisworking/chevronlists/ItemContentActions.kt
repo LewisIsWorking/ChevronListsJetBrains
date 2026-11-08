@@ -25,8 +25,6 @@ private fun replaceCaretLine(e: AnActionEvent, editor: Editor, updated: String) 
     }
 }
 
-private fun plural(count: Int, noun: String) = if (count == 1) "$count $noun" else "$count ${noun}s"
-
 class EditItemContentAction : MarkdownEditorAction(
     "CL: Edit Item Content", "Edit the item's words, keeping its markers and metadata"
 ) {

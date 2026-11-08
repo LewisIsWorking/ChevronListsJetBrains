@@ -93,8 +93,6 @@ fun sectionHeaderAt(lines: List<String>, line: Int): Int {
     return i
 }
 
-private fun plural(n: Int, word: String) = "$n $word${if (n == 1) "" else "s"}"
-
 /** Pure: the one-line Quick Stats message, such as `"Paid" - 3 items, 1/3 done (33%), 4 words` */
 fun quickStatsText(s: SectionStats): String {
     val pct   = if (s.items > 0) "${Math.round(s.done * 100.0 / s.items)}%" else "-"
