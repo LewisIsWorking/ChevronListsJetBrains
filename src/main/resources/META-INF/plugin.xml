@@ -559,6 +559,42 @@
                 description="Expand every section in this file">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.SetItemRating"
+                class="com.lewisisworking.chevronlists.SetItemRatingAction"
+                text="CL: Set Item Rating"
+                description="Rate the item at the caret from 1 to 5 stars">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.BulkSetRating"
+                class="com.lewisisworking.chevronlists.BulkSetRatingAction"
+                text="CL: Bulk Set Rating"
+                description="Rate every item in the section from 1 to 5 stars">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SetItemPriority"
+                class="com.lewisisworking.chevronlists.SetItemPriorityAction"
+                text="CL: Set Item Priority"
+                description="Set the priority of the item at the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.BulkSetPriority"
+                class="com.lewisisworking.chevronlists.BulkSetPriorityAction"
+                text="CL: Bulk Set Priority"
+                description="Set the priority of every item in the section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.CloneItemToSection"
+                class="com.lewisisworking.chevronlists.CloneItemToSectionAction"
+                text="CL: Clone Item to Section"
+                description="Copy the item at the caret to the end of a section you name">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ExtractUrlsFromSection"
+                class="com.lewisisworking.chevronlists.ExtractUrlsFromSectionAction"
+                text="CL: Extract URLs from Section"
+                description="Copy every URL in the section&apos;s items to the clipboard">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
