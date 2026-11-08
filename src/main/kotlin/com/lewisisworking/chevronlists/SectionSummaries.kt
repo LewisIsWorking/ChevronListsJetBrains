@@ -25,7 +25,7 @@ private val PRIORITY_BUCKETS = listOf(
 
 private fun plural(n: Int, noun: String) = "$n $noun${if (n == 1) "" else "s"}"
 
-private fun headerName(lines: List<String>, header: Int) =
+internal fun headerName(lines: List<String>, header: Int) =
     withSectionGoal(parseHeader(lines[header])!!.content.trim(), null)
 
 private fun sectionItems(lines: List<String>, header: Int, listPrefix: String) =

@@ -37,24 +37,16 @@ fun computeToggleMarker(line: String, listPrefix: String, marker: String): Strin
 }
 
 /**
- * Pure: cycles a checkbox marker at the start of an item's content.
+ * Pure: cycles an item's checkbox, wherever it sits among the leading markers.
  *   no checkbox -> "[x] ..."
  *   "[ ]"       -> "[x] ..."
  *   "[x]"       -> "[ ] ..."
  *   "[]"        -> "[x] ..."
  */
 fun toggleCheckbox(content: String): String {
-    val trimmed = content.trimStart()
-    return when {
-        trimmed.startsWith("[x]") || trimmed.startsWith("[X]") ->
-            "[ ] " + trimmed.substring(3).trimStart()
-        trimmed.startsWith("[ ]") ->
-            "[x] " + trimmed.substring(3).trimStart()
-        trimmed.startsWith("[]") ->
-            "[x] " + trimmed.substring(2).trimStart()
-        else ->
-            "[x] " + trimmed
-    }
+    if (content.isBlank()) return "[x] "
+    val parts = splitItem(content)
+    return joinItem(parts.copy(check = if (parts.check.equals("[x]", ignoreCase = true)) "[ ]" else "[x]"))
 }
 
 /**
