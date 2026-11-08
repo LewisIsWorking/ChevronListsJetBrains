@@ -15,6 +15,7 @@
 - **Item clone variants.** *CL: Clone Item* copies the caret item to the end of its section, and a numbered copy continues the list. *CL: Clone Item as Done* and *CL: Clone Item Stripped* copy it below itself with its checkbox ticked or every marker removed. *CL: Duplicate Item and Increment* copies it with the first number in its text one higher. Ported from the VS Code extension.
 - **Sort by priority, votes and due date.** *CL: Sort by Priority*, *CL: Sort Items by Votes* and *CL: Sort by Due Date* (right-click menu) sort the caret section like *CL: Sort Items A to Z*: each item keeps its children, notes stay put, and numbers stay in position. Ported from the VS Code extension.
 - **Dates, numbering and selection.** *CL: Set Due Date* takes an ISO date, a weekday, +N days, today, tomorrow, next week or next month. *CL: Insert Date Stamp* adds today's date at every caret. *CL: Fix Numbering* renumbers every list in the document. *CL: Select Section Items* puts a caret on every item of the section. Ported from the VS Code extension.
+- **Section-wide marker commands and votes.** *CL: Mark All Items Done*, *Mark All Items Undone*, *Remove All Checkboxes*, *Clear All Due Dates*, *Clear All Priority*, *Strip Comments from Section* and *Strip All Metadata* work on the whole section. *CL: Add Vote* and *CL: Remove Vote* change the item at the caret. Ported from the VS Code extension.
 
 ## [0.18.0] - Unreleased
 ### Added
