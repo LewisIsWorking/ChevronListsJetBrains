@@ -9,9 +9,6 @@ package com.lewisisworking.chevronlists
 private val WORD_CHARS = Regex("""\w+""")
 private const val COMBINING_LOW_LINE = "̲"
 
-private fun itemContent(line: String, listPrefix: String): String? =
-    parseBullet(line, listPrefix)?.content ?: parseNumbered(line)?.content
-
 private fun withContent(line: String, listPrefix: String, content: String): String =
     transformItemLine(line, listPrefix) { content } ?: line
 
