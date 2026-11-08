@@ -60,6 +60,14 @@ abstract class ChevronMoveItemAction(
     override fun compute(lines: List<String>, line: Int, prefix: String) = computeMoveItem(lines, line, up, prefix)
 }
 
+abstract class ChevronMoveItemToEdgeAction(
+    actionText:        String,
+    actionDescription: String,
+    private val top:   Boolean
+) : ChevronMoveAction(actionText, actionDescription) {
+    override fun compute(lines: List<String>, line: Int, prefix: String) = computeMoveItemToEdge(lines, line, top, prefix)
+}
+
 abstract class ChevronMoveSectionAction(
     actionText:        String,
     actionDescription: String,
@@ -80,7 +88,19 @@ class MoveItemDownAction : ChevronMoveItemAction(
     up                = false
 )
 
-class MoveSectionUpAction : ChevronMoveSectionAction(
+class MoveItemToTopAction : ChevronMoveItemToEdgeAction(
+    actionText        = "CL: Move Item to Top of Section",
+    actionDescription = "Move this item, with anything nested under it, above its first sibling",
+    top               = true
+)
+
+class MoveItemToBottomAction : ChevronMoveItemToEdgeAction(
+    actionText        = "CL: Move Item to Bottom of Section",
+    actionDescription = "Move this item, with anything nested under it, below its last sibling",
+    top               = false
+)
+
+class MoveSectionUpAction :ChevronMoveSectionAction(
     actionText        = "CL: Move Section Up",
     actionDescription = "Swap the section at the caret with the section above it",
     up                = true

@@ -46,6 +46,14 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         myFixture.checkResult("> H\n>> - <caret>a\n>> - b")
     }
 
+    fun `test move item to top and bottom of section`() {
+        open("> H\n>> - a\n>> - b\n>> - <caret>c\n>>> - c1")
+        run("ChevronLists.MoveItemToTop")
+        myFixture.checkResult("> H\n>> - <caret>c\n>>> - c1\n>> - a\n>> - b")
+        run("ChevronLists.MoveItemToBottom")
+        myFixture.checkResult("> H\n>> - a\n>> - b\n>> - <caret>c\n>>> - c1")
+    }
+
     // Move Section Up / Down
     fun `test move section down swaps it with the next section and follows the caret`() {
         open("> A\n>> - <caret>a1\n\n> B\n>> - b1")
