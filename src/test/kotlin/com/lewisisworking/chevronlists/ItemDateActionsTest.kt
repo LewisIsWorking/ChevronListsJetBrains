@@ -44,7 +44,7 @@ class ItemDateActionsTest : BasePlatformTestCase() {
     }
 
     fun `test the date stamp goes at every caret and replaces a selection`() {
-        myFixture.configureByText("notes.md", "a<caret>\n<selection>old</selection>")
+        myFixture.configureByText("notes.md", "a<caret>\n<selection><caret>old</selection>")
         myFixture.performEditorAction("ChevronLists.InsertDateStamp")
         val stamp = "@${LocalDate.now()}"
         assertEquals("a$stamp\n$stamp", text)
