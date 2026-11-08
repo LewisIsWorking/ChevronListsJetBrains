@@ -22,6 +22,7 @@
 - **Edit an item's words, add notes, link items and change a section's text.** *CL: Edit Item Content*, *CL: Add Quick Note to Item*, *CL: Convert Item to Section Link*, *CL: Replace in Section* (the words only, never a list marker), *CL: Shift All Due Dates* and *CL: Insert Group Divider*. Ported from the VS Code extension.
 - **Stamps, bulk edits and pasting lists.** *CL: Stamp Item with Creation Date*, *CL: Stamp All Items*, *CL: Bulk Tag Items*, *CL: Bulk Set Due Date*, *CL: Set Expiry on All Items*, and *CL: Paste Clipboard as Bullet Items*, *Numbered Items* and *Section*. Ported from the VS Code extension.
 - **Contents, reports, tables and folding.** *CL: Insert Table of Contents (TOC)*, *CL: Show Reading Time*, *CL: Show Section Path*, *CL: Copy Item as Markdown*, *CL: Convert Section to Markdown Table*, *CL: Fold All Sections* and *CL: Unfold All Sections*. Ported from the VS Code extension.
+- **Ratings, priorities, URLs and cloning across sections.** *CL: Set Item Rating*, *CL: Bulk Set Rating*, *CL: Set Item Priority*, *CL: Bulk Set Priority*, *CL: Clone Item to Section* and *CL: Extract URLs from Section*. Ported from the VS Code extension.
 
 ## [0.18.0] - Unreleased
 ### Added

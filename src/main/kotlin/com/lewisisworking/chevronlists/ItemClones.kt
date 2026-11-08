@@ -74,9 +74,14 @@ private fun lastNumberInRun(lines: List<String>, line: Int, depth: Int): Int {
 /** Pure: a copy of the item on [index] at the end of its section, or null outside a section. A numbered copy continues the list. */
 fun cloneItemToSectionEnd(lines: List<String>, index: Int, listPrefix: String): DuplicateEdit? {
     if (index !in lines.indices) return null
+    val header = findHeaderAbove(lines, index) ?: return null
+    return cloneItemToSection(lines, index, listPrefix, header)
+}
+
+/** Pure: a copy of the item on [index] at the end of the section at [header], or null unless it is an item. A numbered copy continues the list. */
+fun cloneItemToSection(lines: List<String>, index: Int, listPrefix: String, header: Int): DuplicateEdit? {
     val numbered = parseNumbered(lines[index])
     if (numbered == null && parseBullet(lines[index], listPrefix) == null) return null
-    val header = findHeaderAbove(lines, index) ?: return null
     val end = sectionContentEnd(lines, header)
     val copy = if (numbered == null) lines[index]
                else "${numbered.chevrons} ${lastNumberInRun(lines, end, numbered.chevrons.length) + 1}. ${numbered.content}"

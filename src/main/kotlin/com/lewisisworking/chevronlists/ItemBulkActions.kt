@@ -17,7 +17,7 @@ import java.time.LocalDate
 
 private val listPrefix get() = ChevronListsSettings.getInstance().state.listPrefix
 
-private fun changeSectionItems(e: AnActionEvent, editor: Editor, change: (String) -> String) {
+internal fun changeSectionItems(e: AnActionEvent, editor: Editor, change: (String) -> String) {
     val before = editor.document.text.split("\n")
     val line   = editor.caretModel.logicalPosition.line
     val hints  = HintManager.getInstance()
