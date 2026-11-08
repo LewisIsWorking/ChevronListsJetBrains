@@ -15,9 +15,9 @@ class ListOffset(val lines: List<String>, val changed: Int, val tooLow: Int)
 /** The two lines of a wrapped item, and the caret column on the second */
 class ItemWrap(val first: String, val second: String, val column: Int)
 
-private fun headerAtOrAbove(lines: List<String>, line: Int): Int? = (line downTo 0).firstOrNull { isHeader(lines[it]) }
+internal fun headerAtOrAbove(lines: List<String>, line: Int): Int? = (line downTo 0).firstOrNull { isHeader(lines[it]) }
 
-private fun sectionLastLine(lines: List<String>, header: Int): Int = (findHeaderBelow(lines, header) ?: lines.size) - 1
+internal fun sectionLastLine(lines: List<String>, header: Int): Int = (findHeaderBelow(lines, header) ?: lines.size) - 1
 
 private fun renumbered(item: ChevronNumbered, number: Int) = "${item.chevrons} $number. ${item.content}"
 
