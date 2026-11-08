@@ -12,7 +12,7 @@ import com.intellij.openapi.editor.LogicalPosition
 import com.intellij.openapi.ui.InputValidatorEx
 import com.intellij.openapi.ui.Messages
 
-private fun numberValidator(error: String, valid: (Int) -> Boolean) = object : InputValidatorEx {
+internal fun numberValidator(error: String, valid: (Int) -> Boolean) = object : InputValidatorEx {
     override fun getErrorText(input: String) = if (input.trim().toIntOrNull()?.let(valid) == true) null else error
     override fun checkInput(input: String) = getErrorText(input) == null
     override fun canClose(input: String) = checkInput(input)

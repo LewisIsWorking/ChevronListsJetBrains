@@ -433,6 +433,42 @@
                 description="Move the words after the caret onto an indented continuation line">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.EditItemContent"
+                class="com.lewisisworking.chevronlists.EditItemContentAction"
+                text="CL: Edit Item Content"
+                description="Edit the item&apos;s words, keeping its markers and metadata">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.AddQuickNote"
+                class="com.lewisisworking.chevronlists.AddQuickNoteAction"
+                text="CL: Add Quick Note to Item"
+                description="Add a // comment to the item, replacing any it has">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ConvertItemToSectionLink"
+                class="com.lewisisworking.chevronlists.ConvertItemToSectionLinkAction"
+                text="CL: Convert Item to Section Link"
+                description="Replace the item with a [[link]] to the section sharing its name">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ReplaceInSection"
+                class="com.lewisisworking.chevronlists.ReplaceInSectionAction"
+                text="CL: Replace in Section"
+                description="Find and replace within the words of this section&apos;s items">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShiftAllDueDates"
+                class="com.lewisisworking.chevronlists.ShiftAllDueDatesAction"
+                text="CL: Shift All Due Dates"
+                description="Move the due dates of this section&apos;s items by a number of days">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.InsertGroupDivider"
+                class="com.lewisisworking.chevronlists.InsertGroupDividerAction"
+                text="CL: Insert Group Divider"
+                description="Insert a &gt;&gt; -- Name divider below the caret line">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
