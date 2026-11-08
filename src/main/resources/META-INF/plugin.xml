@@ -163,6 +163,12 @@
                 description="Show the caret section's items, done count, words and tags">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.RenameSection"
+                class="com.lewisisworking.chevronlists.RenameSectionAction"
+                text="CL: Rename Section"
+                description="Rename the caret section and update every [[link]] to it in the file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.DuplicateSection"
                 class="com.lewisisworking.chevronlists.DuplicateSectionAction"
                 text="CL: Duplicate Section"
