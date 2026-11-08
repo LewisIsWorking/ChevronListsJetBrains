@@ -217,6 +217,30 @@
                 description="Remove ~~strikethrough~~ from this item's words">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.CloneItem"
+                class="com.lewisisworking.chevronlists.CloneItemAction"
+                text="CL: Clone Item"
+                description="Copy this item to the end of its section; a numbered copy continues the list">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.CloneItemAsDone"
+                class="com.lewisisworking.chevronlists.CloneItemAsDoneAction"
+                text="CL: Clone Item as Done"
+                description="Copy this item below itself with its checkbox ticked">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.CloneItemStripped"
+                class="com.lewisisworking.chevronlists.CloneItemStrippedAction"
+                text="CL: Clone Item Stripped"
+                description="Copy this item below itself with every marker removed">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.DuplicateItemAndIncrement"
+                class="com.lewisisworking.chevronlists.DuplicateItemAndIncrementAction"
+                text="CL: Duplicate Item and Increment"
+                description="Copy this item below itself with the first number in its text one higher">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
