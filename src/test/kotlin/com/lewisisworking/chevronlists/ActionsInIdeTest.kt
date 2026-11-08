@@ -54,6 +54,15 @@ class ActionsInIdeTest : BasePlatformTestCase() {
         myFixture.checkResult("> H\n>> - a\n>> - b\n>> - <caret>c\n>>> - c1")
     }
 
+    // Promote Item to Header / Demote Header to Item
+    fun `test promote an item to a header and demote it back`() {
+        open("> A\n>> - a1\n>> - <caret>a2\n>> - a3")
+        run("ChevronLists.PromoteItemToHeader")
+        assertEquals("> A\n>> - a1\n> a2\n>> - a3", myFixture.editor.document.text)
+        run("ChevronLists.DemoteHeaderToItem")
+        assertEquals("> A\n>> - a1\n>> - a2\n>> - a3", myFixture.editor.document.text)
+    }
+
     // Move Section Up / Down
     fun `test move section down swaps it with the next section and follows the caret`() {
         open("> A\n>> - <caret>a1\n\n> B\n>> - b1")
