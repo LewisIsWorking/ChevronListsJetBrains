@@ -25,7 +25,10 @@
 - **Ratings, priorities, URLs and cloning across sections.** *CL: Set Item Rating*, *CL: Bulk Set Rating*, *CL: Set Item Priority*, *CL: Bulk Set Priority*, *CL: Clone Item to Section* and *CL: Extract URLs from Section*. Ported from the VS Code extension.
 - **Renaming tags, changing bullets, grouping and word goals.** *CL: Rename Tag*, *CL: Rename Tag (Section)*, *CL: Change Item Prefix*, *CL: Group Items by Tag* and *CL: Set Word Count Goal*. Ported from the VS Code extension.
 - **Section summaries and multi-caret edits.** *CL: Show Word Count*, *CL: Show Nesting Summary*, *CL: Show Priority Summary*, *CL: Show Section Time Estimate*, *CL: Count Word Frequency*, *CL: Toggle Done (All Cursors)* and *CL: Set Priority (All Cursors)*. Ported from the VS Code extension.
+- **Item filters and leaderboards.** *CL: Filter by Priority*, *CL: Filter Starred Items*, *CL: Filter Flagged Items*, *CL: Show Expired Items*, *CL: Filter by Rating*, *CL: Filter by Colour Label*, *CL: Show Vote Leaderboard*, *CL: Show Vote Leaderboard (Section)* and *CL: Show Duplicate Items (File)*. Each opens a list you can pick from to jump to the item. Ported from the VS Code extension.
 ### Fixed
+- *CL: Toggle Done* finds a checkbox that follows a priority or star, instead of adding a second one.
+- *CL: Copy Section as JSON* reports items starred or flagged with the emoji markers.
 - *CL: Copy Section as JSON* no longer reads a time estimate from an item comment.
 
 ## [0.18.0] - Unreleased

@@ -667,6 +667,60 @@
                 description="Set the same priority on the item at every caret">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.FilterByPriority"
+                class="com.lewisisworking.chevronlists.FilterByPriorityAction"
+                text="CL: Filter by Priority"
+                description="List the items with a chosen priority">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FilterStarredItems"
+                class="com.lewisisworking.chevronlists.FilterStarredItemsAction"
+                text="CL: Filter Starred Items"
+                description="List the starred items in this file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FilterFlaggedItems"
+                class="com.lewisisworking.chevronlists.FilterFlaggedItemsAction"
+                text="CL: Filter Flagged Items"
+                description="List the flagged items in this file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowExpiredItems"
+                class="com.lewisisworking.chevronlists.ShowExpiredItemsAction"
+                text="CL: Show Expired Items"
+                description="List the items whose expiry date has passed">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FilterByRating"
+                class="com.lewisisworking.chevronlists.FilterByRatingAction"
+                text="CL: Filter by Rating"
+                description="List the items rated at least a chosen number of stars">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FilterByColourLabel"
+                class="com.lewisisworking.chevronlists.FilterByColourLabelAction"
+                text="CL: Filter by Colour Label"
+                description="List the items with a chosen colour label">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowVoteLeaderboard"
+                class="com.lewisisworking.chevronlists.ShowVoteLeaderboardAction"
+                text="CL: Show Vote Leaderboard"
+                description="List the voted items in this file, most votes first">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowSectionVoteLeaderboard"
+                class="com.lewisisworking.chevronlists.ShowSectionVoteLeaderboardAction"
+                text="CL: Show Vote Leaderboard (Section)"
+                description="List the voted items in this section, most votes first">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowDuplicateItems"
+                class="com.lewisisworking.chevronlists.ShowDuplicateItemsAction"
+                text="CL: Show Duplicate Items (File)"
+                description="List the items that appear more than once in this file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"

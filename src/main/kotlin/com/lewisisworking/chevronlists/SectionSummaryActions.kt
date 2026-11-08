@@ -30,7 +30,7 @@ private class ReportRenderer : SimpleListCellRenderer<ReportEntry>() {
 
 private fun hint(editor: Editor, message: String) = HintManager.getInstance().showInformationHint(editor, message)
 
-private fun showReport(editor: Editor, title: String, entries: List<ReportEntry>, whenEmpty: String) {
+internal fun showReport(editor: Editor, title: String, entries: List<ReportEntry>, whenEmpty: String) {
     if (entries.isEmpty()) {
         hint(editor, whenEmpty)
         return
@@ -48,7 +48,7 @@ private fun showReport(editor: Editor, title: String, entries: List<ReportEntry>
         .showInBestPositionFor(editor)
 }
 
-private fun documentLines(editor: Editor) = editor.document.text.split("\n")
+internal fun documentLines(editor: Editor) = editor.document.text.split("\n")
 
 private fun caretLines(editor: Editor) = editor.caretModel.allCarets.map { it.logicalPosition.line }
 
