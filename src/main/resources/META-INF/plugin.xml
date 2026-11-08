@@ -337,6 +337,60 @@
                 description="Remove one vote from the item at the caret">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.MergeItemWithNext"
+                class="com.lewisisworking.chevronlists.MergeItemWithNextAction"
+                text="CL: Merge Item with Next"
+                description="Join the item at the caret with the item below it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SplitItemAtCursor"
+                class="com.lewisisworking.chevronlists.SplitItemAtCursorAction"
+                text="CL: Split Item at Cursor"
+                description="Split the item at the caret into two items">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SortAllSectionsAscending"
+                class="com.lewisisworking.chevronlists.SortAllSectionsAscendingAction"
+                text="CL: Sort All Sections A to Z"
+                description="Sort every section by name, A to Z">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SortAllSectionsDescending"
+                class="com.lewisisworking.chevronlists.SortAllSectionsDescendingAction"
+                text="CL: Sort All Sections Z to A"
+                description="Sort every section by name, Z to A">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.BoldText"
+                class="com.lewisisworking.chevronlists.BoldTextAction"
+                text="CL: Bold Text"
+                description="Toggle bold on the selection or word at the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ItalicText"
+                class="com.lewisisworking.chevronlists.ItalicTextAction"
+                text="CL: Italic Text"
+                description="Toggle italic on the selection or word at the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.MonoText"
+                class="com.lewisisworking.chevronlists.MonoTextAction"
+                text="CL: Mono Text"
+                description="Toggle monospace on the selection or word at the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.StrikethroughText"
+                class="com.lewisisworking.chevronlists.StrikethroughTextAction"
+                text="CL: Strikethrough Text"
+                description="Toggle strikethrough on the selection or word at the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.UnderlineText"
+                class="com.lewisisworking.chevronlists.UnderlineTextAction"
+                text="CL: Underline Text"
+                description="Toggle a Unicode underline on the selection or word at the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
