@@ -24,6 +24,12 @@ class MergeSplitActionTest : BasePlatformTestCase() {
         assertEquals("> A\n>> - a1\n>> - b1\n\n> C", myFixture.editor.document.text)
     }
 
+    fun `test merging an empty last section leaves no trailing line break`() {
+        myFixture.configureByText("notes.md", "> A\n>> - <caret>a1\n> B")
+        myFixture.performEditorAction("ChevronLists.MergeSectionBelow")
+        assertEquals("> A\n>> - a1", myFixture.editor.document.text)
+    }
+
     fun `test split inserts a header above the caret item`() {
         myFixture.configureByText("notes.md", "> A\n>> - a1\n>> - <caret>a2")
         TestDialogManager.setTestInputDialog { "Later" }
