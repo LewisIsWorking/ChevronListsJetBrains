@@ -14,10 +14,17 @@ import com.intellij.openapi.editor.LogicalPosition
 import com.intellij.openapi.util.TextRange
 
 private fun replaceChangedLines(document: Document, before: List<String>, after: List<String>) {
-    val span = changedSpan(before, after) ?: return
+    // Merging and splitting change the line count, so the two ends are matched separately
+    val first = before.indices.firstOrNull { it >= after.size || before[it] != after[it] } ?: return
+    var lastBefore = before.lastIndex
+    var lastAfter  = after.lastIndex
+    while (lastBefore > first && lastAfter > first && before[lastBefore] == after[lastAfter]) {
+        lastBefore--
+        lastAfter--
+    }
     document.replaceString(
-        document.getLineStartOffset(span.first), document.getLineEndOffset(span.last),
-        after.subList(span.first, span.last + 1).joinToString("\n")
+        document.getLineStartOffset(first), document.getLineEndOffset(lastBefore),
+        after.subList(first, lastAfter + 1).joinToString("\n")
     )
 }
 
