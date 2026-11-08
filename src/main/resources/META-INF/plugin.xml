@@ -259,6 +259,30 @@
                 description="Sort the items of this section by due date, soonest first, keeping nested items with their parent">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.SetDueDate"
+                class="com.lewisisworking.chevronlists.SetDueDateAction"
+                text="CL: Set Due Date"
+                description="Set or replace the @YYYY-MM-DD due date on the item at the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.InsertDateStamp"
+                class="com.lewisisworking.chevronlists.InsertDateStampAction"
+                text="CL: Insert Date Stamp"
+                description="Insert today's date as @YYYY-MM-DD at every caret, replacing any selection">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FixNumbering"
+                class="com.lewisisworking.chevronlists.FixNumberingAction"
+                text="CL: Fix Numbering"
+                description="Renumber every list in the document from 1; nested lists are counted separately">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SelectSectionItems"
+                class="com.lewisisworking.chevronlists.SelectSectionItemsAction"
+                text="CL: Select Section Items"
+                description="Put a caret on every item of the caret section, selecting each one">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
