@@ -41,3 +41,24 @@ class CopySectionAsPlainTextAction : ChevronCopySectionAction(
     done              = "CL: Section copied as plain text",
     format            = ::sectionAsPlainText
 )
+
+class CopySectionAsHtmlAction : ChevronCopySectionAction(
+    actionText        = "CL: Copy Section as HTML",
+    actionDescription = "Copy the caret section as an HTML snippet",
+    done              = "CL: Section copied as HTML",
+    format            = ::sectionAsHtml
+)
+
+class CopySectionAsJsonAction : ChevronCopySectionAction(
+    actionText        = "CL: Copy Section as JSON",
+    actionDescription = "Copy the caret section and each item's fields as JSON",
+    done              = "CL: Section copied as JSON",
+    format            = ::sectionAsJson
+)
+
+class CopySectionAsCsvRowAction : ChevronCopySectionAction(
+    actionText        = "CL: Copy Section as CSV Row",
+    actionDescription = "Copy the plain words of each item as one CSV row",
+    done              = "CL: Section copied as a CSV row",
+    format            = ::sectionAsCsvRow
+)
