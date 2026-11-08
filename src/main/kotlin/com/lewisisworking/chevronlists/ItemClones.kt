@@ -67,6 +67,17 @@ fun incrementFirstNumber(content: String): String? {
     return null
 }
 
+/** The number of the last item at [depth] in the list still open at [line], or 0 when a header or shallower line ended it */
+private fun lastNumberInRun(lines: List<String>, line: Int, depth: Int): Int {
+    for (i in line downTo 0) {
+        if (isHeader(lines[i])) return 0
+        val d = chevronDepth(lines[i]) ?: continue
+        if (d < depth) return 0
+        if (d == depth) parseNumbered(lines[i])?.let { return it.num }
+    }
+    return 0
+}
+
 /** Pure: a copy of the item on [index] at the end of its section, or null outside a section. A numbered copy continues the list. */
 fun cloneItemToSectionEnd(lines: List<String>, index: Int, listPrefix: String): DuplicateEdit? {
     if (index !in lines.indices) return null
@@ -74,9 +85,7 @@ fun cloneItemToSectionEnd(lines: List<String>, index: Int, listPrefix: String): 
     if (numbered == null && parseBullet(lines[index], listPrefix) == null) return null
     val header = findHeaderAbove(lines, index) ?: return null
     val end = sectionContentEnd(lines, header)
-    val copy = if (numbered == null) lines[index] else {
-        val last = (header + 1..end).mapNotNull { parseNumbered(lines[it]) }.last { it.chevrons == numbered.chevrons }
-        "${numbered.chevrons} ${last.num + 1}. ${numbered.content}"
-    }
+    val copy = if (numbered == null) lines[index]
+               else "${numbered.chevrons} ${lastNumberInRun(lines, end, numbered.chevrons.length) + 1}. ${numbered.content}"
     return DuplicateEdit(end, listOf(copy), emptyMap())
 }
