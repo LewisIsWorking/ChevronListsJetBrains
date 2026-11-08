@@ -187,6 +187,36 @@
                 description="Insert a copy of the caret section below it, named (copy), and go to it">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.UppercaseItem"
+                class="com.lewisisworking.chevronlists.UppercaseItemAction"
+                text="CL: Uppercase Item"
+                description="Change this item's words to UPPERCASE; markers, tags and links are left alone">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.LowercaseItem"
+                class="com.lewisisworking.chevronlists.LowercaseItemAction"
+                text="CL: Lowercase Item"
+                description="Change this item's words to lowercase; markers, tags and links are left alone">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.TitleCaseItem"
+                class="com.lewisisworking.chevronlists.TitleCaseItemAction"
+                text="CL: Title Case Item"
+                description="Capitalise each of this item's words; markers, tags and links are left alone">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.StrikethroughItem"
+                class="com.lewisisworking.chevronlists.StrikethroughItemAction"
+                text="CL: Strikethrough Item"
+                description="Toggle ~~strikethrough~~ on this item's words">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.RemoveStrikethrough"
+                class="com.lewisisworking.chevronlists.RemoveStrikethroughAction"
+                text="CL: Remove Strikethrough"
+                description="Remove ~~strikethrough~~ from this item's words">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
