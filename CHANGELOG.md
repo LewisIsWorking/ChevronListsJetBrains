@@ -13,6 +13,7 @@
 - **New Section / Clone Section.** *CL: New Section* (right-click menu) asks for a name and adds the section with an empty first item, caret ready on it; inside a section it goes after that section's content. *CL: Clone Section* adds a "(copy)" of the caret section after it. Ported from the VS Code extension.
 - **Item text transforms.** *CL: Uppercase Item*, *CL: Lowercase Item*, *CL: Title Case Item*, *CL: Strikethrough Item* and *CL: Remove Strikethrough* (right-click menu) work on the caret item or every item in a selection. They change only the words: markers, votes, comments, tags, mentions, links and web addresses are left alone. Ported from the VS Code extension.
 - **Item clone variants.** *CL: Clone Item* copies the caret item to the end of its section, and a numbered copy continues the list. *CL: Clone Item as Done* and *CL: Clone Item Stripped* copy it below itself with its checkbox ticked or every marker removed. *CL: Duplicate Item and Increment* copies it with the first number in its text one higher. Ported from the VS Code extension.
+- **Sort by priority, votes and due date.** *CL: Sort by Priority*, *CL: Sort Items by Votes* and *CL: Sort by Due Date* (right-click menu) sort the caret section like *CL: Sort Items A to Z*: each item keeps its children, notes stay put, and numbers stay in position. Ported from the VS Code extension.
 
 ## [0.18.0] - Unreleased
 ### Added
