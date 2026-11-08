@@ -721,6 +721,60 @@
                 description="List the items that appear more than once in this file">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.ShowUpcomingDueDates"
+                class="com.lewisisworking.chevronlists.ShowUpcomingDueDatesAction"
+                text="CL: Show Upcoming Due Dates"
+                description="List the items with due dates, soonest first">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowRecurringItems"
+                class="com.lewisisworking.chevronlists.ShowRecurringItemsAction"
+                text="CL: Show Recurring Items"
+                description="List the items marked daily, weekly or monthly">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowOldItems"
+                class="com.lewisisworking.chevronlists.ShowOldItemsAction"
+                text="CL: Show Old Items (30+ days)"
+                description="List the items created at least 30 days ago">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowTimeEstimates"
+                class="com.lewisisworking.chevronlists.ShowTimeEstimatesAction"
+                text="CL: Show Time Estimates"
+                description="List the items with time estimates, longest first">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowSectionSummary"
+                class="com.lewisisworking.chevronlists.ShowSectionSummaryAction"
+                text="CL: Show Section Summary"
+                description="Show the items, words, done count and tags of this section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.CountItemsByTag"
+                class="com.lewisisworking.chevronlists.CountItemsByTagAction"
+                text="CL: Count Items by Tag"
+                description="List each tag with how many items carry it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowTagStats"
+                class="com.lewisisworking.chevronlists.ShowTagStatsAction"
+                text="CL: Show Tag Stats"
+                description="List each tag with how many of its items are done">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FilterByMention"
+                class="com.lewisisworking.chevronlists.FilterByMentionAction"
+                text="CL: Filter by Mention"
+                description="List the items that mention a chosen person">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowMentionsReport"
+                class="com.lewisisworking.chevronlists.ShowMentionsReportAction"
+                text="CL: Show Mentions Report"
+                description="List each person mentioned with how many of their items are done">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
