@@ -18,6 +18,7 @@
 - **Section-wide marker commands and votes.** *CL: Mark All Items Done*, *Mark All Items Undone*, *Remove All Checkboxes*, *Clear All Due Dates*, *Clear All Priority*, *Strip Comments from Section* and *Strip All Metadata* work on the whole section. *CL: Add Vote* and *CL: Remove Vote* change the item at the caret. Ported from the VS Code extension.
 - **Merge, split, section sort and text styles.** *CL: Merge Item with Next* and *CL: Split Item at Cursor* keep a numbered list in sequence. *CL: Sort All Sections A to Z* and *Z to A* move whole sections. *CL: Bold Text*, *Italic Text*, *Mono Text*, *Strikethrough Text* and *Underline Text* toggle a style on the selection or the word at the caret. Ported from the VS Code extension.
 - **Copy Section as HTML, JSON and CSV Row.** Ported from the VS Code extension.
+- **Rebase, offset and restart numbered lists, and wrap item text.** *CL: Rebase List From Here*, *CL: Offset List Numbers* (all or nothing if any number would go below 1), *CL: Set List Start Number* and *CL: Wrap Item Text*. Ported from the VS Code extension.
 
 ## [0.18.0] - Unreleased
 ### Added
