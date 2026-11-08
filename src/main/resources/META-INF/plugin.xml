@@ -175,6 +175,18 @@
                 description="Turn the caret section's header into an item of the section above">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.NewSection"
+                class="com.lewisisworking.chevronlists.NewSectionAction"
+                text="CL: New Section"
+                description="Add a new section with an empty first item">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.CloneSection"
+                class="com.lewisisworking.chevronlists.CloneSectionAction"
+                text="CL: Clone Section"
+                description="Insert a copy of the caret section below it, named (copy), and go to it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"

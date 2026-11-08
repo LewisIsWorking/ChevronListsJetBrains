@@ -10,6 +10,7 @@
 - **Merge Section Below / Split Section Here.** *CL: Merge Section Below* (right-click menu) removes the next section's header and the blank lines before it, so its items carry straight on from the caret section's. *CL: Split Section Here* asks for a name, offering "<section> (continued)", and starts a new section at the caret item. Ported from the VS Code extension.
 - **Move Item to Top / Bottom of Section.** *CL: Move Item to Top of Section* and *CL: Move Item to Bottom of Section* (right-click menu) move the item at the caret, with anything nested under it, to the first or last place among its siblings. A nested item stays under its parent. Ported from the VS Code extension.
 - **Promote Item to Header / Demote Header to Item.** *CL: Promote Item to Header* (right-click menu) turns the item at the caret into a `> Header`, so the items after it start a new section. *CL: Demote Header to Item* turns the caret section's header into an item of the section above, so its items join that section. Ported from the VS Code extension.
+- **New Section / Clone Section.** *CL: New Section* (right-click menu) asks for a name and adds the section with an empty first item, caret ready on it; inside a section it goes after that section's content. *CL: Clone Section* adds a "(copy)" of the caret section after it. Ported from the VS Code extension.
 
 ## [0.18.0] - Unreleased
 ### Added
