@@ -169,6 +169,18 @@
                 description="Rename the caret section and update every [[link]] to it in the file">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.MergeSectionBelow"
+                class="com.lewisisworking.chevronlists.MergeSectionBelowAction"
+                text="CL: Merge Section Below"
+                description="Join the next section's items onto the caret section, removing its header">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SplitSectionHere"
+                class="com.lewisisworking.chevronlists.SplitSectionHereAction"
+                text="CL: Split Section Here"
+                description="Start a new section at the caret item">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.DuplicateSection"
                 class="com.lewisisworking.chevronlists.DuplicateSectionAction"
                 text="CL: Duplicate Section"
