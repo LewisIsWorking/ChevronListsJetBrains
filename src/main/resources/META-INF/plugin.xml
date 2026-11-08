@@ -391,6 +391,24 @@
                 description="Toggle a Unicode underline on the selection or word at the caret">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.CopySectionAsHtml"
+                class="com.lewisisworking.chevronlists.CopySectionAsHtmlAction"
+                text="CL: Copy Section as HTML"
+                description="Copy the caret section as an HTML snippet">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.CopySectionAsJson"
+                class="com.lewisisworking.chevronlists.CopySectionAsJsonAction"
+                text="CL: Copy Section as JSON"
+                description="Copy the caret section and each item's fields as JSON">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.CopySectionAsCsvRow"
+                class="com.lewisisworking.chevronlists.CopySectionAsCsvRowAction"
+                text="CL: Copy Section as CSV Row"
+                description="Copy the plain words of each item as one CSV row">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
