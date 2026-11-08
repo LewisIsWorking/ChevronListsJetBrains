@@ -13,7 +13,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.LogicalPosition
 import com.intellij.openapi.util.TextRange
 
-private fun replaceChangedLines(document: Document, before: List<String>, after: List<String>) {
+internal fun replaceChangedLines(document: Document, before: List<String>, after: List<String>) {
     // Merging and splitting change the line count, so the two ends are matched separately
     val first = before.indices.firstOrNull { it >= after.size || before[it] != after[it] } ?: return
     var lastBefore = before.lastIndex
