@@ -13,12 +13,12 @@ private val EXPIRY  = Regex("""@expires:(\d{4}-\d{2}-\d{2})""")
 private val RATING  = Regex("""★([1-5])\s*""")
 private val COLOUR  = Regex("""\{(red|green|blue|yellow|orange|purple)}""")
 
-private class FoundItem(val line: Int, val content: String, val parts: ItemParts, val section: String?) {
+internal class FoundItem(val line: Int, val content: String, val parts: ItemParts, val section: String?) {
     /** ` (Section)` for the end of a label, or nothing outside a section */
     val suffix get() = section?.let { "  ($it)" } ?: ""
 }
 
-private fun foundItems(lines: List<String>, listPrefix: String): List<FoundItem> =
+internal fun foundItems(lines: List<String>, listPrefix: String): List<FoundItem> =
     lines.indices.mapNotNull { i ->
         itemContent(lines[i], listPrefix)?.let { content ->
             FoundItem(i, content, splitItem(content), headerAtOrAbove(lines, i)?.let { headerName(lines, it) })
@@ -29,7 +29,7 @@ private fun hasToken(body: String, token: String) = token in body.split(SPACES)
 
 private fun withoutTokens(body: String, token: String) = body.split(SPACES).filter { it != token }.joinToString(" ")
 
-private fun tidied(text: String) = SPACES.replace(text, " ").trim()
+internal fun tidied(text: String) = SPACES.replace(text, " ").trim()
 
 /** Pure: whether an item is starred with `*` or the star emoji */
 internal fun isStarred(parts: ItemParts) = parts.marker == "*" || hasToken(parts.body, STAR_EMOJI)

@@ -77,7 +77,7 @@ private fun estimateParts(content: String): Pair<Int, Int>? {
     return (hours to minutes).takeIf { hours > 0 || minutes > 0 }
 }
 
-private fun estimateOf(content: String): String? {
+internal fun estimateOf(content: String): String? {
     val (hours, minutes) = estimateParts(content) ?: return null
     return when {
         hours > 0 && minutes > 0 -> "${hours}h${minutes}m"

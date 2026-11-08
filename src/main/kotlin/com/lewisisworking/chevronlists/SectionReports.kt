@@ -18,8 +18,6 @@ private val TAG           = Regex("""(?<!\S)#(\w[\w-]*)""")
 
 private fun sectionTitle(header: String) = WORD_GOAL.replace(parseHeader(header)!!.content, "").trim()
 
-private fun plural(count: Int, noun: String) = if (count == 1) "$count $noun" else "$count ${noun}s"
-
 private fun itemContents(lines: List<String>, range: IntRange, listPrefix: String) =
     range.mapNotNull { itemContent(lines[it], listPrefix) }
 

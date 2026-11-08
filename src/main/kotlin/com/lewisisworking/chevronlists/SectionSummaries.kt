@@ -23,7 +23,7 @@ private val PRIORITY_BUCKETS = listOf(
     "!"   to "🟡 Normal (!)",
 )
 
-private fun plural(n: Int, noun: String) = "$n $noun${if (n == 1) "" else "s"}"
+internal fun plural(n: Int, noun: String) = "$n $noun${if (n == 1) "" else "s"}"
 
 internal fun headerName(lines: List<String>, header: Int) =
     withSectionGoal(parseHeader(lines[header])!!.content.trim(), null)
@@ -31,7 +31,7 @@ internal fun headerName(lines: List<String>, header: Int) =
 private fun sectionItems(lines: List<String>, header: Int, listPrefix: String) =
     (header + 1..sectionLastLine(lines, header)).mapNotNull { itemContent(lines[it], listPrefix) }
 
-private fun formatTotal(minutes: Int): String {
+internal fun formatTotal(minutes: Int): String {
     val h = minutes / 60
     val m = minutes % 60
     return when {
