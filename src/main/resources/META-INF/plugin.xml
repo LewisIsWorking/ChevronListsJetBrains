@@ -241,6 +241,24 @@
                 description="Copy this item below itself with the first number in its text one higher">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.SortByPriority"
+                class="com.lewisisworking.chevronlists.SortByPriorityAction"
+                text="CL: Sort by Priority"
+                description="Sort the items of this section by priority, highest first, keeping nested items with their parent">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SortByVotes"
+                class="com.lewisisworking.chevronlists.SortByVotesAction"
+                text="CL: Sort Items by Votes"
+                description="Sort the items of this section by votes, most first, keeping nested items with their parent">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SortByDueDate"
+                class="com.lewisisworking.chevronlists.SortByDueDateAction"
+                text="CL: Sort by Due Date"
+                description="Sort the items of this section by due date, soonest first, keeping nested items with their parent">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"

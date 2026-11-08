@@ -15,7 +15,7 @@ import com.intellij.openapi.command.WriteCommandAction
 abstract class ChevronSortItemsAction(
     actionText:             String,
     actionDescription:      String,
-    private val descending: Boolean
+    private val order:      Comparator<String>
 ) : AnAction(actionText, actionDescription, null) {
 
     override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
@@ -34,7 +34,7 @@ abstract class ChevronSortItemsAction(
 
         val before = document.text.split("\n")
         val line   = document.getLineNumber(editor.caretModel.offset)
-        val after  = computeSortSection(before, line, descending, prefix) ?: return
+        val after  = computeSortSectionBy(before, line, order, prefix) ?: return
         val span   = changedSpan(before, after) ?: return
 
         WriteCommandAction.runWriteCommandAction(project) {
@@ -48,11 +48,29 @@ abstract class ChevronSortItemsAction(
 class SortItemsAscendingAction : ChevronSortItemsAction(
     actionText        = "CL: Sort Items A to Z",
     actionDescription = "Sort the items of this section A to Z, keeping nested items with their parent",
-    descending        = false
+    order             = ALPHABETICAL
 )
 
 class SortItemsDescendingAction : ChevronSortItemsAction(
     actionText        = "CL: Sort Items Z to A",
     actionDescription = "Sort the items of this section Z to A, keeping nested items with their parent",
-    descending        = true
+    order             = ALPHABETICAL.reversed()
+)
+
+class SortByPriorityAction : ChevronSortItemsAction(
+    actionText        = "CL: Sort by Priority",
+    actionDescription = "Sort the items of this section by priority, highest first, keeping nested items with their parent",
+    order             = BY_PRIORITY
+)
+
+class SortByVotesAction : ChevronSortItemsAction(
+    actionText        = "CL: Sort Items by Votes",
+    actionDescription = "Sort the items of this section by votes, most first, keeping nested items with their parent",
+    order             = BY_VOTES
+)
+
+class SortByDueDateAction : ChevronSortItemsAction(
+    actionText        = "CL: Sort by Due Date",
+    actionDescription = "Sort the items of this section by due date, soonest first, keeping nested items with their parent",
+    order             = BY_DUE_DATE
 )
