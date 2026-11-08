@@ -163,6 +163,18 @@
                 description="Show the caret section's items, done count, words and tags">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.PromoteItemToHeader"
+                class="com.lewisisworking.chevronlists.PromoteItemToHeaderAction"
+                text="CL: Promote Item to Header"
+                description="Turn the item at the caret into a section header; the items after it start a new section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.DemoteHeaderToItem"
+                class="com.lewisisworking.chevronlists.DemoteHeaderToItemAction"
+                text="CL: Demote Header to Item"
+                description="Turn the caret section's header into an item of the section above">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
