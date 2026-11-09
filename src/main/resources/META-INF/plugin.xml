@@ -925,6 +925,60 @@
                 description="Save this file&apos;s statistics as a JSON file">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.TodayView"
+                class="com.lewisisworking.chevronlists.TodayViewAction"
+                text="CL: Today View"
+                description="List the open items due today or overdue in every markdown file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FindDeadLinks"
+                class="com.lewisisworking.chevronlists.FindDeadLinksAction"
+                text="CL: Find Dead Links"
+                description="List every section or file link that points at nothing, in every markdown file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SearchItemsWorkspace"
+                class="com.lewisisworking.chevronlists.SearchItemsWorkspaceAction"
+                text="CL: Search Items (Workspace)"
+                description="Type to find an item in any markdown file and jump to it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FilterSectionsWorkspace"
+                class="com.lewisisworking.chevronlists.FilterSectionsWorkspaceAction"
+                text="CL: Filter Sections (Workspace)"
+                description="Type to find a section in any markdown file and jump to it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FilterByTagWorkspace"
+                class="com.lewisisworking.chevronlists.FilterByTagWorkspaceAction"
+                text="CL: Filter by Tag (Workspace)"
+                description="List the items with a chosen tag in every markdown file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FilterByMentionWorkspace"
+                class="com.lewisisworking.chevronlists.FilterByMentionWorkspaceAction"
+                text="CL: Filter by Mention (Workspace)"
+                description="List the items mentioning a chosen person in every markdown file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FilterByColourLabelWorkspace"
+                class="com.lewisisworking.chevronlists.FilterByColourLabelWorkspaceAction"
+                text="CL: Filter by Colour Label (Workspace)"
+                description="List the items with a chosen colour label in every markdown file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowTagReportWorkspace"
+                class="com.lewisisworking.chevronlists.ShowTagReportWorkspaceAction"
+                text="CL: Show Tag Report (Workspace)"
+                description="Open a report of each tag&apos;s use per markdown file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowWorkspaceStatistics"
+                class="com.lewisisworking.chevronlists.ShowWorkspaceStatisticsAction"
+                text="CL: Show Workspace Statistics"
+                description="Open totals across every markdown file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
