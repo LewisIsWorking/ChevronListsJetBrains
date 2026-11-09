@@ -1021,6 +1021,36 @@
                 description="Open which items are only in this section or only on the clipboard">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.ExportFileAsJson"
+                class="com.lewisisworking.chevronlists.ExportFileAsJsonAction"
+                text="CL: Export File as JSON"
+                description="Save every section and item of this file as JSON">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ExportFileAsCsv"
+                class="com.lewisisworking.chevronlists.ExportFileAsCsvAction"
+                text="CL: Export File as CSV"
+                description="Save every item of this file as a row of a CSV file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ExportFileAsHtml"
+                class="com.lewisisworking.chevronlists.ExportFileAsHtmlAction"
+                text="CL: Export File as HTML"
+                description="Save this file as a styled standalone HTML page">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ExportFileAsMarkdownDocument"
+                class="com.lewisisworking.chevronlists.ExportFileAsMarkdownDocumentAction"
+                text="CL: Export File as Markdown Document"
+                description="Save this file as standard markdown with headings and lists">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ExportAllSectionsAsJson"
+                class="com.lewisisworking.chevronlists.ExportAllSectionsAsJsonAction"
+                text="CL: Export All Sections as JSON"
+                description="Save every section with all of each item&apos;s fields as JSON">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
