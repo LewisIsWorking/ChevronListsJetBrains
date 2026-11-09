@@ -13,7 +13,7 @@ class WorkspaceReportsTest {
         "> S",
         ">> - [ ] late @2026-01-01 #t",
         ">> - [x] done @2026-01-01",
-        ">> - due @2026-01-10 @bob",
+        ">> - due @2026-01-10 @Bob",
         ">> - later @2026-02-01",
         ">> - c // @2026-01-01",
         "see [[Nope]] and [[s]] and [[file:two.md]] [[file:gone.md#x]]",
@@ -29,7 +29,7 @@ class WorkspaceReportsTest {
         assertEquals(
             listOf(
                 WorkspaceEntry("a/one.md", 1, "9d overdue  late #t  (one.md › S)"),
-                WorkspaceEntry("a/one.md", 3, "Today  due @bob  (one.md › S)"),
+                WorkspaceEntry("a/one.md", 3, "Today  due @Bob  (one.md › S)"),
             ),
             todayEntries(files, "-", LocalDate.of(2026, 1, 10)),
         )
@@ -69,7 +69,7 @@ class WorkspaceReportsTest {
         assertEquals(listOf("a/one.md" to 1, "two.md" to 1), where(tags["t"]))
     }
 
-    @Test fun `mentions gather across files`() = assertEquals(listOf("a/one.md" to 3), where(workspaceMentions(files, "-")["bob"]))
+    @Test fun `mentions gather across files`() = assertEquals(listOf("a/one.md" to 3), where(workspaceMentions(files, "-")["Bob"]))
 
     @Test fun `colours list only those in use`() {
         val colours = workspaceColours(files, "-")
