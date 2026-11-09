@@ -22,11 +22,11 @@ class SectionCompareTest {
     }
 
     @Test fun `the message lists the top words`() {
-        assertEquals("CL: \"A\" top words: \"milk\" ×2  ·  \"bread\" ×1", wordFrequencyMessage(doc, 0, "-"))
+        assertEquals("CL: \"A\" top words: \"milk\" ×2  ·  \"bread\" ×1", sectionWordsMessage(doc, 0, "-"))
     }
 
     @Test fun `the message says when there are none`() {
-        assertEquals("CL: \"S\" - no words found", wordFrequencyMessage(listOf("> S"), 0, "-"))
+        assertEquals("CL: \"S\" - no words found", sectionWordsMessage(listOf("> S"), 0, "-"))
     }
 
     @Test fun `the cloud scales bars to the top word`() {

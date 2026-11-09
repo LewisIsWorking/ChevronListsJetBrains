@@ -32,7 +32,7 @@ class ShowWordFrequencyAction : MarkdownEditorAction(
     override fun actionPerformed(e: AnActionEvent) {
         val editor = e.getData(CommonDataKeys.EDITOR) ?: return
         val header = caretHeader(editor) ?: return tell(editor, NO_SECTION)
-        tell(editor, wordFrequencyMessage(documentLines(editor), header, listPrefix))
+        tell(editor, sectionWordsMessage(documentLines(editor), header, listPrefix))
     }
 }
 

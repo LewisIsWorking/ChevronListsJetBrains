@@ -34,7 +34,7 @@ fun sectionWordFrequency(lines: List<String>, header: Int, listPrefix: String): 
         .sortedByDescending { it.second }
 
 /** Pure: the section's ten most used words as one line */
-fun wordFrequencyMessage(lines: List<String>, header: Int, listPrefix: String): String {
+fun sectionWordsMessage(lines: List<String>, header: Int, listPrefix: String): String {
     val name = plainSectionName(lines, header)
     val top  = sectionWordFrequency(lines, header, listPrefix).take(10)
     if (top.isEmpty()) return "CL: \"$name\" - no words found"
