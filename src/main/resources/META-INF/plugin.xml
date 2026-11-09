@@ -1183,6 +1183,24 @@
                 description="Choose a text style or case for the selection or word at the cursor">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.GroupSections"
+                class="com.lewisisworking.chevronlists.GroupSectionsAction"
+                text="CL: Group Sections"
+                description="Start a named group of sections above the section at the cursor">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FilterGroups"
+                class="com.lewisisworking.chevronlists.FilterGroupsAction"
+                text="CL: Filter Groups"
+                description="List the section groups of this file and jump to one">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.InsertItemSnippet"
+                class="com.lewisisworking.chevronlists.InsertItemSnippetAction"
+                text="CL: Insert Item Snippet"
+                description="Add a ready-made item below the cursor">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
