@@ -5,7 +5,6 @@
 package com.lewisisworking.chevronlists
 
 import com.intellij.codeInsight.hint.HintManager
-import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
@@ -79,7 +78,7 @@ class PreviewItemAction : MarkdownEditorAction(
 
 private val TRANSFORMS = listOf("Bold", "Italic", "Underline", "Mono", "Strikethrough", "UPPERCASE", "lowercase", "Title Case")
 
-private fun styleAction(name: String): AnAction? = when (name) {
+private fun styleAction(name: String): TextStyleAction? = when (name) {
     "Bold"          -> BoldTextAction()
     "Italic"        -> ItalicTextAction()
     "Underline"     -> UnderlineTextAction()
@@ -112,7 +111,7 @@ class TextTransformAction : MarkdownEditorAction(
         val editor  = e.getData(CommonDataKeys.EDITOR) ?: return
         val project = e.project ?: return
         val name    = askOne(project, "Text Transform", "Transform (${TRANSFORMS.joinToString(", ")}):", TRANSFORMS) ?: return
-        styleAction(name)?.let { return it.actionPerformed(e) }
+        styleAction(name)?.let { return it.applyStyle(e) }
         val range = selectionOrWord(editor) ?: return tell(editor, "CL: Select text or place the cursor on a word")
         WriteCommandAction.runWriteCommandAction(project) {
             editor.document.replaceString(range.startOffset, range.endOffset, cased(name, editor.document.getText(range)))

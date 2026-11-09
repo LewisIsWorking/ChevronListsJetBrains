@@ -110,7 +110,10 @@ abstract class TextStyleAction(text: String, description: String, private val st
         return word.first + start..word.last + start
     }
 
-    override fun actionPerformed(e: AnActionEvent) {
+    override fun actionPerformed(e: AnActionEvent) = applyStyle(e)
+
+    /** Styles the selection or the word at the caret; also what the Text Transform palette calls */
+    internal fun applyStyle(e: AnActionEvent) {
         val editor   = e.getData(CommonDataKeys.EDITOR) ?: return
         val document = editor.document
         val range    = targetRange(editor) ?: return
