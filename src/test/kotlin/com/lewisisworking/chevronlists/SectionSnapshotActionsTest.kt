@@ -49,8 +49,6 @@ class SectionSnapshotActionsTest : BasePlatformTestCase() {
         myFixture.configureByText("notes.md", "> A<caret>\n>> - a\n")
         answer("first")
         myFixture.performEditorAction("ChevronLists.SnapshotSection")
-        myFixture.performEditorAction("ChevronLists.ListSnapshots")
-        assertTrue(openDoc("Snapshots.md").contains("- first ("))
 
         val document = myFixture.editor.document
         com.intellij.openapi.command.WriteCommandAction.runWriteCommandAction(project) {
@@ -59,6 +57,10 @@ class SectionSnapshotActionsTest : BasePlatformTestCase() {
         answer("first")
         myFixture.performEditorAction("ChevronLists.RestoreSnapshot")
         assertEquals("> A\n>> - a\n", document.text)
+
+        // Last: this opens another editor, which then has the focus
+        myFixture.performEditorAction("ChevronLists.ListSnapshots")
+        assertTrue(openDoc("Snapshots.md").contains("- first ("))
     }
 
     fun `test restoring with no snapshots changes nothing`() {
