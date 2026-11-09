@@ -41,6 +41,7 @@
 - **Workspace renames.** *CL: Rename Tag (Workspace)* and *CL: Rename Section (Workspace)* change every markdown file of the project in one undoable command. Ported from VS Code.
 - **Links, search and readable copies.** *CL: Go to Linked Section*, *CL: Go to Linked File*, *CL: Insert File Section Link*, *CL: Find in Sections*, *CL: Copy Item as Rich Text* and *CL: Show Dependencies*. Ported from VS Code.
 - **Paste, export and preview.** *CL: Smart Paste*, *CL: Copy Section As...*, *CL: Export to Obsidian*, *CL: Preview Item* and *CL: Text Transform*. Ported from VS Code.
+- **Groups and snippets.** *CL: Group Sections*, *CL: Filter Groups* and *CL: Insert Item Snippet*. Ported from VS Code.
 ### Fixed
 - *CL: Toggle Done* finds a checkbox that follows a priority or star, instead of adding a second one.
 - *CL: Copy Section as JSON* reports items starred or flagged with the emoji markers.
