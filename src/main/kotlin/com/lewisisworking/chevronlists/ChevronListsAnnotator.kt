@@ -65,6 +65,7 @@ class ChevronListsAnnotator : ExternalAnnotator<String, String>() {
         annotateSyntax(lines, offsets, holder, presetId)
         annotateInline(lines, offsets, holder)
         annotateColourLabels(lines, offsets, holder)
+        annotateSectionColours(lines, offsets, holder)
         annotateDiagnostics(lines, offsets, holder)
     }
 
@@ -140,6 +141,18 @@ class ChevronListsAnnotator : ExternalAnnotator<String, String>() {
                 holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
                     .range(absRange).enforcedTextAttributes(attrs).create()
             }
+        }
+    }
+
+    /** A `[colour:x]` tag colours the whole header after its chevron, in bold, as in VS Code */
+    private fun annotateSectionColours(lines: List<String>, offsets: IntArray, holder: AnnotationHolder) {
+        for ((i, line) in lines.withIndex()) {
+            if (!isHeader(line)) continue
+            val label = sectionColourOf(line) ?: continue
+            val attrs = TextAttributes(Color.decode(label.hex), null, null, null, Font.BOLD)
+            holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+                .range(TextRange(offsets[i] + 2, offsets[i] + line.trimEnd().length))
+                .enforcedTextAttributes(attrs).create()
         }
     }
 

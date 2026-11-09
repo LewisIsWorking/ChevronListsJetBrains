@@ -117,6 +117,40 @@ private fun toJson(value: Any?, indent: String = ""): String {
     }
 }
 
+/** Pure: a CSV of each section's item and word counts, then the totals */
+fun fileStatsAsCsv(stats: FileStats): String =
+    (listOf("Section,Items,Words") +
+        stats.sections.map { "${csvEscape(it.name)},${it.items},${it.words}" } +
+        "TOTAL,${stats.totalItems},${stats.totalWords}").joinToString("\n")
+
+/** Pure: the file's statistics as JSON, with the field names VS Code writes */
+fun fileStatsAsJson(stats: FileStats): String = toJson(mapOf(
+    "totalSections"  to stats.sections.size,
+    "totalItems"     to stats.totalItems,
+    "totalWords"     to stats.totalWords,
+    "totalDone"      to stats.totalDone,
+    "totalChecks"    to stats.totalChecks,
+    "totalTags"      to stats.totalTags,
+    "totalColoured"  to stats.totalColoured,
+    "totalOverdue"   to stats.totalOverdue,
+    "avgItems"       to stats.avgItems,
+    "mostPopulated"  to stats.mostPopulated?.name,
+    "leastPopulated" to stats.leastPopulated?.name,
+    "sections"       to stats.sections.map {
+        mapOf(
+            "name"      to it.name,
+            "itemCount" to it.items,
+            "wordCount" to it.words,
+            "lineIndex" to it.line,
+            "done"      to it.done,
+            "total"     to it.checks,
+            "tagCount"  to it.tags,
+            "coloured"  to it.coloured,
+            "overdue"   to it.overdue,
+        )
+    },
+))
+
 /** Pure: the section at [caretLine] and each item's fields as JSON; null outside a section */
 fun sectionAsJson(lines: List<String>, caretLine: Int, listPrefix: String): String? {
     val header = headerAt(lines, caretLine) ?: return null

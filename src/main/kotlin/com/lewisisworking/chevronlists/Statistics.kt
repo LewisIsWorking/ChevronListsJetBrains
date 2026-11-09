@@ -74,7 +74,7 @@ fun sectionStats(lines: List<String>, header: Int, listPrefix: String, today: St
         if (parseColourLabel(content) != null) coloured++
         val parts = splitItem(content)
         if (parts.check.isNotEmpty()) { checks++; if (parts.check.equals("[x]", ignoreCase = true)) done++ }
-        if (DUE_DATE.findAll(parts.body).any { it.groupValues[1] < today }) overdue++
+        if (!parts.check.equals("[x]", ignoreCase = true) && DUE_DATE.findAll(parts.body).any { it.groupValues[1] < today }) overdue++
     }
     return SectionStats(parseHeader(lines[header])!!.content.trim(), header, items, words, done, checks, tags, coloured, overdue)
 }

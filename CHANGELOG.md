@@ -31,6 +31,8 @@
 - **Archive Done Items finds a checkbox after a priority.** `!! [x] item` used to stay behind.
 - **Section insights.** *CL: Show Section Weights*, *CL: Show Completion Streak*, *CL: Section Health Check*, *CL: Pin Section to Top*, *CL: Find Similar Sections*, *CL: Show Progress Report* and *CL: Evaluate Expression in Item*, ported from VS Code.
 - **The Kanban board and statistics find a checkbox after a priority.** A date in a comment no longer makes an item overdue or sets its due date in section JSON.
+- **Section tools.** *CL: Set Section Colour* (the header takes the colour), *CL: Show Section Growth*, *CL: Search Items*, *CL: Filter Sections*, *CL: Compare Section Statistics*, *CL: Export Statistics as CSV* and *CL: Export Statistics as JSON*, ported from VS Code.
+- **A done item is no longer overdue in the file statistics.**
 ### Fixed
 - *CL: Toggle Done* finds a checkbox that follows a priority or star, instead of adding a second one.
 - *CL: Copy Section as JSON* reports items starred or flagged with the emoji markers.
