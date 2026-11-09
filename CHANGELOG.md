@@ -37,6 +37,7 @@
 - **Section comparison and word tools.** *CL: Show Word Frequency*, *CL: Show Word Cloud*, *CL: Show Tag Heatmap*, *CL: Show Completion Heatmap*, *CL: Compare Two Sections as Table*, *CL: Diff Two Sections* and *CL: Compare Section to Clipboard*, ported from VS Code.
 - **File exports.** *CL: Export File as JSON*, *CL: Export File as CSV*, *CL: Export File as HTML*, *CL: Export File as Markdown Document* and *CL: Export All Sections as JSON*, ported from VS Code.
 - **Archive and snapshots.** *CL: Archive Section*, *CL: Show Archive*, *CL: Snapshot Section*, *CL: Restore Snapshot*, *CL: List Snapshots*, *CL: Snapshot Item* and *CL: Diff Item with Snapshot*, ported from VS Code.
+- **Move and copy between files.** *CL: Move Item to File* takes the item and everything nested under it, and *CL: Duplicate Section to File* copies a section to the end of another file. Ported from VS Code.
 ### Fixed
 - *CL: Toggle Done* finds a checkbox that follows a priority or star, instead of adding a second one.
 - *CL: Copy Section as JSON* reports items starred or flagged with the emoji markers.

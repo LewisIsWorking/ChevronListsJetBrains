@@ -1093,6 +1093,18 @@
                 description="Open how this item differs from the item snapshot">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.MoveItemToFile"
+                class="com.lewisisworking.chevronlists.MoveItemToFileAction"
+                text="CL: Move Item to File"
+                description="Move this item and everything nested under it to a section of another file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.DuplicateSectionToFile"
+                class="com.lewisisworking.chevronlists.DuplicateSectionToFileAction"
+                text="CL: Duplicate Section to File"
+                description="Copy this section to the end of another file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
