@@ -99,7 +99,13 @@
         <completion.contributor
                    language="Markdown"
                    implementationClass="com.lewisisworking.chevronlists.ChevronTagCompletionContributor"/>
+        <notificationGroup id="Chevron Lists" displayType="BALLOON"/>
     </extensions>
+
+    <applicationListeners>
+        <listener class="com.lewisisworking.chevronlists.LockedSectionSaveListener"
+                  topic="com.intellij.openapi.fileEditor.FileDocumentManagerListener"/>
+    </applicationListeners>
 
     <actions>
         <action id="ChevronLists.OpenSettings"
@@ -1217,6 +1223,18 @@
                 class="com.lewisisworking.chevronlists.RemoveBookmarkAction"
                 text="CL: Remove Bookmark"
                 description="Remove the bookmark on the cursor line">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.LockSection"
+                class="com.lewisisworking.chevronlists.LockSectionAction"
+                text="CL: Lock Section"
+                description="Mark this section as locked, so that saving an edit to it warns">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.UnlockSection"
+                class="com.lewisisworking.chevronlists.UnlockSectionAction"
+                text="CL: Unlock Section"
+                description="Remove the lock from this section">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
         <action id="ChevronLists.RenameSection"
