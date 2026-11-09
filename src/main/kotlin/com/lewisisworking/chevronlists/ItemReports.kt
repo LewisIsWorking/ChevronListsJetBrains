@@ -12,7 +12,7 @@ import kotlin.math.roundToInt
 private const val OLD_AFTER_DAYS = 30L
 private const val OVERDUE = "⚠️ OVERDUE"
 
-private val DUE_DATE   = Regex("""@(\d{4}-\d{2}-\d{2})""")
+internal val DUE_DATE  = Regex("""@(\d{4}-\d{2}-\d{2})""")
 private val RECURRENCE = Regex("""(?<!\S)@(daily|weekly|monthly)(?![\w-])""", RegexOption.IGNORE_CASE)
 private val CREATED    = Regex("""@created:(\d{4}-\d{2}-\d{2})""")
 private val ESTIMATE   = Regex("""~(?:\d+h(?:\d+m)?|\d+m)""")
@@ -21,6 +21,15 @@ private val MENTION    = Regex("""(?<!\S)@([A-Z][\w-]*)""")
 private fun dateOf(text: String): LocalDate? = runCatching { LocalDate.parse(text) }.getOrNull()
 
 private fun isDone(parts: ItemParts) = parts.check.equals("[x]", ignoreCase = true)
+
+/** The date an item was stamped with @created:, if it has one */
+internal fun createdOn(parts: ItemParts): LocalDate? = CREATED.find(parts.body)?.let { dateOf(it.groupValues[1]) }
+
+/** An item's words without its @created: stamp */
+internal fun withoutCreated(body: String): String = tidied(CREATED.replace(body, ""))
+
+/** `daily`, `weekly` or `monthly` when the item's words recur, or null */
+internal fun recurrenceOf(parts: ItemParts): String? = RECURRENCE.find(parts.body)?.groupValues?.get(1)?.lowercase()
 
 private fun progress(done: Int, total: Int) = "$done/$total done  (${(done * 100.0 / total).roundToInt()}%)"
 
@@ -104,7 +113,7 @@ fun tagStats(lines: List<String>, listPrefix: String): List<ReportEntry> =
         ReportEntry(hits.first().line, "#$tag  ${progress(done, hits.size)}")
     }
 
-private fun mentionsIn(parts: ItemParts) = MENTION.findAll(parts.body).map { it.groupValues[1] }.distinct().toList()
+internal fun mentionsIn(parts: ItemParts) = MENTION.findAll(parts.body).map { it.groupValues[1] }.distinct().toList()
 
 private fun itemsByPerson(lines: List<String>, listPrefix: String): Map<String, List<FoundItem>> =
     foundItems(lines, listPrefix)

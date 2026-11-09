@@ -10,17 +10,15 @@
  */
 package com.lewisisworking.chevronlists
 
-private val DONE_BOX = Regex("""^\[[xX]]""")
-
 private fun depthOf(line: String, listPrefix: String): Int? =
     parseNumbered(line)?.chevrons?.length ?: parseBullet(line, listPrefix)?.chevrons?.length
 
 private fun isDone(line: String, listPrefix: String): Boolean {
     val content = parseNumbered(line)?.content ?: parseBullet(line, listPrefix)?.content ?: return false
-    return DONE_BOX.containsMatchIn(content.trimStart())
+    return splitItem(content).check.equals("[x]", ignoreCase = true)
 }
 
-private fun isArchiveHeader(line: String): Boolean =
+internal fun isArchiveHeader(line: String): Boolean =
     parseHeader(line)?.content?.trim()?.equals("archive", ignoreCase = true) == true
 
 /** The result of an archive: the new document, and how many done items moved */
@@ -36,18 +34,24 @@ fun computeArchiveDone(lines: List<String>, caretLine: Int, listPrefix: String):
     val header = body.first - 1
     if (header >= 0 && isArchiveHeader(lines[header])) return null
 
-    // Collect done blocks; a done child inside a block already taken goes with it
+    return moveBlocksToArchive(lines, body.filter { isDone(lines[it], listPrefix) }, listPrefix)
+}
+
+/**
+ * Pure: the items on [starts], each with anything nested under it, moved to the
+ * archive. An item already inside a block that moved goes with that block.
+ * Null when nothing moves.
+ */
+internal fun moveBlocksToArchive(lines: List<String>, starts: List<Int>, listPrefix: String): ArchiveResult? {
     val taken = sortedSetOf<Int>()
     var archived = 0
-    var i = body.first
-    while (i <= body.last) {
-        val depth = depthOf(lines[i], listPrefix)
-        if (depth == null || !isDone(lines[i], listPrefix)) { i++; continue }
-        var end = i
-        while (end + 1 <= body.last && (depthOf(lines[end + 1], listPrefix) ?: 0) > depth) end++
-        (i..end).forEach { taken += it }
+    for (start in starts) {
+        if (start in taken) continue
+        val depth = depthOf(lines[start], listPrefix) ?: continue
+        var end = start
+        while (end + 1 < lines.size && (depthOf(lines[end + 1], listPrefix) ?: 0) > depth) end++
+        (start..end).forEach { taken += it }
         archived++
-        i = end + 1
     }
     if (archived == 0) return null
 
