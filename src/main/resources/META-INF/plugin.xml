@@ -1237,6 +1237,30 @@
                 description="Remove the lock from this section">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.FocusSection"
+                class="com.lewisisworking.chevronlists.FocusSectionAction"
+                text="CL: Focus on Section"
+                description="Fold every section except the one at the cursor">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.UnfocusSection"
+                class="com.lewisisworking.chevronlists.UnfocusSectionAction"
+                text="CL: Unfocus Section"
+                description="Unfold every section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.HideSection"
+                class="com.lewisisworking.chevronlists.HideSectionAction"
+                text="CL: Hide Section"
+                description="Mark this section as hidden and fold it; it starts folded whenever the file is opened">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowHiddenSections"
+                class="com.lewisisworking.chevronlists.ShowHiddenSectionsAction"
+                text="CL: Show Hidden Sections"
+                description="Remove every hidden marker in this file and unfold those sections">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"

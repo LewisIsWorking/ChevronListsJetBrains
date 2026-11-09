@@ -33,4 +33,8 @@ class ChevronFoldingBuilder : FoldingBuilderEx(), DumbAware {
     override fun getPlaceholderText(node: ASTNode): String = " ..."
 
     override fun isCollapsedByDefault(node: ASTNode): Boolean = false
+
+    /** A section marked hidden starts folded */
+    override fun isCollapsedByDefault(foldingDescriptor: FoldingDescriptor): Boolean =
+        foldHoldsHiddenMarker(foldingDescriptor.range.substring(foldingDescriptor.element.text))
 }
