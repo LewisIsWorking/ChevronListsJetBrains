@@ -43,7 +43,7 @@ internal fun readWorkspace(project: Project): Workspace {
     return Workspace(files, virtual)
 }
 
-private fun scan(project: Project): Workspace =
+internal fun scanWorkspace(project: Project): Workspace =
     ProgressManager.getInstance().runProcessWithProgressSynchronously(
         ThrowableComputable<Workspace, RuntimeException> {
             ReadAction.compute<Workspace, RuntimeException> { readWorkspace(project) }
@@ -80,7 +80,7 @@ abstract class WorkspaceListAction(
     override fun actionPerformed(e: AnActionEvent) {
         val editor    = e.getData(CommonDataKeys.EDITOR) ?: return
         val project   = e.project ?: return
-        val workspace = scan(project)
+        val workspace = scanWorkspace(project)
         showEntries(project, editor, workspace, title, entries(workspace.files), whenEmpty)
     }
 }
@@ -95,7 +95,7 @@ abstract class WorkspacePickAction(
     override fun actionPerformed(e: AnActionEvent) {
         val editor    = e.getData(CommonDataKeys.EDITOR) ?: return
         val project   = e.project ?: return
-        val workspace = scan(project)
+        val workspace = scanWorkspace(project)
         val found     = groups(workspace.files)
         if (found.isEmpty()) return tell(editor, whenEmpty)
         val answer = Messages.showInputDialog(project, prompt, title, null, found.keys.first(), oneOfValidator(found.keys) { listOf(normal(it)) }) ?: return
@@ -110,7 +110,7 @@ abstract class WorkspaceDocumentAction(
     override fun actionPerformed(e: AnActionEvent) {
         val editor  = e.getData(CommonDataKeys.EDITOR) ?: return
         val project = e.project ?: return
-        val content = report(scan(project).files) ?: return tell(editor, whenEmpty)
+        val content = report(scanWorkspace(project).files) ?: return tell(editor, whenEmpty)
         FileEditorManager.getInstance(project).openFile(LightVirtualFile(fileName, content), true)
     }
 }
