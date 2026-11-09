@@ -34,7 +34,6 @@ data class FileStats(val sections: List<SectionStats>) {
     val leastPopulated: SectionStats? get() = sections.minByOrNull { it.items }
 }
 
-private val CHECK_MARK   = Regex("""^\[(x|X| ?)]""")
 private val LEADING      = listOf(Regex("""^\[(?:[xX]| ?)]\s*"""), Regex("""^!{1,3} +"""), Regex("""^\* +"""), Regex("""^\? +"""))
 private val ANYWHERE     = listOf(
     Regex("""(?:^|\s+)//.*$"""),                          // inline comment
@@ -73,8 +72,9 @@ fun sectionStats(lines: List<String>, header: Int, listPrefix: String, today: St
         words += itemWordCount(content)
         tags  += findTags(content).size
         if (parseColourLabel(content) != null) coloured++
-        CHECK_MARK.find(content.trim())?.let { checks++; if (it.groupValues[1].equals("x", ignoreCase = true)) done++ }
-        if (DUE_DATE.findAll(content).any { it.groupValues[1] < today }) overdue++
+        val parts = splitItem(content)
+        if (parts.check.isNotEmpty()) { checks++; if (parts.check.equals("[x]", ignoreCase = true)) done++ }
+        if (DUE_DATE.findAll(parts.body).any { it.groupValues[1] < today }) overdue++
     }
     return SectionStats(parseHeader(lines[header])!!.content.trim(), header, items, words, done, checks, tags, coloured, overdue)
 }

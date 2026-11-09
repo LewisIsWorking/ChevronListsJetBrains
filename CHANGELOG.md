@@ -29,6 +29,8 @@
 - **Date, tag and mention reports.** *CL: Show Upcoming Due Dates*, *CL: Show Recurring Items*, *CL: Show Old Items (30+ days)*, *CL: Show Time Estimates*, *CL: Show Section Summary*, *CL: Count Items by Tag*, *CL: Show Tag Stats*, *CL: Filter by Mention* and *CL: Show Mentions Report*. Ported from the VS Code extension.
 - **Age, goal and recurring tools.** *CL: Show Item Age Report*, *CL: Show Age Stats*, *CL: Show Word Count Goals*, *CL: Show Item Complexity*, *CL: Filter by Multiple Tags*, *CL: Generate Next Occurrence*, *CL: Insert Recurring Item*, *CL: Group Items by Mention*, *CL: Collect Items by Tag*, *CL: Remove Old Items* and *CL: Archive Old Done Items*, ported from VS Code.
 - **Archive Done Items finds a checkbox after a priority.** `!! [x] item` used to stay behind.
+- **Section insights.** *CL: Show Section Weights*, *CL: Show Completion Streak*, *CL: Section Health Check*, *CL: Pin Section to Top*, *CL: Find Similar Sections*, *CL: Show Progress Report* and *CL: Evaluate Expression in Item*, ported from VS Code.
+- **The Kanban board and statistics find a checkbox after a priority.** A date in a comment no longer makes an item overdue or sets its due date in section JSON.
 ### Fixed
 - *CL: Toggle Done* finds a checkbox that follows a priority or star, instead of adding a second one.
 - *CL: Copy Section as JSON* reports items starred or flagged with the emoji markers.
