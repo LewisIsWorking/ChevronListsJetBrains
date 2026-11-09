@@ -29,7 +29,7 @@ private fun headerAt(lines: List<String>, caretLine: Int): Int? = sectionHeaderA
 
 private fun sectionName(lines: List<String>, header: Int) = parseHeader(lines[header])!!.content.trim()
 
-private fun escapeHtml(text: String) = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+internal fun escapeHtml(text: String) = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 private fun priorityBadge(level: Int) = when (level) {
     3    -> """<span style="color:#E06C75;font-weight:bold">🔴 </span>"""
@@ -59,7 +59,7 @@ fun sectionAsHtml(lines: List<String>, caretLine: Int, listPrefix: String): Stri
     return """<section><h3 style="margin:0 0 .5em">$name</h3><ul style="padding-left:1.2em;margin:0">$rows</ul></section>"""
 }
 
-private fun csvEscape(value: String) =
+internal fun csvEscape(value: String) =
     if (value.any { it == ',' || it == '"' || it == '\n' }) "\"${value.replace("\"", "\"\"")}\"" else value
 
 /** Pure: the plain words of each item in the section at [caretLine] as one CSV row; null with no items */
@@ -104,7 +104,7 @@ private fun jsonString(text: String): String = buildString {
     append('"')
 }
 
-private fun toJson(value: Any?, indent: String = ""): String {
+internal fun toJson(value: Any?, indent: String = ""): String {
     val inner = "$indent  "
     return when (value) {
         null       -> "null"
@@ -151,28 +151,35 @@ fun fileStatsAsJson(stats: FileStats): String = toJson(mapOf(
     },
 ))
 
+/** The tags of an item, lower case and without repeats */
+internal fun tagFields(content: String): List<String> =
+    TAG_FIELD.findAll(content).map { it.groupValues[1].lowercase() }.distinct().toList()
+
+/** One item's fields, with the names VS Code writes */
+internal fun itemFields(depth: Int, num: Int?, content: String): Map<String, Any?> {
+    val parts = splitItem(content)
+    return linkedMapOf(
+        "depth"    to depth,
+        "type"     to if (num != null) "numbered" else "bullet",
+        "num"      to num,
+        "content"  to content.trim(),
+        "done"     to parts.check.equals("[x]", ignoreCase = true),
+        "priority" to parts.priority.length.takeIf { it > 0 },
+        "dueDate"  to DUE_DATE_FIELD.find(parts.body)?.groupValues?.get(1),
+        "estimate" to estimateOf(content),
+        "votes"    to parts.vote,
+        "starred"  to isStarred(parts),
+        "colour"   to parts.colour.trim('{', '}').ifEmpty { null },
+        "flagged"  to isFlagged(parts),
+        "comment"  to parts.comment,
+        "rating"   to RATING_FIELD.find(content)?.groupValues?.get(1)?.toInt(),
+        "tags"     to tagFields(content),
+    )
+}
+
 /** Pure: the section at [caretLine] and each item's fields as JSON; null outside a section */
 fun sectionAsJson(lines: List<String>, caretLine: Int, listPrefix: String): String? {
     val header = headerAt(lines, caretLine) ?: return null
-    val items = exportItems(lines, header, listPrefix).map { item ->
-        val parts = splitItem(item.content)
-        linkedMapOf(
-            "depth"    to item.depth,
-            "type"     to if (item.num != null) "numbered" else "bullet",
-            "num"      to item.num,
-            "content"  to item.content.trim(),
-            "done"     to parts.check.equals("[x]", ignoreCase = true),
-            "priority" to parts.priority.length.takeIf { it > 0 },
-            "dueDate"  to DUE_DATE_FIELD.find(parts.body)?.groupValues?.get(1),
-            "estimate" to estimateOf(item.content),
-            "votes"    to parts.vote,
-            "starred"  to isStarred(parts),
-            "colour"   to parts.colour.trim('{', '}').ifEmpty { null },
-            "flagged"  to isFlagged(parts),
-            "comment"  to parts.comment,
-            "rating"   to RATING_FIELD.find(item.content)?.groupValues?.get(1)?.toInt(),
-            "tags"     to TAG_FIELD.findAll(item.content).map { it.groupValues[1].lowercase() }.distinct().toList(),
-        )
-    }
+    val items = exportItems(lines, header, listPrefix).map { itemFields(it.depth, it.num, it.content) }
     return toJson(linkedMapOf("section" to sectionName(lines, header), "items" to items))
 }
