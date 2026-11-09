@@ -12,7 +12,7 @@ import kotlin.math.roundToInt
 private const val OLD_AFTER_DAYS = 30L
 private const val OVERDUE = "⚠️ OVERDUE"
 
-internal val DUE_DATE  = Regex("""@(\d{4}-\d{2}-\d{2})""")
+internal val ITEM_DUE_DATE = Regex("""@(\d{4}-\d{2}-\d{2})""")
 private val RECURRENCE = Regex("""(?<!\S)@(daily|weekly|monthly)(?![\w-])""", RegexOption.IGNORE_CASE)
 private val CREATED    = Regex("""@created:(\d{4}-\d{2}-\d{2})""")
 private val ESTIMATE   = Regex("""~(?:\d+h(?:\d+m)?|\d+m)""")
@@ -37,7 +37,7 @@ private fun progress(done: Int, total: Int) = "$done/$total done  (${(done * 100
 fun upcomingDueDates(lines: List<String>, listPrefix: String, today: LocalDate): List<ReportEntry> =
     foundItems(lines, listPrefix)
         .mapNotNull { item ->
-            val match = DUE_DATE.find(item.parts.body) ?: return@mapNotNull null
+            val match = ITEM_DUE_DATE.find(item.parts.body) ?: return@mapNotNull null
             dateOf(match.groupValues[1])?.let { Triple(it, match, item) }
         }
         .sortedBy { (date, _, _) -> date }

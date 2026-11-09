@@ -96,7 +96,7 @@ fun itemComplexityMessage(line: String, listPrefix: String): String? {
     val priority = parts.priority.length
     val tags     = findTags(line).map { line.substring(it.first + 1, it.last + 1).lowercase() }.distinct().size
     val estimate = if (itemEstimateMinutes(content) != null) 1 else 0
-    val due      = if (DUE_DATE.containsMatchIn(parts.body)) 1 else 0
+    val due      = if (ITEM_DUE_DATE.containsMatchIn(parts.body)) 1 else 0
     val expiry   = if (EXPIRES.containsMatchIn(parts.body)) 1 else 0
     val vote     = if (parts.vote != null) 1 else 0
     val label    = if (LABEL.containsMatchIn(parts.body)) 1 else 0
@@ -128,7 +128,7 @@ fun nextOccurrenceLine(line: String, listPrefix: String, today: LocalDate): Stri
     val content = itemContent(line, listPrefix) ?: return null
     val parts   = splitItem(content)
     val type    = recurrenceOf(parts) ?: return null
-    val due     = DUE_DATE.find(parts.body)
+    val due     = ITEM_DUE_DATE.find(parts.body)
     val base    = due?.let { runCatching { LocalDate.parse(it.groupValues[1]) }.getOrNull() } ?: today
     val next    = when (type) {
         "daily"  -> base.plusDays(1)
