@@ -109,9 +109,9 @@ class SetExpiryOnAllItemsAction : MarkdownEditorAction(
     }
 }
 
-private fun clipboardText(): String = CopyPasteManager.getInstance().getContents<String>(DataFlavor.stringFlavor) ?: ""
+internal fun clipboardText(): String = CopyPasteManager.getInstance().getContents<String>(DataFlavor.stringFlavor) ?: ""
 
-private fun insertBelowCaret(e: AnActionEvent, editor: Editor, items: List<String>) {
+internal fun insertBelowCaret(e: AnActionEvent, editor: Editor, items: List<String>) {
     if (items.isEmpty()) return HintManager.getInstance().showInformationHint(editor, "CL: Clipboard is empty")
     val document = editor.document
     val line     = editor.caretModel.logicalPosition.line
