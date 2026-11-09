@@ -1051,6 +1051,48 @@
                 description="Save every section with all of each item&apos;s fields as JSON">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.ArchiveSection"
+                class="com.lewisisworking.chevronlists.ArchiveSectionAction"
+                text="CL: Archive Section"
+                description="Move this section to the end of the Archive&apos;s items">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowArchive"
+                class="com.lewisisworking.chevronlists.ShowArchiveAction"
+                text="CL: Show Archive"
+                description="List the items of the Archive section and jump to one">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SnapshotSection"
+                class="com.lewisisworking.chevronlists.SnapshotSectionAction"
+                text="CL: Snapshot Section"
+                description="Save this section under a name so it can be restored later">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.RestoreSnapshot"
+                class="com.lewisisworking.chevronlists.RestoreSnapshotAction"
+                text="CL: Restore Snapshot"
+                description="Replace this section with a saved snapshot">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ListSnapshots"
+                class="com.lewisisworking.chevronlists.ListSnapshotsAction"
+                text="CL: List Snapshots"
+                description="Open a list of the snapshots saved for this file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SnapshotItem"
+                class="com.lewisisworking.chevronlists.SnapshotItemAction"
+                text="CL: Snapshot Item"
+                description="Remember this item so it can be compared after editing">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.DiffItemWithSnapshot"
+                class="com.lewisisworking.chevronlists.DiffItemWithSnapshotAction"
+                text="CL: Diff Item with Snapshot"
+                description="Open how this item differs from the item snapshot">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
