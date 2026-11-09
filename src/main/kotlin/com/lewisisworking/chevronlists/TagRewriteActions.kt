@@ -32,7 +32,7 @@ private fun apply(e: AnActionEvent, editor: Editor, before: List<String>, after:
 private fun plural(count: Int) = if (count == 1) "$count item" else "$count items"
 
 /** Asks which of [tags] to rename and what to call it; null when cancelled */
-private fun askRename(e: AnActionEvent, tags: List<String>): Pair<String, String>? {
+internal fun askTagRename(e: AnActionEvent, tags: List<String>): Pair<String, String>? {
     val message = "Tag to rename:\n${tags.joinToString(", ") { "#$it" }}"
     val knownTag = validator("No item has that tag") { it.removePrefix("#").lowercase() in tags }
     val old = Messages.showInputDialog(e.project, message, "Rename Tag", null, "", knownTag)?.trim()?.removePrefix("#") ?: return null
@@ -49,7 +49,7 @@ class RenameTagAction : MarkdownEditorAction(
         val before = editor.document.text.split("\n")
         val tags   = itemTags(before, listPrefix)
         if (tags.isEmpty()) return hint(editor, "CL: No #tags found in this file")
-        val (old, new) = askRename(e, tags) ?: return
+        val (old, new) = askTagRename(e, tags) ?: return
         val edit = renameTagInLines(before, listPrefix, old, new)
         apply(e, editor, before, edit.lines)
         hint(editor, "CL: Renamed #$old to #$new on ${plural(edit.changed)}")
@@ -64,7 +64,7 @@ class RenameTagSectionAction : MarkdownEditorAction(
         val before = editor.document.text.split("\n")
         val tags   = sectionTags(before, caretLine(editor), listPrefix).orEmpty()
         if (tags.isEmpty()) return hint(editor, "CL: No tags found in this section")
-        val (old, new) = askRename(e, tags) ?: return
+        val (old, new) = askTagRename(e, tags) ?: return
         val edit = renameTagInSection(before, caretLine(editor), listPrefix, old, new) ?: return
         apply(e, editor, before, edit.lines)
         hint(editor, "CL: Renamed #$old to #$new on ${plural(edit.changed)}")

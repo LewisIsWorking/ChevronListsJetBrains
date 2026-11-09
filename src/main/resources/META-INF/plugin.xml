@@ -1105,6 +1105,18 @@
                 description="Copy this section to the end of another file">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.RenameTagWorkspace"
+                class="com.lewisisworking.chevronlists.RenameTagWorkspaceAction"
+                text="CL: Rename Tag (Workspace)"
+                description="Rename a tag on every item in every markdown file of the project">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.RenameSectionWorkspace"
+                class="com.lewisisworking.chevronlists.RenameSectionWorkspaceAction"
+                text="CL: Rename Section (Workspace)"
+                description="Rename this section and update every [[link]] to it in the project">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
