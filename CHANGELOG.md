@@ -44,6 +44,7 @@
 - **Groups and snippets.** *CL: Group Sections*, *CL: Filter Groups* and *CL: Insert Item Snippet*. Ported from VS Code.
 - **Bookmarks.** *CL: Add Bookmark* writes a named `>> [bookmark:Name]` line above the cursor, *CL: Jump to Bookmark* lists the bookmarks of the file, and *CL: Remove Bookmark* removes the one on the cursor line.
 - **Lock and Unlock Section.** *CL: Lock Section* marks a section with a `>> [locked]` line, and saving an edit to it shows a warning with an Unlock button. *CL: Unlock Section* removes the mark.
+- **Focus and Hide Section.** *CL: Focus on Section* folds every section except the one at the cursor, and *CL: Unfocus Section* unfolds them. *CL: Hide Section* marks a section with a `>> [hidden]` line and folds it, and it starts folded whenever the file is opened. *CL: Show Hidden Sections* removes the marks and unfolds those sections.
 ### Fixed
 - *CL: Toggle Done* finds a checkbox that follows a priority or star, instead of adding a second one.
 - *CL: Copy Section as JSON* reports items starred or flagged with the emoji markers.
