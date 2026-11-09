@@ -33,6 +33,7 @@
 - **The Kanban board and statistics find a checkbox after a priority.** A date in a comment no longer makes an item overdue or sets its due date in section JSON.
 - **Section tools.** *CL: Set Section Colour* (the header takes the colour), *CL: Show Section Growth*, *CL: Search Items*, *CL: Filter Sections*, *CL: Compare Section Statistics*, *CL: Export Statistics as CSV* and *CL: Export Statistics as JSON*, ported from VS Code.
 - **A done item is no longer overdue in the file statistics.**
+- **Workspace tools.** *CL: Today View*, *CL: Find Dead Links*, *CL: Search Items (Workspace)*, *CL: Filter Sections (Workspace)*, *CL: Filter by Tag (Workspace)*, *CL: Filter by Mention (Workspace)*, *CL: Filter by Colour Label (Workspace)*, *CL: Show Tag Report (Workspace)* and *CL: Show Workspace Statistics* look across every markdown file in the project, ported from VS Code.
 ### Fixed
 - *CL: Toggle Done* finds a checkbox that follows a priority or star, instead of adding a second one.
 - *CL: Copy Section as JSON* reports items starred or flagged with the emoji markers.
