@@ -979,6 +979,48 @@
                 description="Open totals across every markdown file">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.ShowWordFrequency"
+                class="com.lewisisworking.chevronlists.ShowWordFrequencyAction"
+                text="CL: Show Word Frequency"
+                description="Show the ten most used words of this section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowWordCloud"
+                class="com.lewisisworking.chevronlists.ShowWordCloudAction"
+                text="CL: Show Word Cloud"
+                description="List this section&apos;s most used words with a bar each">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowTagHeatmap"
+                class="com.lewisisworking.chevronlists.ShowTagHeatmapAction"
+                text="CL: Show Tag Heatmap"
+                description="Rank the sections by how many tags they hold">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowCompletionHeatmap"
+                class="com.lewisisworking.chevronlists.ShowCompletionHeatmapAction"
+                text="CL: Show Completion Heatmap"
+                description="Rank the sections by how much of their checkboxes are done">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.CompareTwoSectionsAsTable"
+                class="com.lewisisworking.chevronlists.CompareTwoSectionsAsTableAction"
+                text="CL: Compare Two Sections as Table"
+                description="Open two sections&apos; items side by side in a table">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.DiffTwoSections"
+                class="com.lewisisworking.chevronlists.DiffTwoSectionsAction"
+                text="CL: Diff Two Sections"
+                description="Open a line-by-line diff of two sections&apos; items">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.CompareSectionToClipboard"
+                class="com.lewisisworking.chevronlists.CompareSectionToClipboardAction"
+                text="CL: Compare Section to Clipboard"
+                description="Open which items are only in this section or only on the clipboard">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
