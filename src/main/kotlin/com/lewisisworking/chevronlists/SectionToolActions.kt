@@ -32,8 +32,20 @@ private fun sectionValidator(names: List<String>) = object : InputValidatorEx {
     override fun canClose(input: String) = checkInput(input)
 }
 
-private fun askSection(e: AnActionEvent, prompt: String, names: List<String>): String? =
-    Messages.showInputDialog(e.project, prompt, "Compare Section Statistics", null, names.first(), sectionValidator(names))
+private fun askSection(e: AnActionEvent, title: String, prompt: String, names: List<String>): String? =
+    Messages.showInputDialog(e.project, prompt, title, null, names.first(), sectionValidator(names))
+
+/** Asks for two different sections by name and returns their header lines, or null if there are not two or the user cancels */
+internal fun askTwoSections(e: AnActionEvent, editor: Editor, title: String): Pair<Int, Int>? {
+    val lines = documentLines(editor)
+    val names = sectionNames(lines)
+    if (names.size < 2) { tell(editor, "CL: Need at least 2 sections to compare"); return null }
+    val first  = askSection(e, title, "First section:", names) ?: return null
+    val others = names.filterNot { it.equals(first.trim(), ignoreCase = true) }
+    if (others.isEmpty()) { tell(editor, "CL: Need at least 2 sections to compare"); return null }
+    val second = askSection(e, title, "Second section:", others) ?: return null
+    return (sectionNamed(lines, first) ?: return null) to (sectionNamed(lines, second) ?: return null)
+}
 
 class SetSectionColourAction : MarkdownEditorAction(
     "CL: Set Section Colour", "Colour this section's header, or clear its colour"
@@ -89,15 +101,8 @@ class CompareSectionStatisticsAction : MarkdownEditorAction(
     override fun actionPerformed(e: AnActionEvent) {
         val editor  = e.getData(CommonDataKeys.EDITOR) ?: return
         val project = e.project ?: return
+        val (a, b)  = askTwoSections(e, editor, "Compare Section Statistics") ?: return
         val lines   = documentLines(editor)
-        val names   = sectionNames(lines)
-        if (names.size < 2) return tell(editor, "CL: Need at least 2 sections to compare")
-        val first  = askSection(e, "First section:", names) ?: return
-        val others = names.filterNot { it.equals(first.trim(), ignoreCase = true) }
-        if (others.isEmpty()) return tell(editor, "CL: Need at least 2 sections to compare")
-        val second = askSection(e, "Second section:", others) ?: return
-        val a = sectionNamed(lines, first) ?: return
-        val b = sectionNamed(lines, second) ?: return
         FileEditorManager.getInstance(project)
             .openFile(LightVirtualFile("Section comparison.md", compareSections(lines, a, b, listPrefix)), true)
     }
