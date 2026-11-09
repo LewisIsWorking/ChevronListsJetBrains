@@ -39,6 +39,7 @@
 - **Archive and snapshots.** *CL: Archive Section*, *CL: Show Archive*, *CL: Snapshot Section*, *CL: Restore Snapshot*, *CL: List Snapshots*, *CL: Snapshot Item* and *CL: Diff Item with Snapshot*, ported from VS Code.
 - **Move and copy between files.** *CL: Move Item to File* takes the item and everything nested under it, and *CL: Duplicate Section to File* copies a section to the end of another file. Ported from VS Code.
 - **Workspace renames.** *CL: Rename Tag (Workspace)* and *CL: Rename Section (Workspace)* change every markdown file of the project in one undoable command. Ported from VS Code.
+- **Links, search and readable copies.** *CL: Go to Linked Section*, *CL: Go to Linked File*, *CL: Insert File Section Link*, *CL: Find in Sections*, *CL: Copy Item as Rich Text* and *CL: Show Dependencies*. Ported from VS Code.
 ### Fixed
 - *CL: Toggle Done* finds a checkbox that follows a priority or star, instead of adding a second one.
 - *CL: Copy Section as JSON* reports items starred or flagged with the emoji markers.

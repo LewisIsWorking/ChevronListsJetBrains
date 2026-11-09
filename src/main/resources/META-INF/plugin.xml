@@ -1117,6 +1117,42 @@
                 description="Rename this section and update every [[link]] to it in the project">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.GoToLinkedSection"
+                class="com.lewisisworking.chevronlists.GoToLinkedSectionAction"
+                text="CL: Go to Linked Section"
+                description="Jump to the section named by the [[link]] at the cursor">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.GoToLinkedFile"
+                class="com.lewisisworking.chevronlists.GoToLinkedFileAction"
+                text="CL: Go to Linked File"
+                description="Open the file named by the [[file:...]] link at the cursor, at its section if it names one">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.InsertFileSectionLink"
+                class="com.lewisisworking.chevronlists.InsertFileSectionLinkAction"
+                text="CL: Insert File Section Link"
+                description="Insert a link to a section of another markdown file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FindInSections"
+                class="com.lewisisworking.chevronlists.FindInSectionsAction"
+                text="CL: Find in Sections"
+                description="List the items of this file that contain a search term">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.CopyItemAsRichText"
+                class="com.lewisisworking.chevronlists.CopyItemAsRichTextAction"
+                text="CL: Copy Item as Rich Text"
+                description="Copy this item with its markers written out in readable form">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowDependencies"
+                class="com.lewisisworking.chevronlists.ShowDependenciesAction"
+                text="CL: Show Dependencies"
+                description="List the sections that declare a dependency on another section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
