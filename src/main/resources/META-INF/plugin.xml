@@ -883,6 +883,48 @@
                 description="Replace the first =expression in the item at the caret with its value">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.SetSectionColour"
+                class="com.lewisisworking.chevronlists.SetSectionColourAction"
+                text="CL: Set Section Colour"
+                description="Colour this section&apos;s header, or clear its colour">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowSectionGrowth"
+                class="com.lewisisworking.chevronlists.ShowSectionGrowthAction"
+                text="CL: Show Section Growth"
+                description="Chart how many items each section holds, fullest first">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SearchItems"
+                class="com.lewisisworking.chevronlists.SearchItemsAction"
+                text="CL: Search Items"
+                description="Type to find an item in this file and jump to it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FilterSections"
+                class="com.lewisisworking.chevronlists.FilterSectionsAction"
+                text="CL: Filter Sections"
+                description="Type to find a section in this file and jump to it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.CompareSectionStatistics"
+                class="com.lewisisworking.chevronlists.CompareSectionStatisticsAction"
+                text="CL: Compare Section Statistics"
+                description="Open a table comparing two sections of this file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ExportStatisticsCsv"
+                class="com.lewisisworking.chevronlists.ExportStatisticsCsvAction"
+                text="CL: Export Statistics as CSV"
+                description="Save each section&apos;s item and word counts as a CSV file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ExportStatisticsJson"
+                class="com.lewisisworking.chevronlists.ExportStatisticsJsonAction"
+                text="CL: Export Statistics as JSON"
+                description="Save this file&apos;s statistics as a JSON file">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"

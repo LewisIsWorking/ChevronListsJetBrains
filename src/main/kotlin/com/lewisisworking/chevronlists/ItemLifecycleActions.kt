@@ -26,7 +26,7 @@ private fun caretLine(editor: Editor) = editor.caretModel.logicalPosition.line
 
 private fun hint(editor: Editor, message: String) = HintManager.getInstance().showInformationHint(editor, message)
 
-private fun oneOfValidator(allowed: Set<String>, parse: (String) -> List<String>) = object : InputValidatorEx {
+internal fun oneOfValidator(allowed: Set<String>, parse: (String) -> List<String>) = object : InputValidatorEx {
     override fun getErrorText(input: String): String? {
         val words = parse(input)
         return if (words.isNotEmpty() && allowed.containsAll(words)) null else "Enter from: ${allowed.joinToString(", ")}"
