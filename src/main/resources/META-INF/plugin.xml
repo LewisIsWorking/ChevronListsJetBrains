@@ -1201,6 +1201,24 @@
                 description="Add a ready-made item below the cursor">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.AddBookmark"
+                class="com.lewisisworking.chevronlists.AddBookmarkAction"
+                text="CL: Add Bookmark"
+                description="Add a named bookmark above the cursor line">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.JumpToBookmark"
+                class="com.lewisisworking.chevronlists.JumpToBookmarkAction"
+                text="CL: Jump to Bookmark"
+                description="List the bookmarks of this file and jump to one">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.RemoveBookmark"
+                class="com.lewisisworking.chevronlists.RemoveBookmarkAction"
+                text="CL: Remove Bookmark"
+                description="Remove the bookmark on the cursor line">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"

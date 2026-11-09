@@ -42,6 +42,7 @@
 - **Links, search and readable copies.** *CL: Go to Linked Section*, *CL: Go to Linked File*, *CL: Insert File Section Link*, *CL: Find in Sections*, *CL: Copy Item as Rich Text* and *CL: Show Dependencies*. Ported from VS Code.
 - **Paste, export and preview.** *CL: Smart Paste*, *CL: Copy Section As...*, *CL: Export to Obsidian*, *CL: Preview Item* and *CL: Text Transform*. Ported from VS Code.
 - **Groups and snippets.** *CL: Group Sections*, *CL: Filter Groups* and *CL: Insert Item Snippet*. Ported from VS Code.
+- **Bookmarks.** *CL: Add Bookmark* writes a named `>> [bookmark:Name]` line above the cursor, *CL: Jump to Bookmark* lists the bookmarks of the file, and *CL: Remove Bookmark* removes the one on the cursor line.
 ### Fixed
 - *CL: Toggle Done* finds a checkbox that follows a priority or star, instead of adding a second one.
 - *CL: Copy Section as JSON* reports items starred or flagged with the emoji markers.
