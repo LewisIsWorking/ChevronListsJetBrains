@@ -841,6 +841,48 @@
                 description="Move done items created at least a chosen number of days ago into the &gt; Archive section">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.ShowSectionWeights"
+                class="com.lewisisworking.chevronlists.ShowSectionWeightsAction"
+                text="CL: Show Section Weights"
+                description="Rank the sections by items, priorities, votes and tags">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowCompletionStreak"
+                class="com.lewisisworking.chevronlists.ShowCompletionStreakAction"
+                text="CL: Show Completion Streak"
+                description="List the sections with every checkbox done">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.SectionHealthCheck"
+                class="com.lewisisworking.chevronlists.SectionHealthCheckAction"
+                text="CL: Section Health Check"
+                description="List the empty, very long and repeated items of this section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.PinSectionToTop"
+                class="com.lewisisworking.chevronlists.PinSectionToTopAction"
+                text="CL: Pin Section to Top"
+                description="Move this section above every other section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FindSimilarSections"
+                class="com.lewisisworking.chevronlists.FindSimilarSectionsAction"
+                text="CL: Find Similar Sections"
+                description="List the pairs of sections with nearly the same name">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowProgressReport"
+                class="com.lewisisworking.chevronlists.ShowProgressReportAction"
+                text="CL: Show Progress Report"
+                description="List each section with its items, done count, flags, overdue items and word goal">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.EvaluateExpression"
+                class="com.lewisisworking.chevronlists.EvaluateExpressionAction"
+                text="CL: Evaluate Expression in Item"
+                description="Replace the first =expression in the item at the caret with its value">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"

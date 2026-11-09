@@ -13,8 +13,6 @@ data class KanbanCard(val content: String, val section: String, val line: Int)
 /** The three columns of the board */
 data class KanbanBoard(val todo: List<KanbanCard>, val inProgress: List<KanbanCard>, val done: List<KanbanCard>)
 
-private val KANBAN_CHECK = Regex("""^\[([xX]| ?)]\s*""")
-private val STAR_PREFIX  = Regex("""^\*\s+""")
 private const val STAR   = "⭐"
 
 /** Pure: every non-empty item in the file, sorted into its column in document order */
@@ -25,14 +23,14 @@ fun kanbanBoard(lines: List<String>, listPrefix: String): KanbanBoard {
         val header = parseHeader(text)
         if (header != null) { section = header.content.trim(); continue }
         val content = (parseNumbered(text)?.content ?: parseBullet(text, listPrefix)?.content)?.trim() ?: continue
-        val check   = KANBAN_CHECK.find(content)
-        var plain   = if (check != null) content.substring(check.range.last + 1) else content
-        val starred = STAR_PREFIX.containsMatchIn(plain) || plain.split(Regex("""\s+""")).contains(STAR)
-        plain = STAR_PREFIX.replaceFirst(plain, "").split(Regex("""\s+""")).filter { it.isNotEmpty() && it != STAR }.joinToString(" ")
+        val parts   = splitItem(content)
+        val starred = isStarred(parts)
+        val plain   = joinItem(parts.copy(check = "", marker = if (parts.marker == "*") "" else parts.marker))
+            .split(Regex("""\s+""")).filter { it.isNotEmpty() && it != STAR }.joinToString(" ")
         if (plain.isEmpty()) continue
         val card = KanbanCard(plain, section, i)
         when {
-            check != null && check.groupValues[1].equals("x", ignoreCase = true) -> done += card
+            parts.check.equals("[x]", ignoreCase = true) -> done += card
             starred -> inProgress += card
             else    -> todo += card
         }

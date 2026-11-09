@@ -129,7 +129,7 @@ fun sectionAsJson(lines: List<String>, caretLine: Int, listPrefix: String): Stri
             "content"  to item.content.trim(),
             "done"     to parts.check.equals("[x]", ignoreCase = true),
             "priority" to parts.priority.length.takeIf { it > 0 },
-            "dueDate"  to DUE_DATE_FIELD.find(item.content)?.groupValues?.get(1),
+            "dueDate"  to DUE_DATE_FIELD.find(parts.body)?.groupValues?.get(1),
             "estimate" to estimateOf(item.content),
             "votes"    to parts.vote,
             "starred"  to isStarred(parts),
