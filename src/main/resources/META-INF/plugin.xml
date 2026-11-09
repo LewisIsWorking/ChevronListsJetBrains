@@ -775,6 +775,72 @@
                 description="List each person mentioned with how many of their items are done">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.ShowItemAgeReport"
+                class="com.lewisisworking.chevronlists.ShowItemAgeReportAction"
+                text="CL: Show Item Age Report"
+                description="List the stamped items of this file, oldest first">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowAgeStats"
+                class="com.lewisisworking.chevronlists.ShowAgeStatsAction"
+                text="CL: Show Age Stats"
+                description="Show the oldest, newest and average age of this section's stamped items">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowWordCountGoals"
+                class="com.lewisisworking.chevronlists.ShowWordCountGoalsAction"
+                text="CL: Show Word Count Goals"
+                description="List the sections with a word goal, furthest from it first">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowItemComplexity"
+                class="com.lewisisworking.chevronlists.ShowItemComplexityAction"
+                text="CL: Show Item Complexity"
+                description="Show how many markers the item at the caret carries">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.FilterByMultipleTags"
+                class="com.lewisisworking.chevronlists.FilterByMultipleTagsAction"
+                text="CL: Filter by Multiple Tags"
+                description="List the items with all or any of the chosen tags">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.GenerateNextOccurrence"
+                class="com.lewisisworking.chevronlists.GenerateNextOccurrenceAction"
+                text="CL: Generate Next Occurrence"
+                description="Add the next occurrence of the recurring item at the caret below it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.InsertRecurringItem"
+                class="com.lewisisworking.chevronlists.InsertRecurringItemAction"
+                text="CL: Insert Recurring Item"
+                description="Add a ready-made daily, weekly or monthly item below the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.GroupItemsByMention"
+                class="com.lewisisworking.chevronlists.GroupItemsByMentionAction"
+                text="CL: Group Items by Mention"
+                description="Put this section's items under a divider for each person mentioned">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.CollectItemsByTag"
+                class="com.lewisisworking.chevronlists.CollectItemsByTagAction"
+                text="CL: Collect Items by Tag"
+                description="Copy every item with a chosen tag into a new results section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.RemoveOldItems"
+                class="com.lewisisworking.chevronlists.RemoveOldItemsAction"
+                text="CL: Remove Old Items"
+                description="Delete the items created at least a chosen number of days ago">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ArchiveOldDoneItems"
+                class="com.lewisisworking.chevronlists.ArchiveOldDoneItemsAction"
+                text="CL: Archive Old Done Items"
+                description="Move done items created at least a chosen number of days ago into the &gt; Archive section">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
