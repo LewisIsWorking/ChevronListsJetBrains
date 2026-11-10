@@ -46,7 +46,7 @@ class ExpandSnippetTest : BasePlatformTestCase() {
     }
 
     fun `test an indented trigger expands`() {
-        assertEquals("  > Section Header\n>> - First item\n>> - Second item\n>> - ", expand("  chl<caret>"))
+        assertEquals("> Section Header\n>> - First item\n>> - Second item\n>> - ", expand("  chl<caret>"))
     }
 
     fun `test the trigger must be the whole text before the caret`() {

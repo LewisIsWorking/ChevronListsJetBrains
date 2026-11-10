@@ -25,11 +25,11 @@ class ExpandSnippetAction : MarkdownEditorAction(
         val document = editor.document
         val caret    = editor.caretModel.offset
         val before   = document.getText(TextRange(document.getLineStartOffset(document.getLineNumber(caret)), caret))
-        val trigger  = before.trimStart()
-        val body     = snippetBody(trigger, ChevronListsSettings.getInstance().state.listPrefix)
+        val body     = snippetBody(before.trimStart(), ChevronListsSettings.getInstance().state.listPrefix)
             ?: return HintManager.getInstance().showInformationHint(editor, "CL: Type chl or chn before the caret to expand a snippet")
         WriteCommandAction.runWriteCommandAction(project, "Expand Snippet", null, {
-            document.deleteString(caret - trigger.length, caret)
+            // The indent goes too: an indented > line is not a section
+            document.deleteString(caret - before.length, caret)
             InsertTemplateAction.insert(project, editor, ChevronTemplate("", "", body))
         })
     }
