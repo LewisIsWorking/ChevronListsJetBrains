@@ -1323,6 +1323,12 @@
                 description="List the sections recent header jumps left">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.ExpandSnippet"
+                class="com.lewisisworking.chevronlists.ExpandSnippetAction"
+                text="CL: Expand Snippet"
+                description="Turn chl or chn before the caret into a section with a bullet or numbered list">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
