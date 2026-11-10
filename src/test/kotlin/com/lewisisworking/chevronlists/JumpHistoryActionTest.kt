@@ -79,7 +79,7 @@ class JumpHistoryActionTest : BasePlatformTestCase() {
         next()
         next()
         val document = myFixture.editor.document
-        assertEquals(listOf(document.getLineStartOffset(1), 0), jumpOffsets(document))
+        assertEquals(listOf(document.getLineStartOffset(1), 3), jumpOffsets(document))
     }
 
     fun `test the history is per file`() {
