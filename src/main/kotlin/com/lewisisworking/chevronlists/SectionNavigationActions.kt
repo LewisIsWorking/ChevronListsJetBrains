@@ -32,6 +32,7 @@ abstract class ChevronSectionJumpAction(
         val lines  = editor.document.text.split("\n")
         val line   = editor.caretModel.logicalPosition.line
         val target = (if (down) findHeaderBelow(lines, line) else findHeaderAbove(lines, line)) ?: return
+        pushJump(editor)
         editor.caretModel.moveToLogicalPosition(LogicalPosition(target, 0))
         editor.scrollingModel.scrollToCaret(ScrollType.MAKE_VISIBLE)
     }

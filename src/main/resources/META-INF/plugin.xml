@@ -1305,6 +1305,24 @@
                 description="Stop the focus timer">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.JumpBack"
+                class="com.lewisisworking.chevronlists.JumpBackAction"
+                text="CL: Jump Back"
+                description="Go back to where the last header jump started">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowJumpHistory"
+                class="com.lewisisworking.chevronlists.ShowJumpHistoryAction"
+                text="CL: Show Jump History"
+                description="List where recent header jumps started">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ShowRecentSections"
+                class="com.lewisisworking.chevronlists.ShowRecentSectionsAction"
+                text="CL: Show Recent Sections"
+                description="List the sections recent header jumps left">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.RenameSection"
                 class="com.lewisisworking.chevronlists.RenameSectionAction"
                 text="CL: Rename Section"
