@@ -10,6 +10,7 @@ import com.intellij.openapi.options.BoundConfigurable
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.SimpleListCellRenderer
 import com.intellij.ui.dsl.builder.Cell
+import com.intellij.ui.dsl.builder.bindIntText
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.bindSelected
 import com.intellij.ui.dsl.builder.bindText
@@ -114,6 +115,13 @@ class ChevronListsConfigurable : BoundConfigurable("Chevron Lists") {
                     .bindText(state::dailyNoteTemplate)
                     .wrappedComment("Text of a new daily note. {{date}}, {{weekday}} and {{day}} are filled " +
                              "in. Blank: a dated > header with one empty item.")
+            }
+        }
+        group("Timers") {
+            row("Focus timer minutes:") {
+                intTextField(1..480)
+                    .bindIntText(state::focusTimerMinutes)
+                    .wrappedComment("How long CL: Start Focus Timer counts down for.")
             }
         }
         group("AI Assist") {

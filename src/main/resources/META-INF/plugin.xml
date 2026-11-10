@@ -100,6 +100,8 @@
                    language="Markdown"
                    implementationClass="com.lewisisworking.chevronlists.ChevronTagCompletionContributor"/>
         <notificationGroup id="Chevron Lists" displayType="BALLOON"/>
+        <statusBarWidgetFactory id="ChevronLists.Timers"
+                                implementation="com.lewisisworking.chevronlists.ChevronTimerWidgetFactory"/>
     </extensions>
 
     <applicationListeners>
@@ -1265,6 +1267,42 @@
                 class="com.lewisisworking.chevronlists.QuickCaptureAction"
                 text="CL: Quick Capture"
                 description="Choose a section of this file and add a new item to the end of it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.StartItemTimer"
+                class="com.lewisisworking.chevronlists.StartItemTimerAction"
+                text="CL: Start Item Timer"
+                description="Start timing the item at the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.StopItemTimer"
+                class="com.lewisisworking.chevronlists.StopItemTimerAction"
+                text="CL: Stop Item Timer"
+                description="Stop the item timer and stamp the time on the item">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.StartSectionTimer"
+                class="com.lewisisworking.chevronlists.StartSectionTimerAction"
+                text="CL: Start Section Timer"
+                description="Start timing the section at the caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.StopSectionTimer"
+                class="com.lewisisworking.chevronlists.StopSectionTimerAction"
+                text="CL: Stop Section Timer"
+                description="Stop the section timer and report how long it ran">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.StartFocusTimer"
+                class="com.lewisisworking.chevronlists.StartFocusTimerAction"
+                text="CL: Start Focus Timer"
+                description="Start a countdown of the length set in the settings">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.StopFocusTimer"
+                class="com.lewisisworking.chevronlists.StopFocusTimerAction"
+                text="CL: Stop Focus Timer"
+                description="Stop the focus timer">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
         <action id="ChevronLists.RenameSection"
