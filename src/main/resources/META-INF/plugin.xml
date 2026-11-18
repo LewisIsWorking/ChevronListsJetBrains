@@ -1583,5 +1583,11 @@
                 description="Strip any {colour} label from this item">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.SwitchColourPreset"
+                class="com.lewisisworking.chevronlists.SwitchColourPresetAction"
+                text="CL: Colour Theme"
+                description="Pick one of the 13 colour presets for chevron syntax highlighting">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>

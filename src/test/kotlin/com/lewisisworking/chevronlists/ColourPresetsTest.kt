@@ -67,6 +67,12 @@ class ColourPresetsTest {
         }
     }
 
+    @Test fun `findPreset round-trips every preset id in the popup list`() {
+        for (preset in COLOUR_PRESETS) {
+            assertEquals(preset.id, findPreset(preset.id).id)
+        }
+    }
+
     @Test fun `non-custom presets all use bold headers`() {
         for (preset in COLOUR_PRESETS.filterNot { isCustomPreset(it.id) }) {
             assertTrue("Preset ${preset.id} should have bold header", preset.header.bold)
