@@ -92,6 +92,10 @@
                 providerId="chevronlists.setTotals" bundle="messages.ChevronListsBundle"
                 nameKey="inlay.setTotals.name" descriptionKey="inlay.setTotals.description"
                 implementationClass="com.lewisisworking.chevronlists.SetTotalsInlayProvider"/>
+        <codeInsight.declarativeInlayProvider language="Markdown" isEnabledByDefault="true" group="OTHER_GROUP"
+                providerId="chevronlists.checklistProgress" bundle="messages.ChevronListsBundle"
+                nameKey="inlay.checklistProgress.name" descriptionKey="inlay.checklistProgress.description"
+                implementationClass="com.lewisisworking.chevronlists.ChecklistProgressInlayProvider"/>
         <lang.foldingBuilder language="Markdown" order="first"
                    implementationClass="com.lewisisworking.chevronlists.ChevronFoldingBuilder"/>
         <copyPastePreProcessor
