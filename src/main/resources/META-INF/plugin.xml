@@ -92,6 +92,10 @@
                 providerId="chevronlists.setTotals" bundle="messages.ChevronListsBundle"
                 nameKey="inlay.setTotals.name" descriptionKey="inlay.setTotals.description"
                 implementationClass="com.lewisisworking.chevronlists.SetTotalsInlayProvider"/>
+        <codeInsight.declarativeInlayProvider language="Markdown" isEnabledByDefault="true" group="OTHER_GROUP"
+                providerId="chevronlists.itemAge" bundle="messages.ChevronListsBundle"
+                nameKey="inlay.itemAge.name" descriptionKey="inlay.itemAge.description"
+                implementationClass="com.lewisisworking.chevronlists.ItemAgeInlayProvider"/>
         <lang.foldingBuilder language="Markdown" order="first"
                    implementationClass="com.lewisisworking.chevronlists.ChevronFoldingBuilder"/>
         <copyPastePreProcessor
