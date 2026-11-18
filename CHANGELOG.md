@@ -49,6 +49,7 @@
 - **Timers.** *CL: Start Item Timer* and *CL: Stop Item Timer* stamp the time spent on an item. *CL: Start Section Timer* and *CL: Stop Section Timer* report how long a section ran. *CL: Start Focus Timer* counts down from a new setting. Running timers show in the status bar, and clicking it stops one.
 - **Jump history.** *CL: Jump Back* returns to where the last header jump started, and the place follows its text as the file changes. *CL: Show Jump History* lists the last ten jumps, and *CL: Show Recent Sections* lists the sections they left.
 - **Expand Snippet.** *CL: Expand Snippet* turns `chl` or `chn` before the caret into a new section with a bullet or numbered list. Tab moves through its fields.
+- **Item count badges.** *CL: Toggle Item Count Badge* (right-click menu, off by default) shows each section's item count after its header. Ported from the VS Code extension.
 ### Fixed
 - *CL: Toggle Done* finds a checkbox that follows a priority or star, instead of adding a second one.
 - *CL: Copy Section as JSON* reports items starred or flagged with the emoji markers.
