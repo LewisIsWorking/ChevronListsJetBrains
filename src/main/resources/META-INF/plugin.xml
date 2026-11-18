@@ -1047,6 +1047,12 @@
                 description="Save this file as a styled standalone HTML page">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+        <action id="ChevronLists.ReadingMode"
+                class="com.lewisisworking.chevronlists.ReadingModeAction"
+                text="CL: Reading Mode"
+                description="Open this file as a styled reading page in the system browser">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
         <action id="ChevronLists.ExportFileAsMarkdownDocument"
                 class="com.lewisisworking.chevronlists.ExportFileAsMarkdownDocumentAction"
                 text="CL: Export File as Markdown Document"
