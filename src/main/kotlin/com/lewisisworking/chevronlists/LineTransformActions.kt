@@ -7,16 +7,18 @@ package com.lewisisworking.chevronlists
 
 class PromoteItemAction : ChevronLineTransformAction(
     actionText        = "CL: Promote Item",
-    actionDescription = "Decrease this item's chevron depth (move it toward the top of the hierarchy)"
+    actionDescription = "Decrease this item's chevron depth (move it toward the top of the hierarchy); nested children move with it"
 ) {
+    override val carryChildren: Boolean = true
     override fun transform(line: String, listPrefix: String): String? =
         computePromote(line, listPrefix)
 }
 
 class DemoteItemAction : ChevronLineTransformAction(
     actionText        = "CL: Demote Item",
-    actionDescription = "Increase this item's chevron depth (nest it one level deeper)"
+    actionDescription = "Increase this item's chevron depth (nest it one level deeper); nested children move with it"
 ) {
+    override val carryChildren: Boolean = true
     override fun transform(line: String, listPrefix: String): String? =
         computeDemote(line, listPrefix)
 }

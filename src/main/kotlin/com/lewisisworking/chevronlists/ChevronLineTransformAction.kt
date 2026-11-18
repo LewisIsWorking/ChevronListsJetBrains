@@ -26,6 +26,11 @@ abstract class ChevronLineTransformAction(
      *  return the new line text, or null if the line should be left unchanged. */
     protected abstract fun transform(line: String, listPrefix: String): String?
 
+    /** When true and the caret has no selection, the caret item's nested
+     *  children move with it, as in the VS Code extension. Selections still
+     *  transform exactly the selected lines. */
+    protected open val carryChildren: Boolean = false
+
     override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
 
     override fun update(e: AnActionEvent) {
@@ -48,9 +53,13 @@ abstract class ChevronLineTransformAction(
             val n = document.getLineNumber(caret.offset)
             Pair(n, n)
         }
+        val extra = if (!caret.hasSelection() && carryChildren)
+            childItemLines(document.text.split("\n"), document.getLineNumber(caret.offset), prefix)
+        else emptyList()
+        val targets = ((startLine..endLine) + extra).toSortedSet()
 
         WriteCommandAction.runWriteCommandAction(project) {
-            for (line in endLine downTo startLine) {
+            for (line in targets.reversed()) {
                 val lineStart = document.getLineStartOffset(line)
                 val lineEnd   = document.getLineEndOffset(line)
                 val lineText  = document.getText(TextRange(lineStart, lineEnd))

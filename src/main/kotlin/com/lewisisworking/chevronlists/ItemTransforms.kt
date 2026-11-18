@@ -43,6 +43,29 @@ fun computeDemote(line: String, listPrefix: String): String? {
 }
 
 /**
+ * Pure: the lines of every child item nested under the item at [line] - each
+ * chevron item below it whose depth is strictly greater. The first line that
+ * is not a deeper item (same depth, a header, blank or plain text) ends the
+ * block. Mirrors the VS Code extension, where Tab on one item carries the
+ * items nested under it along.
+ */
+fun childItemLines(lines: List<String>, line: Int, listPrefix: String): List<Int> {
+    if (line !in lines.indices) return emptyList()
+    val depth = parseBullet(lines[line], listPrefix)?.chevrons?.length
+        ?: parseNumbered(lines[line])?.chevrons?.length
+        ?: return emptyList()
+    val children = mutableListOf<Int>()
+    for (i in line + 1..lines.lastIndex) {
+        val childDepth = parseBullet(lines[i], listPrefix)?.chevrons?.length
+            ?: parseNumbered(lines[i])?.chevrons?.length
+            ?: break
+        if (childDepth <= depth) break
+        children.add(i)
+    }
+    return children
+}
+
+/**
  * Pure: cycles between bullet and numbered list types on the same line.
  *   `>> - foo`  becomes `>> 1. foo`
  *   `>> 1. foo` becomes `>> - foo`

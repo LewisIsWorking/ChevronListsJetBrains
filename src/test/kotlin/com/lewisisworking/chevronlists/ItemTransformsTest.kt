@@ -82,4 +82,46 @@ class ItemTransformsTest {
     @Test fun `cycle returns null for a subheading`() {
         assertNull(computeCycleListType("## Heading", "-"))
     }
+
+    // childItemLines
+    @Test fun `childItemLines returns deeper items until same depth`() {
+        val lines = listOf(
+            ">> - Parent",
+            ">>> - Child A",
+            ">>>> - Grandchild",
+            ">>> - Child B",
+            ">> - Sibling"
+        )
+        assertEquals(listOf(1, 2, 3), childItemLines(lines, 0, "-"))
+    }
+
+    @Test fun `childItemLines stops at header or plain text`() {
+        val lines = listOf(
+            ">> - Parent",
+            ">>> - Child",
+            "> Section",
+            ">>> - Not a child"
+        )
+        assertEquals(listOf(1), childItemLines(lines, 0, "-"))
+    }
+
+    @Test fun `childItemLines returns empty when no children or invalid line`() {
+        val lines = listOf(
+            ">> - Parent",
+            ">> - Sibling",
+            "> Header"
+        )
+        assertEquals(emptyList<Int>(), childItemLines(lines, 0, "-"))
+        assertEquals(emptyList<Int>(), childItemLines(lines, 2, "-"))
+        assertEquals(emptyList<Int>(), childItemLines(lines, 99, "-"))
+    }
+
+    @Test fun `childItemLines works for numbered items`() {
+        val lines = listOf(
+            ">> 1. Parent",
+            ">>> 1. Child",
+            ">> 2. Sibling"
+        )
+        assertEquals(listOf(1), childItemLines(lines, 0, "-"))
+    }
 }
