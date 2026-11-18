@@ -143,6 +143,12 @@ class ChevronListsConfigurable : BoundConfigurable("Chevron Lists") {
                              "Settings → Editor → Color Scheme → Chevron Lists. " +
                              "Re-open the markdown file to see preset changes take effect.")
             }
+            row {
+                checkBox("Show item count badges")
+                    .bindSelected(state::badgesEnabled)
+                    .wrappedComment("Shows each section's item count after its header, " +
+                             "e.g. `> Shopping  (4)`. Same as CL: Toggle Item Count Badge.")
+            }
         }
     }
 }

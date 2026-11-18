@@ -30,7 +30,8 @@ class ChevronListsSettings : PersistentStateComponent<ChevronListsSettings.State
         var dailyNotesFolder:   String  = "",
         var dailyNoteTemplate:  String  = "",
         var templates:          MutableList<SavedTemplate> = mutableListOf(),
-        var focusTimerMinutes:  Int     = 25
+        var focusTimerMinutes:  Int     = 25,
+        var badgesEnabled:      Boolean = false
     )
 
     /** A template saved with CL: Save Section as Template; a bean so XmlSerializer can store it */

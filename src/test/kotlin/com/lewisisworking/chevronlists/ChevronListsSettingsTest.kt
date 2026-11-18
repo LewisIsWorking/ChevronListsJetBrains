@@ -30,6 +30,10 @@ class ChevronListsSettingsTest {
         assertTrue(ChevronListsSettings.State().pasteLinesAsItems)
     }
 
+    @Test fun `default badgesEnabled is false`() {
+        assertFalse(ChevronListsSettings.State().badgesEnabled)
+    }
+
     @Test fun `state values are mutable`() {
         val s = ChevronListsSettings.State()
         s.listPrefix = "*"

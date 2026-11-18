@@ -92,6 +92,10 @@
                 providerId="chevronlists.setTotals" bundle="messages.ChevronListsBundle"
                 nameKey="inlay.setTotals.name" descriptionKey="inlay.setTotals.description"
                 implementationClass="com.lewisisworking.chevronlists.SetTotalsInlayProvider"/>
+        <codeInsight.declarativeInlayProvider language="Markdown" isEnabledByDefault="true" group="OTHER_GROUP"
+                providerId="chevronlists.itemCountBadge" bundle="messages.ChevronListsBundle"
+                nameKey="inlay.itemCountBadge.name" descriptionKey="inlay.itemCountBadge.description"
+                implementationClass="com.lewisisworking.chevronlists.ItemCountBadgeProvider"/>
         <lang.foldingBuilder language="Markdown" order="first"
                    implementationClass="com.lewisisworking.chevronlists.ChevronFoldingBuilder"/>
         <copyPastePreProcessor
@@ -145,6 +149,12 @@
                 class="com.lewisisworking.chevronlists.ToggleNoteAction"
                 text="CL: Toggle Note"
                 description="Toggle the 📝 marker on the current chevron item">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="ChevronLists.ToggleItemCountBadge"
+                class="com.lewisisworking.chevronlists.ToggleItemCountBadgeAction"
+                text="CL: Toggle Item Count Badge"
+                description="Show or hide the item count after each section header">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
         <action id="ChevronLists.PromoteItem"
