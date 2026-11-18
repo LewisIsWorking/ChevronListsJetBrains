@@ -42,6 +42,44 @@ object AnthropicApiKey {
     fun resolve(): String? = stored.ifBlank { System.getenv("ANTHROPIC_API_KEY") ?: "" }.ifBlank { null }
 }
 
+class SetAnthropicApiKeyAction : MarkdownEditorAction(
+    "CL: Set Anthropic API Key",
+    "Save or remove the Anthropic API key used by the AI commands"
+) {
+    override fun actionPerformed(e: AnActionEvent) {
+        val dialog = ApiKeyDialog(e.project)
+        if (!dialog.showAndGet()) return
+        val key = dialog.value()
+        AnthropicApiKey.stored = key
+        val msg = if (key.isBlank()) "CL: API key removed" else "CL: API key saved"
+        HintManager.getInstance().showInformationHint(e.getData(CommonDataKeys.EDITOR) ?: return, msg)
+    }
+}
+
+/** Prompts for the API key in a masked field; blank removes it */
+private class ApiKeyDialog(project: com.intellij.openapi.project.Project?) : DialogWrapper(project) {
+    private val field = javax.swing.JPasswordField()
+
+    init {
+        title = "Set Anthropic API Key"
+        init()
+    }
+
+    override fun createCenterPanel(): JComponent {
+        val panel = javax.swing.JPanel(java.awt.BorderLayout(0, JBUI.scale(6)))
+        panel.add(javax.swing.JLabel("API key:"), java.awt.BorderLayout.NORTH)
+        panel.add(field, java.awt.BorderLayout.CENTER)
+        val note = com.intellij.ui.components.JBLabel("Kept in the IDE password safe. Leave blank to remove it.")
+        note.foreground = com.intellij.util.ui.UIUtil.getContextHelpForeground()
+        panel.add(note, java.awt.BorderLayout.SOUTH)
+        panel.preferredSize = JBUI.size(420, 70)
+        return panel
+    }
+
+    /** The entered key, trimmed */
+    fun value(): String = String(field.password).trim()
+}
+
 /** Thrown with a message fit to show the user */
 class AiAssistException(message: String) : Exception(message)
 
